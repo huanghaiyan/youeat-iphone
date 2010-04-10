@@ -8,43 +8,35 @@
 
 #import "RootViewController.h"
 #import "JSON/JSON.h"
+#import "RistoranteDetailViewController.h"
+#import "YouEatConnection.h"
 
 
 @implementation RootViewController
 
+@synthesize searchBar;
+@synthesize youEatConnection;
 
 - (void)viewDidLoad {
+	//youEatConnection = [YouEatConnection new];
     [super viewDidLoad];
-	SBJSON *parser = [[SBJSON alloc] init];
 	listOfItems = [[NSMutableArray alloc] init];
 	
 	responseData = [[NSMutableData data] retain];
-	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:8080/rest/ristoranti/"]];
-	//	[[NSURLConnection alloc] initWithRequest:request delegate:self];
-		
-	// Perform request and get JSON back as a NSData object
-	NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
 	
-	// Get JSON as a NSString from NSData response
-	NSString *json_string = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
-	
-	// parse the JSON response into an object
-	// Here we're using NSArray since we're parsing an array of JSON status objects
-	NSDictionary *statuses = [parser objectWithString:json_string error:nil];
-	
-	NSDictionary *ristoranteList = [statuses objectForKey:@"ristoranteList"];
-	
-	NSEnumerator *ristoranteEnum = [ristoranteList objectEnumerator];
-	
-	id object;
-	while ((object = [ristoranteEnum nextObject])) {
-		NSDictionary *risto = object;
-		NSString *screen_name = [risto objectForKey:@"name"];
-		[listOfItems addObject:screen_name];
-	}
+	[self searchTableView];
 
+	//Add the search bar
+
+	self.searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, 44.0)] autorelease];
+	self.searchBar.delegate = self;
+	self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
+	self.tableView.tableHeaderView = searchBar;
 	
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+	searching = NO;
+	letUserSelectRow = YES;
+    
+	// Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
@@ -115,24 +107,113 @@
     }
     
 	// Configure the cell.
-	NSString *cellValue = [listOfItems objectAtIndex:indexPath.row];
-	cell.textLabel.text = cellValue;
+	NSDictionary *ristoItem = [listOfItems objectAtIndex:indexPath.row];
+	cell.textLabel.text = [ristoItem objectForKey:@"name"];
 	
     return cell;
 }
 
 
-/*
-// Override to support row selection in the table view.
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    // Navigation logic may go here -- for example, create and push another view controller.
-	// AnotherViewController *anotherViewController = [[AnotherViewController alloc] initWithNibName:@"AnotherView" bundle:nil];
-	// [self.navigationController pushViewController:anotherViewController animated:YES];
-	// [anotherViewController release];
-}
-*/
+	NSDictionary *selectedRisto = [listOfItems objectAtIndex:indexPath.row];
 
+	RistoranteDetailViewController *dvController = [[RistoranteDetailViewController alloc] initWithNibName:@"RistoranteDetailView" bundle:[NSBundle mainBundle]];
+	dvController.selectedRisto = selectedRisto;
+	[self.navigationController pushViewController:dvController animated:YES];
+	[dvController release];
+	dvController = nil;
+	
+}
+
+
+- (void) searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar {
+	
+	searching = YES;
+	letUserSelectRow = NO;
+	self.tableView.scrollEnabled = NO;
+	
+	//Add the done button.
+	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc]
+											   initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+											   target:self action:@selector(doneSearching_Clicked:)] autorelease];
+}
+
+- (NSIndexPath *)tableView :(UITableView *)theTableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	if(letUserSelectRow)
+		return indexPath;
+	else
+		return nil;
+}
+
+- (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText {
+	
+	//Remove all objects first.
+	//[copyListOfItems removeAllObjects];
+	
+	if([searchText length] > 2) {
+		
+		searching = YES;
+		letUserSelectRow = YES;
+		self.tableView.scrollEnabled = YES;
+		[self searchTableView];
+	}
+	else {
+		
+		searching = NO;
+		letUserSelectRow = NO;
+		self.tableView.scrollEnabled = NO;
+	}
+	
+	[self.tableView reloadData];
+}
+
+- (void) searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
+	[self searchTableView];
+}
+
+- (void) searchTableView {
+	NSString *urlString;
+	[listOfItems removeAllObjects];
+	
+	NSString *searchText = searchBar.text;
+	
+	if([searchText length] > 2) {
+		NSString *text = [searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+		urlString = [NSString stringWithFormat:@"findRistoranti/%@", text]; 
+	}
+	else {
+		urlString = @"ristoranti"; 
+	}
+	//TODO
+	//NSDictionary *statuses = [youEatConnection sendRestRequest:urlString];
+	NSDictionary *statuses = [self sendRestRequest:urlString];
+
+	NSDictionary *ristoranteList = [statuses objectForKey:@"ristoranteList"];
+	
+	NSEnumerator *ristoranteEnum = [ristoranteList objectEnumerator];
+	
+	id object;
+	while ((object = [ristoranteEnum nextObject])) {
+		NSDictionary *risto = object;
+		[listOfItems addObject:risto];
+	}
+}
+
+
+
+- (void) doneSearching_Clicked:(id)sender {	
+	searchBar.text = @"";
+	[self.searchBar resignFirstResponder];
+	
+	letUserSelectRow = YES;
+	searching = NO;
+	self.navigationItem.rightBarButtonItem = nil;
+	self.tableView.scrollEnabled = YES;
+	
+	[self.tableView reloadData];
+}
 
 /*
 // Override to support conditional editing of the table view.
@@ -173,66 +254,38 @@
 }
 */
 
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-	[responseData setLength:0];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-	[responseData appendData:data];
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	//	label.text = [NSString stringWithFormat:@"Connection failed: %@", [error description]];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-	[connection release];
+- (NSDictionary*) sendRestRequest:(NSString *)url{	
+	NSURLRequest *request;
+	NSDictionary *statuses;
+	NSString *baseURL = @"http://localhost:8080/rest/";
 	
-	NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-	[responseData release];
 	
-	NSError *error;
-	SBJSON *json = [[SBJSON new] autorelease];
-	NSDictionary *luckyNumbers = [json objectWithString:responseString error:&error];
-	[responseString release];	
+	SBJSON *parser = [[SBJSON alloc] init];
 	
-	if (luckyNumbers == nil){
-	}
-	//		label.text = [NSString stringWithFormat:@"JSON parsing failed: %@", [error localizedDescription]];
-	else {
-		NSEnumerator *enumerator = [luckyNumbers objectEnumerator];
-		
-		id object;
-		while ((object = [enumerator nextObject])) {
-			NSLog(@" value: %@", object);
-			NSDictionary *dictionary = object;
-			
-			for (id key in dictionary) {
-				NSLog(@"key1: %@, value: %@", key, [dictionary objectForKey:key]);
-			}			
-		}
-		
-		
-		for (id key in luckyNumbers) {
-			NSLog(@"key2: %@, value: %@", key, [luckyNumbers objectForKey:key]);
-		}		
-		
-		NSDictionary *risto = [luckyNumbers objectForKey:@"risto"];
-		NSString *screen_name = [risto objectForKey:@"name"];
-		
-		//label.text =  screen_name;
-		
-		//Add items
-		[listOfItems addObject:screen_name];
-		
-	}
-		
+	NSString *urlString = [baseURL stringByAppendingString:url]; 
+	request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];	
+	
+	//	[[NSURLConnection alloc] initWithRequest:request delegate:self];
+	
+	// Perform request and get JSON back as a NSData object
+	NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+	
+	// Get JSON as a NSString from NSData response
+	NSString *json_string = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
+	
+	// parse the JSON response into an object
+	// Here we're using NSArray since we're parsing an array of JSON status objects
+	statuses = [parser objectWithString:json_string error:nil];
+	return statuses;
 }
+
+
 
 - (void)dealloc {
     [super dealloc];
+	[searchBar release];
 }
+
 
 
 @end

@@ -7,13 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 
 
-@interface RistoranteDetailViewController : UIViewController {
+@interface RistoranteDetailViewController : UIViewController <MKMapViewDelegate>{
 	IBOutlet UILabel *ristoranteName;
+	IBOutlet UILabel *tags;
+	IBOutlet UILabel *address;
+	IBOutlet UILabel *description;
+	IBOutlet MKMapView *mapView;
 	NSDictionary *selectedRisto;
 }
 
 @property (nonatomic, retain) NSDictionary *selectedRisto;
+@property (nonatomic, retain) IBOutlet MKMapView *mapView;
 
 @end

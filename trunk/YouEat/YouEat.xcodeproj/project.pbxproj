@@ -24,6 +24,7 @@
 		D22F6954116E683300D49938 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D22F694C116E683300D49938 /* SBJsonBase.m */; };
 		D22F6955116E683300D49938 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D22F694E116E683300D49938 /* SBJsonParser.m */; };
 		D22F6956116E683300D49938 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = D22F6950116E683300D49938 /* SBJsonWriter.m */; };
+		D2AE7B2E117138250087E470 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2AE7B2D117138250087E470 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		D22F694E116E683300D49938 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
 		D22F694F116E683300D49938 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		D22F6950116E683300D49938 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		D2AE7B2D117138250087E470 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
+				D2AE7B2E117138250087E470 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +139,7 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
+				D2AE7B2D117138250087E470 /* MapKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

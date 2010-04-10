@@ -10,7 +10,7 @@
 
 @implementation RistoranteDetailViewController
 
-@synthesize selectedRisto;
+@synthesize selectedRisto, mapView;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -32,8 +32,17 @@
     [super viewDidLoad];
 
 	ristoranteName.text = [selectedRisto objectForKey:@"name"];
-	
+	address.text = [NSString stringWithFormat:@"%@, %@", [[selectedRisto objectForKey:@"city"] objectForKey:@"name"], [selectedRisto objectForKey:@"address"]];	
 	self.navigationItem.title = @"Selected restaurant";
+
+	// go to North America
+    MKCoordinateRegion newRegion;
+    newRegion.center.latitude = 37.37;
+    newRegion.center.longitude = -96.24;
+    newRegion.span.latitudeDelta = 28.49;
+    newRegion.span.longitudeDelta = 31.025;
+	
+    [self.mapView setRegion:newRegion animated:NO];
 }
 
 /*
@@ -62,6 +71,7 @@
 	[ristoranteName release];
 	[selectedRisto release];
 }
+
 
 
 @end

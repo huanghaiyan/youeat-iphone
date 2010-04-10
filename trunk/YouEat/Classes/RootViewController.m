@@ -20,6 +20,9 @@
 - (void)viewDidLoad {
 	//youEatConnection = [YouEatConnection new];
     [super viewDidLoad];
+	
+    self.title = @"YouEat";
+	
 	listOfItems = [[NSMutableArray alloc] init];
 	
 	responseData = [[NSMutableData data] retain];
@@ -103,13 +106,19 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
 	// Configure the cell.
 	NSDictionary *ristoItem = [listOfItems objectAtIndex:indexPath.row];
 	cell.textLabel.text = [ristoItem objectForKey:@"name"];
+	NSString *city = [[ristoItem objectForKey:@"city"] objectForKey:@"name"];
+	NSString *address = [ristoItem objectForKey:@"address"];
+	NSString *phone = [ristoItem objectForKey:@"phoneNumber"];
 	
+	if (phone == [NSNull null] || phone.length == 0 ) phone = @"";
+	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@ %@", city, address, phone]; ;
     return cell;
 }
 

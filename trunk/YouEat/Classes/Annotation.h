@@ -1,0 +1,31 @@
+//
+//  Annotation.h
+//  YouEat
+//
+//  Created by Alessandro Vincelli on 12/04/10.
+//  Copyright 2010 Alessandro Vincelli. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
+
+
+@interface Annotation : NSObject <MKAnnotation>{
+	
+	CLLocationCoordinate2D coordinate;
+	
+	NSString *currentSubTitle;
+	NSString *currentTitle;
+}
+
+@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
+@property (nonatomic, retain) NSString *currentTitle;
+@property (nonatomic, retain) NSString *currentSubTitle;
+
+- (NSString *)title;
+- (NSString *)subtitle;
+
+-(id)initWithCoordinate:(CLLocationCoordinate2D) c;
+
+
+@end

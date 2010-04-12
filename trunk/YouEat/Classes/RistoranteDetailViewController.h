@@ -11,15 +11,23 @@
 
 
 @interface RistoranteDetailViewController : UIViewController <MKMapViewDelegate>{
-	IBOutlet UILabel *ristoranteName;
-	IBOutlet UILabel *tags;
-	IBOutlet UILabel *address;
-	IBOutlet UILabel *description;
-	IBOutlet MKMapView *mapView;
+	UILabel *ristoranteName;
+	UILabel *tags;
+	UILabel *address;
+	UILabel *phone;
+	UITextView *description;
+	MKMapView *mapView;
 	NSDictionary *selectedRisto;
+	UIView *ristoDataCell;  
 }
 
 @property (nonatomic, retain) NSDictionary *selectedRisto;
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;
+@property (nonatomic, retain) IBOutlet UIView *ristoDataCell;
+@property (nonatomic, retain) IBOutlet UITextView *description;
+@property (nonatomic, retain) IBOutlet UILabel *address;
+@property (nonatomic, retain) IBOutlet UILabel *tags;
+@property (nonatomic, retain) IBOutlet UILabel *phone;
+@property (nonatomic, retain) IBOutlet UILabel *ristoranteName;
 
 @end

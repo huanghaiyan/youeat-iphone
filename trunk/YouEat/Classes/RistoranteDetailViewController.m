@@ -7,10 +7,11 @@
 //
 
 #import "RistoranteDetailViewController.h"
+#import "Annotation.h"
 
 @implementation RistoranteDetailViewController
 
-@synthesize selectedRisto, mapView;
+@synthesize selectedRisto, mapView, ristoDataCell, address, description, tags, phone, ristoranteName;
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -31,18 +32,46 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-	ristoranteName.text = [selectedRisto objectForKey:@"name"];
-	address.text = [NSString stringWithFormat:@"%@, %@", [[selectedRisto objectForKey:@"city"] objectForKey:@"name"], [selectedRisto objectForKey:@"address"]];	
+	self.address.text = [NSString stringWithFormat:@"%@, %@", [[selectedRisto objectForKey:@"city"] objectForKey:@"name"], [selectedRisto objectForKey:@"address"]];	
 	self.navigationItem.title = @"Selected restaurant";
 
-	// go to North America
-    MKCoordinateRegion newRegion;
-    newRegion.center.latitude = 37.37;
-    newRegion.center.longitude = -96.24;
-    newRegion.span.latitudeDelta = 28.49;
-    newRegion.span.longitudeDelta = 31.025;
+	NSString *phoneText = [selectedRisto objectForKey:@"phoneNumber"];
+	if (phoneText == [NSNull null] || phoneText.length == 0 ) phoneText = @"";
+	self.phone.text = phoneText;	
 	
-    [self.mapView setRegion:newRegion animated:NO];
+	NSDictionary *descriptions = [selectedRisto objectForKey:@"descriptions"] ;	
+	NSEnumerator *descriptionEnum = [descriptions objectEnumerator];
+	NSString *descriptionText = @"";	
+	NSDictionary *object;
+	while ((object = [descriptionEnum nextObject])) {
+		descriptionText = [descriptionText stringByAppendingString:[object objectForKey:@"description"]];
+	}
+	self.description.text = descriptionText;
+	
+	NSDictionary *tagsList = [selectedRisto objectForKey:@"tags"];	
+	NSEnumerator *tagEnum = [tagsList objectEnumerator];
+	NSString *tagText = @"";	
+	NSDictionary *tagObject;
+	while ((tagObject = [tagEnum nextObject])) {
+		tagText = [tagText stringByAppendingString:[tagObject objectForKey:@"tag"]];
+		tagText = [tagText stringByAppendingString:@" "];
+	}
+	self.tags.text = tagText;	
+	
+	// Set the map
+    MKCoordinateRegion region;
+    region.center.latitude = [[selectedRisto objectForKey:@"latitude"] doubleValue] ;
+    region.center.longitude = [[selectedRisto objectForKey:@"longitude"] doubleValue] ;
+	
+	MKCoordinateSpan span = {0.002, 0.002};
+    region.span = span;
+    [self.mapView setRegion:region animated:YES];
+	CLLocationCoordinate2D pinlocation=mapView.userLocation.coordinate;
+	pinlocation.latitude = [[selectedRisto objectForKey:@"latitude"] doubleValue] ;
+    pinlocation.longitude = [[selectedRisto objectForKey:@"longitude"] doubleValue] ;
+
+    Annotation *annotation = [[Annotation alloc] initWithCoordinate:pinlocation ];
+    [self.mapView addAnnotation:annotation];
 }
 
 /*
@@ -65,13 +94,53 @@
 	// e.g. self.myOutlet = nil;
 }
 
-
 - (void)dealloc {
     [super dealloc];
 	[ristoranteName release];
 	[selectedRisto release];
+	[ristoDataCell release];
+	[address release];
+	[tags release];
+	[description release];
+	[phone release];
 }
 
 
+- (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    // if it's the user location, just return nil.
+    if ([annotation isKindOfClass:[MKUserLocation class]])
+        return nil;
+    
+    // handle our two custom annotations
+    //
+        // try to dequeue an existing pin view first
+        static NSString* BridgeAnnotationIdentifier = @"bridgeAnnotationIdentifier";
+        MKPinAnnotationView* pinView = (MKPinAnnotationView *)
+		[mapView dequeueReusableAnnotationViewWithIdentifier:BridgeAnnotationIdentifier];
+        if (!pinView)
+        {
+            // if an existing pin view was not available, create one
+            MKPinAnnotationView* customPinView = [[[MKPinAnnotationView alloc]
+												   initWithAnnotation:annotation reuseIdentifier:BridgeAnnotationIdentifier] autorelease];
+            customPinView.pinColor = MKPinAnnotationColorPurple;
+            customPinView.animatesDrop = YES;
+            customPinView.canShowCallout = YES;
+            
+            // add a detail disclosure button to the callout which will open a new view controller page
+            //
+            // note: you can assign a specific call out accessory view, or as MKMapViewDelegate you can implement:
+            //  - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control;
+            //
+            UIButton* rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+            [rightButton addTarget:self
+                            action:@selector(showDetails:)
+                  forControlEvents:UIControlEventTouchUpInside];
+            customPinView.rightCalloutAccessoryView = rightButton;
+			
+            return customPinView;
+		}
+        return pinView;
+}
 
 @end

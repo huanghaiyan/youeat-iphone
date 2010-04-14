@@ -14,20 +14,20 @@
 
 @implementation RootViewController
 
-@synthesize searchBar;
-@synthesize youEatConnection;
+@synthesize searchBar, youEatConnection, locationManager;
 
 - (void)viewDidLoad {
-	//youEatConnection = [YouEatConnection new];
+	youEatConnection = [[YouEatConnection alloc] init];
     [super viewDidLoad];
 	
     self.title = @"YouEat";
 	
-	listOfItems = [[NSMutableArray alloc] init];
+	listOfRisto = [[NSMutableArray alloc] init];
+	listOfRistoPosition = [[NSMutableArray alloc] init];
 	
 	responseData = [[NSMutableData data] retain];
 	
-	[self searchTableView];
+	[self searchCloseRistorantiView];
 
 	//Add the search bar
 
@@ -95,7 +95,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return [listOfItems count];
+	return [listOfRisto count];
 }
 
 
@@ -111,21 +111,30 @@
     }
     
 	// Configure the cell.
-	NSDictionary *ristoItem = [listOfItems objectAtIndex:indexPath.row];
+	NSDictionary *ristoItem = [listOfRisto objectAtIndex:indexPath.row];
 	cell.textLabel.text = [ristoItem objectForKey:@"name"];
 	NSString *city = [[ristoItem objectForKey:@"city"] objectForKey:@"name"];
 	NSString *address = [ristoItem objectForKey:@"address"];
 	NSString *phone = [ristoItem objectForKey:@"phoneNumber"];
+	NSString *distance = @"";
+	if([listOfRistoPosition count] > 0 ){
+		NSDictionary *ristoPositionItem = [listOfRistoPosition objectAtIndex:indexPath.row];
+		distance = [distance stringByAppendingString:@", "];
+		NSDecimalNumber *distanceInMeters = [ristoPositionItem objectForKey:@"distanceInMeters"];
+		distance = [distance stringByAppendingString:[distanceInMeters stringValue]];
+		distance = [distance stringByAppendingString:@" m."];
+	}
+	
 	
 	if (phone == [NSNull null] || phone.length == 0 ) phone = @"";
-	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@ %@", city, address, phone]; ;
+	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@ %@ %@", city, address, phone, distance]; ;
     return cell;
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-	NSDictionary *selectedRisto = [listOfItems objectAtIndex:indexPath.row];
+	NSDictionary *selectedRisto = [listOfRisto objectAtIndex:indexPath.row];
 
 	RistoranteDetailViewController *dvController = [[RistoranteDetailViewController alloc] initWithNibName:@"RistoranteDetailView" bundle:[NSBundle mainBundle]];
 	dvController.selectedRisto = selectedRisto;
@@ -157,19 +166,14 @@
 }
 
 - (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText {
-	
-	//Remove all objects first.
-	//[copyListOfItems removeAllObjects];
-	
-	if([searchText length] > 2) {
 		
+	if([searchText length] > 2) {
 		searching = YES;
 		letUserSelectRow = YES;
 		self.tableView.scrollEnabled = YES;
-		[self searchTableView];
+		[self searchRistorantiView];
 	}
 	else {
-		
 		searching = NO;
 		letUserSelectRow = NO;
 		self.tableView.scrollEnabled = NO;
@@ -179,12 +183,13 @@
 }
 
 - (void) searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
-	[self searchTableView];
+	[self searchRistorantiView];
 }
 
-- (void) searchTableView {
+- (void) searchRistorantiView {
 	NSString *urlString;
-	[listOfItems removeAllObjects];
+	[listOfRisto removeAllObjects];
+	[listOfRistoPosition removeAllObjects];
 	
 	NSString *searchText = searchBar.text;
 	
@@ -206,11 +211,59 @@
 	id object;
 	while ((object = [ristoranteEnum nextObject])) {
 		NSDictionary *risto = object;
-		[listOfItems addObject:risto];
+		[listOfRisto addObject:risto];
 	}
 }
 
+- (void) searchCloseRistorantiView {
 
+	[listOfRisto removeAllObjects];
+	[listOfRistoPosition removeAllObjects];
+	
+    self.locationManager = [[[CLLocationManager alloc] init] autorelease];
+    locationManager.delegate = self;
+    // Once configured, the location manager must be "started".
+    [locationManager startUpdatingLocation];
+}
+
+
+/*
+ * We want to get and store a location measurement that meets the desired accuracy. For this example, we are
+ *      going to use horizontal accuracy as the deciding factor. In other cases, you may wish to use vertical
+ *      accuracy, or both together.
+ */
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+
+	NSString *latitude = [NSString stringWithFormat:@"%f",newLocation.coordinate.latitude];
+	NSString *longitude = [NSString stringWithFormat:@"%f",newLocation.coordinate.longitude];
+	NSString *urlString = [NSString stringWithFormat:@"findCloseRistoranti/%@/%@/%@/%@", latitude, longitude, @"90000000000", @"20"]; 
+	
+	//TODO
+	//NSDictionary *statuses = [youEatConnection sendRestRequest:urlString];
+	NSDictionary *statuses = [self sendRestRequest:urlString];
+	
+	NSDictionary *ristoranteList = [statuses objectForKey:@"ristorantePositionAndDistanceList"];
+	
+	NSEnumerator *ristoranteEnum = [ristoranteList objectEnumerator];
+	
+	id object;
+	while ((object = [ristoranteEnum nextObject])) {
+		NSDictionary *ristoPosition = object;
+		[listOfRisto addObject:[ristoPosition objectForKey:@"ristorante"]];
+		[listOfRistoPosition addObject:ristoPosition];
+	}
+
+    [self.tableView reloadData];    
+}
+
+/*
+ TODO
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    if ([error code] != kCLErrorLocationUnknown) {
+        [self stopUpdatingLocation:NSLocalizedString(@"Error", @"Error")];
+    }
+}
+*/
 
 - (void) doneSearching_Clicked:(id)sender {	
 	searchBar.text = @"";
@@ -293,8 +346,11 @@
 - (void)dealloc {
     [super dealloc];
 	[searchBar release];
+	[youEatConnection release];
+	[listOfRisto release];
+	[listOfRistoPosition release];
+	[listOfRisto release];
 }
-
 
 
 @end

@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 
 
-@interface YouEatConnection{
+@interface YouEatConnection : NSObject{
 }
 
 - (NSDictionary*) sendRequest:(NSString *)url;
+
 @end

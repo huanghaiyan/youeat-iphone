@@ -25,7 +25,6 @@
 - (NSDictionary*) sendRestRequest:(NSString*)url;
 
 @property (nonatomic, retain) UISearchBar *searchBar;
-@property (nonatomic, retain) YouEatConnection *youEatConnection;
 @property (nonatomic, retain) CLLocationManager *locationManager;
 
 @end

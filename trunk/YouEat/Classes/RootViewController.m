@@ -14,11 +14,11 @@
 
 @implementation RootViewController
 
-@synthesize searchBar, youEatConnection, locationManager;
+@synthesize searchBar, locationManager;
 
 - (void)viewDidLoad {
-	youEatConnection = [[YouEatConnection alloc] init];
     [super viewDidLoad];
+	//youEatConnection = [[YouEatConnection alloc] init];
 	
     self.title = @"YouEat";
 	
@@ -115,19 +115,19 @@
 	cell.textLabel.text = [ristoItem objectForKey:@"name"];
 	NSString *city = [[ristoItem objectForKey:@"city"] objectForKey:@"name"];
 	NSString *address = [ristoItem objectForKey:@"address"];
-	NSString *phone = [ristoItem objectForKey:@"phoneNumber"];
+	//NSString *phone = [ristoItem objectForKey:@"phoneNumber"];
 	NSString *distance = @"";
 	if([listOfRistoPosition count] > 0 ){
 		NSDictionary *ristoPositionItem = [listOfRistoPosition objectAtIndex:indexPath.row];
-		distance = [distance stringByAppendingString:@", "];
+		distance = [distance stringByAppendingString:@""];
 		NSDecimalNumber *distanceInMeters = [ristoPositionItem objectForKey:@"distanceInMeters"];
 		distance = [distance stringByAppendingString:[distanceInMeters stringValue]];
 		distance = [distance stringByAppendingString:@" m."];
 	}
 	
 	
-	if (phone == [NSNull null] || phone.length == 0 ) phone = @"";
-	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@ %@ %@", city, address, phone, distance]; ;
+	//if (phone == [NSNull null] || phone.length == 0 ) phone = @"";
+	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@ - %@", city, address, distance]; ;
     return cell;
 }
 
@@ -346,7 +346,7 @@
 - (void)dealloc {
     [super dealloc];
 	[searchBar release];
-	[youEatConnection release];
+	//ri[youEatConnection release];
 	[listOfRisto release];
 	[listOfRistoPosition release];
 	[listOfRisto release];

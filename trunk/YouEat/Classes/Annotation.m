@@ -34,3 +34,4 @@
 	//NSLog(@"%f,%f",c.latitude,c.longitude);
 	return self;
 }
+@end

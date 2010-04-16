@@ -15,7 +15,7 @@
 - (NSDictionary*) sendRequest:(NSString *)url{	
 	NSURLRequest *request;
 	NSDictionary *statuses;
-	NSString *baseURL = @"http://localhost:8080/rest/";
+	NSString *baseURL = @"http://www.youeat.org/rest/";
 	
 	
 	SBJSON *parser = [[SBJSON alloc] init];

@@ -31,7 +31,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+	self.ristoranteName.text = [selectedRisto objectForKey:@"name"];
 	self.address.text = [NSString stringWithFormat:@"%@, %@", [[selectedRisto objectForKey:@"city"] objectForKey:@"name"], [selectedRisto objectForKey:@"address"]];	
 	self.navigationItem.title = @"Selected restaurant";
 
@@ -56,18 +56,23 @@
 	NSString *descriptionText = @"";	
 	NSDictionary *object;
 	while ((object = [descriptionEnum nextObject])) {
-		descriptionText = [descriptionText stringByAppendingString:[object objectForKey:@"description"]];
+		if (!([object objectForKey:@"description"]) == [NSNull null]){
+			descriptionText = [descriptionText stringByAppendingString:[object objectForKey:@"description"]];
+		}
 	}
 	self.description.text = descriptionText;
 	
 	NSDictionary *tagsList = [selectedRisto objectForKey:@"tags"];	
-	NSEnumerator *tagEnum = [tagsList objectEnumerator];
 	NSString *tagText = @"";	
-	NSDictionary *tagObject;
-	while ((tagObject = [tagEnum nextObject])) {
-		tagText = [tagText stringByAppendingString:[tagObject objectForKey:@"tag"]];
-		tagText = [tagText stringByAppendingString:@" "];
+	if (!(tagsList == nil)){
+		NSEnumerator *tagEnum = [tagsList objectEnumerator];
+		NSDictionary *tagObject;
+		while ((tagObject = [tagEnum nextObject])) {
+			tagText = [tagText stringByAppendingString:[tagObject objectForKey:@"tag"]];
+			tagText = [tagText stringByAppendingString:@" "];
+		}		
 	}
+		
 	self.tags.text = tagText;	
 	
 	// Set the map

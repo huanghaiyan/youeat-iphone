@@ -14,7 +14,7 @@
 	UILabel *ristoranteName;
 	UILabel *tags;
 	UILabel *address;
-	UILabel *phone;
+	UIButton *phone;
 	UITextView *description;
 	MKMapView *mapView;
 	NSDictionary *selectedRisto;
@@ -27,7 +27,7 @@
 @property (nonatomic, retain) IBOutlet UITextView *description;
 @property (nonatomic, retain) IBOutlet UILabel *address;
 @property (nonatomic, retain) IBOutlet UILabel *tags;
-@property (nonatomic, retain) IBOutlet UILabel *phone;
+@property (nonatomic, retain) IBOutlet UIButton *phone;
 @property (nonatomic, retain) IBOutlet UILabel *ristoranteName;
 
 @end

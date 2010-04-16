@@ -36,8 +36,20 @@
 	self.navigationItem.title = @"Selected restaurant";
 
 	NSString *phoneText = [selectedRisto objectForKey:@"phoneNumber"];
-	if (phoneText == [NSNull null] || phoneText.length == 0 ) phoneText = @"";
-	self.phone.text = phoneText;	
+	if (phoneText == [NSNull null] || phoneText.length == 0 ) {
+		phoneText = @"";
+	}
+	else{	
+		phoneText = [phoneText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+		phoneText = [phoneText stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
+		//NSNumberFormatter *formatter=[[NSNumberFormatter alloc] init];
+		//[formatter setPositiveFormat:@"+# (###) ###-####"];
+		//phoneText = [formatter stringForObjectValue:[NSNumber numberWithInt:phoneText]];
+	}
+	
+	self.phone.titleLabel.text = phoneText;	
+	self.phone.titleLabel.adjustsFontSizeToFitWidth = TRUE;
+	[self.phone addTarget:self action:@selector(callRisto:) forControlEvents:UIControlEventTouchUpInside];
 	
 	NSDictionary *descriptions = [selectedRisto objectForKey:@"descriptions"] ;	
 	NSEnumerator *descriptionEnum = [descriptions objectEnumerator];
@@ -143,4 +155,11 @@
         return pinView;
 }
 
+- (void)callRisto:(id)sender{
+	NSString *composeNumberString = [selectedRisto objectForKey:@"phoneNumber"];
+	composeNumberString = [composeNumberString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+	composeNumberString = [composeNumberString stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
+	composeNumberString = [NSString stringWithFormat:@"tel:%@", composeNumberString];
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:composeNumberString]];
+}
 @end

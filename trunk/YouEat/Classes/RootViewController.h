@@ -26,5 +26,8 @@
 
 @property (nonatomic, retain) UISearchBar *searchBar;
 @property (nonatomic, retain) CLLocationManager *locationManager;
+@property (nonatomic, retain) NSMutableArray *listOfRisto;
+@property (nonatomic, retain) NSMutableArray *listOfRistoPosition;
+@property (nonatomic, retain) NSMutableData *responseData;
 
 @end

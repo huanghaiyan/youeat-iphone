@@ -44,26 +44,22 @@
 }
 
 
-/*
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }
-*/
-/*
+
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 }
-*/
-/*
+
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 }
-*/
-/*
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
 }
-*/
 
 /*
  // Override to allow orientations other than the default portrait orientation.
@@ -75,8 +71,8 @@
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
+	NSLog(@"Memory warning");
     [super didReceiveMemoryWarning];
-	
 	// Release any cached data, images, etc that aren't in use.
 }
 
@@ -216,7 +212,7 @@
 }
 
 - (void) searchCloseRistorantiView {
-
+	NSLog(@"searchCloseRistorantiView");
 	[listOfRisto removeAllObjects];
 	[listOfRistoPosition removeAllObjects];
 	
@@ -224,6 +220,7 @@
     locationManager.delegate = self;
     // Once configured, the location manager must be "started".
     [locationManager startUpdatingLocation];
+	NSLog(@"END searchCloseRistorantiView");
 }
 
 
@@ -233,7 +230,7 @@
  *      accuracy, or both together.
  */
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-
+	NSLog(@"didUpdateToLocation");
 	NSString *latitude = [NSString stringWithFormat:@"%f",newLocation.coordinate.latitude];
 	NSString *longitude = [NSString stringWithFormat:@"%f",newLocation.coordinate.longitude];
 	NSString *urlString = [NSString stringWithFormat:@"findCloseRistoranti/%@/%@/%@/%@", latitude, longitude, @"90000000000", @"20"]; 
@@ -253,7 +250,8 @@
 		[listOfRistoPosition addObject:ristoPosition];
 	}
 
-    [self.tableView reloadData];    
+    [self.tableView reloadData];
+	NSLog(@"END --- didUpdateToLocation");
 }
 
 /*
@@ -264,6 +262,14 @@
     }
 }
 */
+
+- (void)stopUpdatingLocation:(NSString *)state {
+	NSLog(@" stopUpdatingLocation");
+    [self.tableView reloadData];
+    [locationManager stopUpdatingLocation];
+    locationManager.delegate = nil;
+	NSLog(@"END --- stopUpdatingLocation");    
+}
 
 - (void) doneSearching_Clicked:(id)sender {	
 	searchBar.text = @"";
@@ -319,7 +325,7 @@
 - (NSDictionary*) sendRestRequest:(NSString *)url{	
 	NSURLRequest *request;
 	NSDictionary *statuses;
-	NSString *baseURL = @"http://www.youeat.org/rest/";
+	NSString *baseURL = @"http://localhost:8080/rest/";
 	
 	
 	SBJSON *parser = [[SBJSON alloc] init];
@@ -342,14 +348,12 @@
 }
 
 
-
 - (void)dealloc {
     [super dealloc];
 	[searchBar release];
-	//ri[youEatConnection release];
+	[youEatConnection release];
 	[listOfRisto release];
 	[listOfRistoPosition release];
-	[listOfRisto release];
 }
 
 

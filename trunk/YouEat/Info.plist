@@ -10,6 +10,8 @@
 	<string>it.av.iphone.$PRODUCT_NAME</string>
 	<key>CFBundleVersion</key>
 	<string>0.1</string>
+	<key>NSMainNibFile</key>
+	<string>MainWindow</string>
 	<key>CFBundleShortVersionString</key>
 	<string>0.1</string>
 </dict>

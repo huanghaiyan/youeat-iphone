@@ -13,8 +13,6 @@
 
 @synthesize window;
 @synthesize tabBarController;
-@synthesize freeTextTableView;
-@synthesize searchBar;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    

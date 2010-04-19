@@ -9,14 +9,14 @@
 #import <UIKit/UIKit.h>
 
 
-@interface FirstViewController : UITableViewController <UISearchBarDelegate> {
+@interface FirstViewController : UITableViewController {
 	
-	//NSMutableArray *listOfRisto;
-//	NSMutableArray *listOfRistoPosition;
-//	BOOL searching;
-//	BOOL letUserSelectRow;
+	NSMutableArray *listOfRisto;
+	IBOutlet UISearchBar *searchBar;
 }
 
 - (NSDictionary*) sendRestRequest:(NSString*)url;
+
+@property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 
 @end

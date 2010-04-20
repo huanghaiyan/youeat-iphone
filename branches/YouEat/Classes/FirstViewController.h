@@ -13,10 +13,12 @@
 	
 	NSMutableArray *listOfRisto;
 	IBOutlet UISearchBar *searchBar;
+	NSString *connectionURL;
 }
 
 - (NSDictionary*) sendRestRequest:(NSString*)url;
 
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, retain) IBOutlet NSString *connectionURL;
 
 @end

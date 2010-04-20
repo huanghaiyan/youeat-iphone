@@ -60,7 +60,7 @@
 	
 	if([searchText length] > 2) {
 		NSString *text = [searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-		urlString = [NSString stringWithFormat:@"findRistoranti/%@", text]; 
+		urlString = [NSString stringWithFormat:@"/findRistoranti/%@", text]; 
 	}
 	else {
 		urlString = @"ristoranti"; 
@@ -126,13 +126,11 @@
 
 - (NSDictionary*) sendRestRequest:(NSString *)url{	
 	NSURLRequest *request;
-	NSDictionary *statuses;
-	NSString *baseURL = @"http://localhost:8080/rest/";
-	
+	NSDictionary *statuses;	
 	
 	SBJSON *parser = [[SBJSON alloc] init];
 	
-	NSString *urlString = [baseURL stringByAppendingString:url]; 
+	NSString *urlString = [[self connectionURL] stringByAppendingString:url]; 
 	request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];	
 	
 	//	[[NSURLConnection alloc] initWithRequest:request delegate:self];
@@ -146,12 +144,29 @@
 	// parse the JSON response into an object
 	// Here we're using NSArray since we're parsing an array of JSON status objects
 	statuses = [parser objectWithString:json_string error:nil];
+	[parser release];
 	return statuses;
+}
+
+- (NSString *)connectionURL {
+	
+	if (connectionURL == nil) {
+		connectionURL = [[NSString alloc] init];
+		// Get the temperature data from the TemperatureData property list.
+		NSString *connectionURLDataPath = [[NSBundle mainBundle] pathForResource:@"YouEat" ofType:@"plist"];
+		NSDictionary *array = [[NSDictionary alloc] initWithContentsOfFile:connectionURLDataPath];
+		NSEnumerator *keys = [array keyEnumerator];
+		connectionURL = [[NSString alloc] initWithFormat:@"%@://%@:%@%@", [array objectForKey:@"protocol"], [array objectForKey:@"host"], [array objectForKey:@"port"], [array objectForKey:@"basePath"]];
+		[array release];
+	}
+	return connectionURL;
 }
 
 
 - (void)dealloc {
     [super dealloc];
+	[searchBar release];
+	[listOfRisto release];
 }
 
 @end

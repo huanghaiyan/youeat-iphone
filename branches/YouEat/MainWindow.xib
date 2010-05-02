@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="108"/>
+			<integer value="166"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -87,7 +87,7 @@
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
-					<object class="NSArray" key="IBUIViewControllers">
+					<object class="NSMutableArray" key="IBUIViewControllers">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="IBUIViewController" id="1024858337">
 							<object class="IBUITableView" key="IBUIView" id="606004669">
@@ -102,8 +102,15 @@
 										<reference key="NSSuperview" ref="606004669"/>
 										<int key="IBUIContentMode">3</int>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										<string key="IBText"/>
 										<object class="IBUITextInputTraits" key="IBTextInputTraits">
+											<int key="IBUIAutocorrectionType">1</int>
 											<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										</object>
+										<object class="NSArray" key="IBScopeButtonTitles">
+											<bool key="EncodedWithXMLCoder">YES</bool>
+											<string>Scope</string>
+											<string>Scope</string>
 										</object>
 									</object>
 								</object>

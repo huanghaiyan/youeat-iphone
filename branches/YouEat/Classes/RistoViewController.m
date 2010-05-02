@@ -7,11 +7,12 @@
 //
 
 #import "RistoViewController.h"
+#import "Annotation.h"
 
 
 @implementation RistoViewController
 
-@synthesize selectedRisto, address, tags, ristoranteName;
+@synthesize selectedRisto, address, tags, ristoranteName, mapView, phoneButton, description;
 
 #pragma mark -
 #pragma mark Initialization
@@ -28,11 +29,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	self.navigationItem.title = @"Selected restaurant";
-    self.title = @"Risto";
+	self.navigationItem.title = @"Details";
+    self.title = @"Details";
+	// name
 	self.ristoranteName.text = [selectedRisto objectForKey:@"name"];
+	// address
 	self.address.text = [NSString stringWithFormat:@"%@, %@", [[selectedRisto objectForKey:@"city"] objectForKey:@"name"], [selectedRisto objectForKey:@"address"]];
 	
+	//tags
 	NSDictionary *tagsList = [selectedRisto objectForKey:@"tags"];	
 	NSString *tagText = @"";	
 	if (!(tagsList == nil)){
@@ -45,22 +49,58 @@
 	}
 	self.tags.text = tagText;
 	
-	//Phne number
-	NSString *phoneText = [selectedRisto objectForKey:@"phoneNumber"];
-	if (phoneText == [NSNull null] || phoneText.length == 0 ) {
-		phoneText = @"";
+	//description
+	NSDictionary *descriptions = [selectedRisto objectForKey:@"descriptions"] ;	
+	
+	
+	NSEnumerator *descriptionEnum = [descriptions objectEnumerator];
+	NSString *descriptionText = @"";	
+	NSDictionary *descriptionItem;
+	while ((descriptionItem = [descriptionEnum nextObject])) {
+		NSString *textItem = [descriptionItem objectForKey:@"description"];
+		if(textItem != nil && textItem != NULL && (NSNull *)textItem != [NSNull null]){
+			descriptionText = [descriptionText stringByAppendingString:textItem];		
+		}
 	}
-	else{	
+	self.description.text = descriptionText;	
+	
+	//Phone number
+	NSString *phoneText = [selectedRisto objectForKey:@"phoneNumber"];
+	if(phoneText != nil && phoneText != NULL && (NSNull *)phoneText != [NSNull null]){
 		phoneText = [phoneText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 		phoneText = [phoneText stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
 		//NSNumberFormatter *formatter=[[NSNumberFormatter alloc] init];
 		//[formatter setPositiveFormat:@"+# (###) ###-####"];
 		//phoneText = [formatter stringForObjectValue:[NSNumber numberWithInt:phoneText]];
+		self.phoneButton.titleLabel.text = phoneText;	
 	}
+	self.phoneButton.titleLabel.adjustsFontSizeToFitWidth = TRUE;
+	[self.phoneButton addTarget:self action:@selector(callRisto:) forControlEvents:UIControlEventTouchUpInside];	
+	
+	// Set the map
+    MKCoordinateRegion region;
+    region.center.latitude = [[selectedRisto objectForKey:@"latitude"] doubleValue] ;
+    region.center.longitude = [[selectedRisto objectForKey:@"longitude"] doubleValue] ;
+	
+	MKCoordinateSpan span = {0.002, 0.002};
+    region.span = span;
+    [self.mapView setRegion:region animated:YES];
+	CLLocationCoordinate2D pinlocation=mapView.userLocation.coordinate;
+	pinlocation.latitude = [[selectedRisto objectForKey:@"latitude"] doubleValue] ;
+    pinlocation.longitude = [[selectedRisto objectForKey:@"longitude"] doubleValue] ;
+	
+    Annotation *annotation = [[Annotation alloc] initWithCoordinate:pinlocation ];
+    [self.mapView addAnnotation:annotation];
+	
 }
-//	self.phoneButton.titleLabel.text = phoneText;	
-//	self.phoneButton.titleLabel.adjustsFontSizeToFitWidth = TRUE;
-//	[self.phoneButton addTarget:self action:@selector(callRisto:) forControlEvents:UIControlEventTouchUpInside];
+
+- (void)callRisto:(id)sender{
+	NSString *composeNumberString = [selectedRisto objectForKey:@"phoneNumber"];
+	composeNumberString = [composeNumberString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+	composeNumberString = [composeNumberString stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
+	composeNumberString = [NSString stringWithFormat:@"tel:%@", composeNumberString];
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:composeNumberString]];
+}
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -167,9 +207,10 @@
 	[address release];
 	[tags release];
 	[ristoranteName release];
+	[description release];
+	[phoneButton release];
     [super dealloc];
 }
-
 
 @end
 

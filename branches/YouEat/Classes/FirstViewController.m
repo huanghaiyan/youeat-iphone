@@ -35,7 +35,7 @@
     [super viewDidLoad];
 	listOfRisto = [[[NSMutableArray alloc] init] retain ];
 	restUtil = [[[RestUtil alloc] init] retain ];
-    self.title = @"YouEat Search";
+    self.title = @"YouEat, Search";
 	self.tableView.scrollEnabled = YES;
 }
 
@@ -55,17 +55,15 @@
 		[listOfRisto removeAllObjects];
 		NSString *text = [searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 		urlString = [NSString stringWithFormat:@"/findRistoranti/%@", text]; 
-		//TODO
+		//performs the search
 		NSDictionary *statuses = [restUtil sendRestRequest:urlString];
-//		NSDictionary *statuses = [self sendRestRequest:urlString];
 		
 		NSDictionary *ristoranteList = [statuses objectForKey:@"ristoranteList"];
 		
 		NSEnumerator *ristoranteEnum = [ristoranteList objectEnumerator];
 		
-		id object;
-		while ((object = [ristoranteEnum nextObject])) {
-			NSDictionary *risto = object;
+		NSDictionary *risto;
+		while ((risto = [ristoranteEnum nextObject])) {
 			[listOfRisto addObject:risto];
 		}
 		[listOfRisto release];

@@ -11,9 +11,11 @@
 @interface YouEatAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
     UIWindow *window;
     UITabBarController *tabBarController;
+	//IBOutlet UINavigationBar *navigationBar;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
+//@property (nonatomic, retain) IBOutlet UINavigationBar *navigationBar;
 
 @end

@@ -20,7 +20,7 @@
 }
 
 - (void) searchRisto:(NSString *)searchText;
-//- (void)showRisto:(NSDictionary *)risto animated:(BOOL)animated;
+- (void)showRisto:(NSDictionary *)risto animated:(BOOL)animated;
 
 @property (nonatomic, retain) IBOutlet UITableView *tableViewRisto;
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;

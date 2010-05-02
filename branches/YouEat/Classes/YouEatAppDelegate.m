@@ -13,6 +13,7 @@
 
 @synthesize window;
 @synthesize tabBarController;
+//@synthesize navigationBar;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    

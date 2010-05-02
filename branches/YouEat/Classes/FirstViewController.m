@@ -7,6 +7,7 @@
 //
 
 #import "FirstViewController.h"
+#import "RistoViewController.h"
 
 
 @implementation FirstViewController
@@ -42,9 +43,6 @@
 	[self searchRisto:theSearchBar.text];
 	self.navigationItem.rightBarButtonItem = nil;
 	[searchBar resignFirstResponder];
-	if (self.tableViewRisto == nil) {
-		NSLog(@"tabella vuota");
-	}
 	[self.tableViewRisto reloadData];
 }
 
@@ -101,6 +99,21 @@
 	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@", city, address]; ;
     return cell;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	NSDictionary *selectedRisto = [listOfRisto objectAtIndex:indexPath.row];
+    
+    [self showRisto:selectedRisto animated:YES];
+}
+
+- (void)showRisto:(NSDictionary *)risto animated:(BOOL)animated {
+	RistoViewController *detailViewController = [[RistoViewController alloc] initWithNibName:@"RistoView" bundle:[NSBundle mainBundle]];
+	detailViewController.selectedRisto = risto;    
+    [self.navigationController pushViewController:detailViewController animated:animated];
+    [detailViewController release];
+}
+
+
 
 /*
 // Override to allow orientations other than the default portrait orientation.

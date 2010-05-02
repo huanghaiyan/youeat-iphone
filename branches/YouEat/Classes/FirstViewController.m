@@ -100,7 +100,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSDictionary *selectedRisto = [listOfRisto objectAtIndex:indexPath.row];
-    
     [self showRisto:selectedRisto animated:YES];
 }
 

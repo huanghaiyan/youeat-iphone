@@ -35,7 +35,7 @@
     [super viewDidLoad];
 	listOfRisto = [[[NSMutableArray alloc] init] retain ];
 	restUtil = [[[RestUtil alloc] init] retain ];
-    self.title = @"YouEat, Search";
+    self.title = @"Search";
 	self.tableView.scrollEnabled = YES;
 }
 

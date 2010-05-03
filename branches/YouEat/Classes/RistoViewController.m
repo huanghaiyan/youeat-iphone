@@ -12,7 +12,7 @@
 
 @implementation RistoViewController
 
-@synthesize selectedRisto, address, tags, ristoranteName, mapView, phoneButton, description;
+@synthesize selectedRisto, address, tags, ristoranteName, mapView, phoneButton, description, phoneNumber, www;
 
 #pragma mark -
 #pragma mark Initialization
@@ -35,6 +35,11 @@
 	self.ristoranteName.text = [selectedRisto objectForKey:@"name"];
 	// address
 	self.address.text = [NSString stringWithFormat:@"%@, %@", [[selectedRisto objectForKey:@"city"] objectForKey:@"name"], [selectedRisto objectForKey:@"address"]];
+	//
+	self.www.text = @"";
+	if([selectedRisto objectForKey:@"www"] != nil && [selectedRisto objectForKey:@"www"] != NULL && (NSNull *)[selectedRisto objectForKey:@"www"] != [NSNull null]){
+		self.www.text = [selectedRisto objectForKey:@"www"];
+	}
 	
 	//tags
 	NSDictionary *tagsList = [selectedRisto objectForKey:@"tags"];	
@@ -66,13 +71,15 @@
 	
 	//Phone number
 	NSString *phoneText = [selectedRisto objectForKey:@"phoneNumber"];
+	self.phoneButton.titleLabel.text = @"";
 	if(phoneText != nil && phoneText != NULL && (NSNull *)phoneText != [NSNull null]){
 		phoneText = [phoneText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 		phoneText = [phoneText stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
 		//NSNumberFormatter *formatter=[[NSNumberFormatter alloc] init];
 		//[formatter setPositiveFormat:@"+# (###) ###-####"];
 		//phoneText = [formatter stringForObjectValue:[NSNumber numberWithInt:phoneText]];
-		self.phoneButton.titleLabel.text = phoneText;	
+		self.phoneButton.titleLabel.text = phoneText;
+		self.phoneNumber.text = phoneText;
 	}
 	self.phoneButton.titleLabel.adjustsFontSizeToFitWidth = TRUE;
 	[self.phoneButton addTarget:self action:@selector(callRisto:) forControlEvents:UIControlEventTouchUpInside];	

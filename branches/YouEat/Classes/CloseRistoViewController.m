@@ -33,7 +33,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"YouEat, around you";
+    self.title = @"Around me";
 	listOfRisto = [[[NSMutableArray alloc] init] retain ];
 	listOfRistoPosition = [[[NSMutableArray alloc] init] retain ];
 	restUtil = [[[RestUtil alloc] init] retain ];

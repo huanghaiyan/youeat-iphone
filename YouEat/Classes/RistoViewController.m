@@ -3,7 +3,7 @@
 //  YouEat
 //
 //  Created by Alessandro Vincelli on 02/05/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Alessandro Vincelli. All rights reserved.
 //
 
 #import "RistoViewController.h"
@@ -12,34 +12,109 @@
 
 @implementation RistoViewController
 
-@synthesize selectedRisto, address, tags, ristoranteName, mapView, phoneButton, description, phoneNumber, www;
+@synthesize selectedRisto, address, tags, ristoranteName, mapView,  description;
+@synthesize buttonBarSegmentedControl, currentPicker, wwwPickerView, wwwPickerDataSource, phonePickerView, phonePickerDataSource;
 
-#pragma mark -
-#pragma mark Initialization
 
-/*
-- (id)initWithStyle:(UITableViewStyle)style {
-    // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if ((self = [super initWithStyle:style])) {
-    }
-    return self;
+
+// return the picker frame based on its size, positioned at the bottom of the page
+- (CGRect)pickerFrameWithSize:(CGSize)size
+{
+	CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
+	CGRect pickerRect = CGRectMake(	0.0,
+								   screenRect.size.height - 128.0 - size.height,
+								   size.width,
+								   size.height);
+	return pickerRect;
 }
-*/
+
+
+- (void)createPicker
+{
+	// starts with no current picker
+	currentPicker2 = -1;
+
+	//***WWW
+	wwwPickerView = [[UIPickerView alloc] initWithFrame:CGRectZero];
+	CGSize pickerSize = [wwwPickerView sizeThatFits:CGSizeZero];
+	wwwPickerView.frame = [self pickerFrameWithSize:pickerSize];
+
+	wwwPickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+	wwwPickerView.showsSelectionIndicator = YES;	// note this is default to NO
+	
+	// this view controller is the data source and delegate
+	wwwPickerDataSource = [[WWWPickerDataSource alloc] init];
+
+	NSString *www = nil;
+	if([selectedRisto objectForKey:@"www"] != nil && [selectedRisto objectForKey:@"www"] != NULL && (NSNull *)[selectedRisto objectForKey:@"www"] != [NSNull null]){
+		www = [selectedRisto objectForKey:@"www"];
+	}
+	
+	NSString *email = nil;
+	if([selectedRisto objectForKey:@"email"] != nil && [selectedRisto objectForKey:@"email"] != NULL && (NSNull *)[selectedRisto objectForKey:@"email"] != [NSNull null]){
+		email = [selectedRisto objectForKey:@"email"];
+	}
+	
+	wwwPickerDataSource.wwwPickerArray = [[NSArray arrayWithObjects:
+										   www, email,  nil] retain];
+	
+	wwwPickerView.delegate = wwwPickerDataSource;
+	wwwPickerView.dataSource = wwwPickerDataSource;
+//	
+//	// add this picker to our view controller, initially hidden
+	wwwPickerView.hidden = YES;
+	[self.view addSubview:wwwPickerView];
+	
+	//***PHONE
+	phonePickerView = [[UIPickerView alloc] initWithFrame:CGRectZero];
+	pickerSize = [phonePickerView sizeThatFits:CGSizeZero];
+	phonePickerView.frame = [self pickerFrameWithSize:pickerSize];
+	
+	phonePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+	phonePickerView.showsSelectionIndicator = YES;	// note this is default to NO
+	
+	// this view controller is the data source and delegate
+	phonePickerDataSource = [[PhonePickerDataSource alloc] init];
+	
+	NSString *phoneNumber = [selectedRisto objectForKey:@"phoneNumber"];
+	NSString *mobilePhoneNumber = [selectedRisto objectForKey:@"mobilePhoneNumber"];
+	
+	NSMutableArray *phones = [[NSMutableArray alloc] init];
+	if(phoneNumber != nil && phoneNumber != NULL && (NSNull *)phoneNumber != [NSNull null]){
+		phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+		phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
+		[phones addObject:phoneNumber];
+	}
+
+	if(mobilePhoneNumber != nil && mobilePhoneNumber != NULL && (NSNull *)mobilePhoneNumber != [NSNull null]){
+		mobilePhoneNumber = [mobilePhoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+		mobilePhoneNumber = [mobilePhoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
+		[phones addObject:mobilePhoneNumber];
+	}
+		
+	phonePickerDataSource.wwwPickerArray = phones;
+	
+	phonePickerView.delegate = phonePickerDataSource;
+	phonePickerView.dataSource = phonePickerDataSource;
+	
+	// add this picker to our view controller, initially hidden
+	phonePickerView.hidden = YES;
+	
+	[self.view addSubview:phonePickerView];
+}
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	[self createPicker];
+	
 	self.navigationItem.title = @"Details";
     self.title = @"Details";
 	// name
 	self.ristoranteName.text = [selectedRisto objectForKey:@"name"];
 	// address
 	self.address.text = [NSString stringWithFormat:@"%@, %@", [[selectedRisto objectForKey:@"city"] objectForKey:@"name"], [selectedRisto objectForKey:@"address"]];
-	//
-	self.www.text = @"";
-	if([selectedRisto objectForKey:@"www"] != nil && [selectedRisto objectForKey:@"www"] != NULL && (NSNull *)[selectedRisto objectForKey:@"www"] != [NSNull null]){
-		self.www.text = [selectedRisto objectForKey:@"www"];
-	}
 	
 	//tags
 	NSDictionary *tagsList = [selectedRisto objectForKey:@"tags"];	
@@ -51,12 +126,14 @@
 			tagText = [tagText stringByAppendingString:[tagObject objectForKey:@"tag"]];
 			tagText = [tagText stringByAppendingString:@" "];
 		}		
+		self.tags.text = tagText;
 	}
-	self.tags.text = tagText;
+	else {
+		self.tags.hidden = true;
+	}
 	
 	//description
 	NSDictionary *descriptions = [selectedRisto objectForKey:@"descriptions"] ;	
-	
 	
 	NSEnumerator *descriptionEnum = [descriptions objectEnumerator];
 	NSString *descriptionText = @"";	
@@ -68,22 +145,7 @@
 		}
 	}
 	self.description.text = descriptionText;	
-	
-	//Phone number
-	NSString *phoneText = [selectedRisto objectForKey:@"phoneNumber"];
-	self.phoneButton.titleLabel.text = @"";
-	if(phoneText != nil && phoneText != NULL && (NSNull *)phoneText != [NSNull null]){
-		phoneText = [phoneText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-		phoneText = [phoneText stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
-		//NSNumberFormatter *formatter=[[NSNumberFormatter alloc] init];
-		//[formatter setPositiveFormat:@"+# (###) ###-####"];
-		//phoneText = [formatter stringForObjectValue:[NSNumber numberWithInt:phoneText]];
-		self.phoneButton.titleLabel.text = phoneText;
-		self.phoneNumber.text = phoneText;
-	}
-	self.phoneButton.titleLabel.adjustsFontSizeToFitWidth = TRUE;
-	[self.phoneButton addTarget:self action:@selector(callRisto:) forControlEvents:UIControlEventTouchUpInside];	
-	
+		
 	// Set the map
     MKCoordinateRegion region;
     region.center.latitude = [[selectedRisto objectForKey:@"latitude"] doubleValue] ;
@@ -101,28 +163,46 @@
 	
 }
 
-- (void)callRisto:(id)sender{
-	NSString *composeNumberString = [selectedRisto objectForKey:@"phoneNumber"];
-	composeNumberString = [composeNumberString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-	composeNumberString = [composeNumberString stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
-	composeNumberString = [NSString stringWithFormat:@"tel:%@", composeNumberString];
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:composeNumberString]];
+- (void)showPicker:(UIView *)picker
+{
+	// hide the current picker and show the new one
+	if (currentPicker)
+	{
+		currentPicker.hidden = YES;
+	}
+	picker.hidden = NO;
+	
+	currentPicker = picker;	// remember the current picker so we can remove it later when another one is chosen
 }
 
-#pragma mark -
-#pragma mark View lifecycle
 
-/*
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+- (IBAction)togglePickers:(id)sender
+{
+	UISegmentedControl *segControl = sender;
+	switch (segControl.selectedSegmentIndex)
+	{
+		case 0:	// WWW UIPickerView
+		{
+			if(currentPicker2 == 0){
+				currentPicker.hidden = YES;
+				break;
+			}
+			[self showPicker:wwwPickerView];
+			currentPicker2 = 0;
+			break;
+		}
+		case 1: // Phone UIPickerView
+		{	
+			if(currentPicker2 == 1){
+				currentPicker.hidden = YES;
+				break;
+			}
+			[self showPicker:phonePickerView];
+			currentPicker2 = 1;
+			break;			
+		}
+	}
 }
-*/
 
 /*
 - (void)viewWillAppear:(BOOL)animated {
@@ -203,11 +283,16 @@
     // Relinquish ownership any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
-}
 
+- (void)viewDidUnload
+{
+	[super viewDidUnload];
+	
+	// release and set out IBOutlets to nil
+	self.buttonBarSegmentedControl = nil;
+	self.wwwPickerView = nil;
+	self.wwwPickerDataSource = nil;
+}
 
 - (void)dealloc {
 	[selectedRisto release];
@@ -215,7 +300,11 @@
 	[tags release];
 	[ristoranteName release];
 	[description release];
-	[phoneButton release];
+	[wwwPickerDataSource release];
+	[wwwPickerView release];
+	[phonePickerDataSource release];
+	[phonePickerView release];
+	[buttonBarSegmentedControl release];
     [super dealloc];
 }
 

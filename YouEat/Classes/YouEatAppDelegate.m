@@ -3,7 +3,7 @@
 //  YouEat
 //
 //  Created by Alessandro Vincelli on 02/05/10.
-//  Copyright __MyCompanyName__ 2010. All rights reserved.
+//  Copyright Alessandro Vincelli 2010. All rights reserved.
 //
 
 #import "YouEatAppDelegate.h"
@@ -14,14 +14,14 @@
 @synthesize window;
 @synthesize tabBarController;
 //@synthesize navigationBar;
-
+	
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
     // Add the tab bar controller's current view as a subview of the window
     [window addSubview:tabBarController.view];
     [window makeKeyAndVisible];
-
+	
 	return YES;
 }
 

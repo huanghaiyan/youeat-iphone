@@ -3,7 +3,7 @@
 //  YouEat
 //
 //  Created by Alessandro Vincelli on 02/05/10.
-//  Copyright __MyCompanyName__ 2010. All rights reserved.
+//  Copyright Alessandro Vincelli 2010. All rights reserved.
 //
 
 #import "FirstViewController.h"

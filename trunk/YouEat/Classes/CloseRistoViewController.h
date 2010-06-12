@@ -3,7 +3,7 @@
 //  YouEat
 //
 //  Created by Alessandro Vincelli on 02/05/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Copyright 2010 Alessandro Vincelli. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

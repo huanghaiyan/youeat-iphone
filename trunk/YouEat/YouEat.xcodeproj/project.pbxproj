@@ -24,6 +24,8 @@
 		D20EDBB4119D67A500A69C0D /* map-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = D20EDBAE119D67A500A69C0D /* map-marker.png */; };
 		D20EDBB5119D67A500A69C0D /* RistoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D20EDBAF119D67A500A69C0D /* RistoView.xib */; };
 		D20EDBC1119D67C700A69C0D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D20EDBC0119D67C700A69C0D /* CoreLocation.framework */; };
+		D24B4E1E11BBF92D00ED65E3 /* WWWPickerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D24B4E1D11BBF92D00ED65E3 /* WWWPickerDataSource.m */; };
+		D26521D011C037D600C841BF /* PhonePickerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D26521CF11C037D600C841BF /* PhonePickerDataSource.m */; };
 		D27D1CA2119D665D004D19DA /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D27D1CA1119D665D004D19DA /* MapKit.framework */; };
 		D2838238118DB14B00B2DC25 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = D283822D118DB14B00B2DC25 /* NSObject+SBJSON.m */; };
 		D2838239118DB14B00B2DC25 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = D283822F118DB14B00B2DC25 /* NSString+SBJSON.m */; };
@@ -61,6 +63,10 @@
 		D20EDBAE119D67A500A69C0D /* map-marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map-marker.png"; sourceTree = "<group>"; };
 		D20EDBAF119D67A500A69C0D /* RistoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RistoView.xib; sourceTree = "<group>"; };
 		D20EDBC0119D67C700A69C0D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		D24B4E1C11BBF92D00ED65E3 /* WWWPickerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWWPickerDataSource.h; sourceTree = "<group>"; };
+		D24B4E1D11BBF92D00ED65E3 /* WWWPickerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWWPickerDataSource.m; sourceTree = "<group>"; };
+		D26521CE11C037D600C841BF /* PhonePickerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhonePickerDataSource.h; sourceTree = "<group>"; };
+		D26521CF11C037D600C841BF /* PhonePickerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhonePickerDataSource.m; sourceTree = "<group>"; };
 		D27D1CA1119D665D004D19DA /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		D283822B118DB14B00B2DC25 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		D283822C118DB14B00B2DC25 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
@@ -99,6 +105,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D24B4E1B11BBF8D700ED65E3 /* Picker */,
 				D20EDBA3119D677000A69C0D /* CloseRistoViewController.h */,
 				D20EDBA4119D677000A69C0D /* CloseRistoViewController.m */,
 				D20EDBA5119D677000A69C0D /* RistoViewController.h */,
@@ -171,6 +178,17 @@
 				D27D1CA1119D665D004D19DA /* MapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D24B4E1B11BBF8D700ED65E3 /* Picker */ = {
+			isa = PBXGroup;
+			children = (
+				D24B4E1C11BBF92D00ED65E3 /* WWWPickerDataSource.h */,
+				D24B4E1D11BBF92D00ED65E3 /* WWWPickerDataSource.m */,
+				D26521CE11C037D600C841BF /* PhonePickerDataSource.h */,
+				D26521CF11C037D600C841BF /* PhonePickerDataSource.m */,
+			);
+			name = Picker;
 			sourceTree = "<group>";
 		};
 		D283822A118DB14B00B2DC25 /* JSON */ = {
@@ -266,6 +284,8 @@
 				D20EDBA7119D677000A69C0D /* CloseRistoViewController.m in Sources */,
 				D20EDBA8119D677000A69C0D /* RistoViewController.m in Sources */,
 				D20EDBB0119D67A500A69C0D /* Annotation.m in Sources */,
+				D24B4E1E11BBF92D00ED65E3 /* WWWPickerDataSource.m in Sources */,
+				D26521D011C037D600C841BF /* PhonePickerDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,11 +314,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Alessandro Vincelli";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = YouEat_Prefix.pch;
 				INFOPLIST_FILE = "YouEat-Info.plist";
 				PRODUCT_NAME = YouEat;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AC7B2787-B33E-45CE-B85F-AEF0B18B8CF8";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

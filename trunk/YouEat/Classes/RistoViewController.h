@@ -26,6 +26,7 @@
 	UIPickerView *phonePickerView;
 	WWWPickerDataSource *wwwPickerDataSource;
 	PhonePickerDataSource *phonePickerDataSource;
+	UIButton *buttonHidePicker;
 }
 
 @property (nonatomic, retain) NSDictionary *selectedRisto;
@@ -40,6 +41,7 @@
 @property (nonatomic, retain) UIPickerView *phonePickerView;
 @property (nonatomic, retain) WWWPickerDataSource *wwwPickerDataSource;
 @property (nonatomic, retain) PhonePickerDataSource *phonePickerDataSource;
+@property (nonatomic, retain) UIButton *buttonHidePicker;
 //@property (nonatomic, retain) NSInteger currentPicker2;
 
 - (IBAction)togglePickers:(id)sender;		// for changing between UIPickerView, UIDatePickerView and custom picker

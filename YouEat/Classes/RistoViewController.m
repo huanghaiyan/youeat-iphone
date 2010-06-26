@@ -1,10 +1,10 @@
-//
+// claudy jongstra
 //  RistoViewController.m
 //  YouEat
 //
 //  Created by Alessandro Vincelli on 02/05/10.
 //  Copyright 2010 Alessandro Vincelli. All rights reserved.
-//
+// farnietoina frabro scalo
 
 #import "RistoViewController.h"
 #import "Annotation.h"
@@ -12,7 +12,7 @@
 
 @implementation RistoViewController
 
-@synthesize selectedRisto, address, tags, ristoranteName, mapView,  description;
+@synthesize selectedRisto, address, tags, ristoranteName, mapView,  description, buttonHidePicker;
 @synthesize buttonBarSegmentedControl, currentPicker, wwwPickerView, wwwPickerDataSource, phonePickerView, phonePickerDataSource;
 
 
@@ -36,8 +36,8 @@
 
 	//***WWW
 	wwwPickerView = [[UIPickerView alloc] initWithFrame:CGRectZero];
-	CGSize pickerSize = [wwwPickerView sizeThatFits:CGSizeZero];
-	wwwPickerView.frame = [self pickerFrameWithSize:pickerSize];
+	//CGSize pickerSize = [wwwPickerView sizeThatFits:CGSizeZero];
+	wwwPickerView.frame = CGRectMake(0.0, 168.0, 320.0, 120.0);
 
 	wwwPickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	wwwPickerView.showsSelectionIndicator = YES;	// note this is default to NO
@@ -55,20 +55,37 @@
 		email = [selectedRisto objectForKey:@"email"];
 	}
 	
+	//wwwPickerDataSource.contentStretch = CGRectMake(0., 0., [self bounds].size.height, [self bounds].size.width);
+	
 	wwwPickerDataSource.wwwPickerArray = [[NSArray arrayWithObjects:
 										   www, email,  nil] retain];
-	
+
 	wwwPickerView.delegate = wwwPickerDataSource;
 	wwwPickerView.dataSource = wwwPickerDataSource;
 //	
 //	// add this picker to our view controller, initially hidden
 	wwwPickerView.hidden = YES;
 	[self.view addSubview:wwwPickerView];
+
+	buttonHidePicker = [[UIButton alloc] initWithFrame:CGRectZero];
+	// or you can do this:
+	//		UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	//		button.frame = frame;
+	
+	// Hide pricker Button
+	buttonHidePicker.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+	buttonHidePicker.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+	buttonHidePicker = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+	buttonHidePicker.frame = CGRectMake(55, 136.0, 195.0, 30.0);
+	[buttonHidePicker setTitle:@"Hide" forState:UIControlStateNormal];
+	buttonHidePicker.hidden = YES;
+	[buttonHidePicker addTarget:self action:@selector(hidePicker:) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:buttonHidePicker];
 	
 	//***PHONE
 	phonePickerView = [[UIPickerView alloc] initWithFrame:CGRectZero];
-	pickerSize = [phonePickerView sizeThatFits:CGSizeZero];
-	phonePickerView.frame = [self pickerFrameWithSize:pickerSize];
+	//pickerSize = [phonePickerView sizeThatFits:CGSizeZero];
+	phonePickerView.frame = CGRectMake(0.0, 168.0, 320.0, 120.0);
 	
 	phonePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	phonePickerView.showsSelectionIndicator = YES;	// note this is default to NO
@@ -173,6 +190,7 @@
 	picker.hidden = NO;
 	
 	currentPicker = picker;	// remember the current picker so we can remove it later when another one is chosen
+	buttonHidePicker.hidden = NO;
 }
 
 
@@ -204,6 +222,10 @@
 	}
 }
 
+- (void)hidePicker:(id)sender{
+	currentPicker.hidden = YES;
+	buttonHidePicker.hidden = YES;
+}
 /*
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

@@ -91,9 +91,6 @@
 	cell.textLabel.text = [ristoItem objectForKey:@"name"];
 	NSString *city = [[ristoItem objectForKey:@"city"] objectForKey:@"name"];
 	NSString *address = [ristoItem objectForKey:@"address"];
-	//NSString *phone = [ristoItem objectForKey:@"phoneNumber"];
-	
-	//if (phone == [NSNull null] || phone.length == 0 ) phone = @"";
 	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@", city, address]; ;
     return cell;
 }
@@ -109,16 +106,6 @@
     [self.navigationController pushViewController:detailViewController animated:animated];
     [detailViewController release];
 }
-
-
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.

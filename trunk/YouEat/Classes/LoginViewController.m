@@ -8,18 +8,21 @@
 
 #import "LoginViewController.h"
 #import "ASIHTTPRequest.h"
+#import "FirstViewController.h"
 #import "URLUtil.h"
+#import "LoggedUser.h"
+#import "JSON/JSON.h"
 
 @implementation LoginViewController
 
-@synthesize request, userName, password, login, responseField;
+@synthesize request, userName, password, login, responseField, cancel, restUtil;
 
 - (IBAction)fetchTopSecretInformation
 {
 	[userName resignFirstResponder];
 	[password resignFirstResponder];
 	NSString *url = [URLUtil getConnectionUrl];
-	[self setRequest:[ASIHTTPRequest requestWithURL:[NSURL URLWithString:[url stringByAppendingString:@"/ristorantiSecurity"]]]];
+	[self setRequest:[ASIHTTPRequest requestWithURL:[NSURL URLWithString:[url stringByAppendingString:@"/security/signUp"]]]];
 	[request setDelegate:self];
 	[request setShouldPresentAuthenticationDialog:FALSE];
 	[[self request] setUsername:[userName text]];
@@ -39,22 +42,30 @@
 {
 	BOOL success = ([request responseStatusCode] == 200);
 	if(success){
-		[self dismissModalViewControllerAnimated:TRUE];	}
+		//retry the user info
+		SBJSON *parser = [[SBJSON alloc] init];
+		NSString *json_string = [[NSString alloc] initWithData:[theRequest responseData] encoding:NSUTF8StringEncoding];
+		NSDictionary *statuses = [parser objectWithString:json_string error:nil];
+		NSDictionary *eater = [statuses objectForKey:@"eater"];
+		[LoggedUser setloggedUserID:[eater objectForKey:@"email"]];
+		[self dismissModalViewControllerAnimated:TRUE];
+	}
 	else{
 		//todo
-	}
-	
-}	
+	}	
+}
+
+- (IBAction)cancelAndGoToMain{
+	[self dismissModalViewControllerAnimated:TRUE];	
+	FirstViewController *firstViewController = [[FirstViewController alloc] initWithNibName:@"MainWindow" bundle:[NSBundle mainBundle]];
+//    [self.parentViewController navigationController pushViewController:firstViewController animated:TRUE];
+    [self.parentViewController.navigationController pushViewController:firstViewController animated:TRUE];
+    [firstViewController release];
+}
 
 - (void)viewDidLoad {
 	responseField.hidden = YES;
-	UIButton *goButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-	[goButton setTitle:@"Go!" forState:UIControlStateNormal];
-	[goButton sizeToFit];
-	
-	[goButton addTarget:self action:@selector(fetchTopSecretInformation) forControlEvents:UIControlEventTouchDown];
-	[self.view addSubview: goButton];	
-	
+	restUtil = [[[RestUtil alloc] init] retain ];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,9 +81,10 @@
 	[password release];
 	[login release];
 	[responseField release];
+	[cancel release];
+	[restUtil release];
 	[super viewDidUnload];
 }
-
 
 - (void)dealloc {
     [super dealloc];

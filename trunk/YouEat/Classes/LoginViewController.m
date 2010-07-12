@@ -15,7 +15,7 @@
 
 @implementation LoginViewController
 
-@synthesize request, userName, password, login, responseField, cancel, restUtil;
+@synthesize request, userName, password, login, responseField, restUtil;
 
 - (IBAction)fetchTopSecretInformation
 {
@@ -55,14 +55,6 @@
 	}	
 }
 
-- (IBAction)cancelAndGoToMain{
-	[self dismissModalViewControllerAnimated:TRUE];	
-	FirstViewController *firstViewController = [[FirstViewController alloc] initWithNibName:@"MainWindow" bundle:[NSBundle mainBundle]];
-//    [self.parentViewController navigationController pushViewController:firstViewController animated:TRUE];
-    [self.parentViewController.navigationController pushViewController:firstViewController animated:TRUE];
-    [firstViewController release];
-}
-
 - (void)viewDidLoad {
 	responseField.hidden = YES;
 	restUtil = [[[RestUtil alloc] init] retain ];
@@ -81,7 +73,6 @@
 	[password release];
 	[login release];
 	[responseField release];
-	[cancel release];
 	[restUtil release];
 	[super viewDidUnload];
 }

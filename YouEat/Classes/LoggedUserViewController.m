@@ -10,6 +10,7 @@
 #import "ASIHTTPRequest.h"
 #import "LoginViewController.h"
 #import "FavouriteRistoViewController.h"
+#import "FriendActivitiesViewController.h"
 #import "LoggedUser.h"
 
 @implementation LoggedUserViewController;
@@ -27,7 +28,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return 2;
 }
 
 
@@ -40,17 +41,25 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
-	NSString *favorite = @"My favorites";
-	
-	cell.detailTextLabel.text = favorite;
+	if(indexPath.row == 0){
+		cell.detailTextLabel.text = @"My favorites";
+	}
+	if(indexPath.row == 1){
+		cell.detailTextLabel.text = @"My friend activities";
+	}
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath.row == 0){
-		FavouriteRistoViewController *detailViewController = [[FavouriteRistoViewController alloc] initWithNibName:@"FavouriteRistoViewController" bundle:[NSBundle mainBundle]];
-		[self.navigationController pushViewController:detailViewController animated:TRUE];
-		[detailViewController release];
+		FavouriteRistoViewController *viewController = [[FavouriteRistoViewController alloc] initWithNibName:@"FavouriteRistoViewController" bundle:[NSBundle mainBundle]];
+		[self.navigationController pushViewController:viewController animated:TRUE];
+		[viewController release];
+	}
+	if(indexPath.row == 1){
+		FriendActivitiesViewController *viewController = [[FriendActivitiesViewController alloc] initWithNibName:@"FriendActivitiesViewController" bundle:[NSBundle mainBundle]];
+		[self.navigationController pushViewController:viewController animated:TRUE];
+		[viewController release];
 	}
 }
 

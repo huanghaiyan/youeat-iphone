@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="106"/>
+			<integer value="263"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -64,13 +64,13 @@
 				</object>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<bool key="IBUIHorizontal">NO</bool>
-				<object class="IBUINavigationController" key="IBUISelectedViewController" id="1046362845">
-					<string key="IBUITitle">Around me</string>
-					<object class="IBUITabBarItem" key="IBUITabBarItem" id="195325809">
-						<string key="IBUITitle">Aroundme</string>
+				<object class="IBUINavigationController" key="IBUISelectedViewController" id="979182355">
+					<string key="IBUITitle">YouEat SignIn</string>
+					<object class="IBUITabBarItem" key="IBUITabBarItem" id="714338529">
+						<string key="IBUITitle">YouEat - SignIn</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">map-marker.png</string>
+							<string key="NSResourceName">mela-tab.png</string>
 						</object>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<reference key="IBUITabBar"/>
@@ -82,7 +82,7 @@
 					</object>
 					<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					<bool key="IBUIHorizontal">NO</bool>
-					<object class="IBUINavigationBar" key="IBUINavigationBar" id="1069953697">
+					<object class="IBUINavigationBar" key="IBUINavigationBar" id="603975547">
 						<nil key="NSNextResponder"/>
 						<int key="NSvFlags">256</int>
 						<string key="NSFrameSize">{0, 0}</string>
@@ -93,8 +93,9 @@
 					</object>
 					<object class="NSMutableArray" key="IBUIViewControllers">
 						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="IBUITableViewController" id="119902152">
-							<object class="IBUITableView" key="IBUIView" id="173492901">
+						<object class="IBUITableViewController" id="355226232">
+							<string key="IBUITitle">My YouEat</string>
+							<object class="IBUITableView" key="IBUIView" id="454758910">
 								<reference key="NSNextResponder"/>
 								<int key="NSvFlags">274</int>
 								<string key="NSFrameSize">{320, 367}</string>
@@ -107,6 +108,7 @@
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<bool key="IBUIAlwaysBounceVertical">YES</bool>
 								<int key="IBUISeparatorStyle">1</int>
 								<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
 								<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
@@ -114,12 +116,12 @@
 								<float key="IBUISectionHeaderHeight">22</float>
 								<float key="IBUISectionFooterHeight">22</float>
 							</object>
-							<object class="IBUINavigationItem" key="IBUINavigationItem" id="540073852">
+							<object class="IBUINavigationItem" key="IBUINavigationItem" id="213839127">
 								<reference key="IBUINavigationBar"/>
-								<string key="IBUITitle">Item</string>
+								<string key="IBUITitle">YouEat</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
-							<reference key="IBUIParentViewController" ref="1046362845"/>
+							<reference key="IBUIParentViewController" ref="979182355"/>
 							<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 							<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 								<int key="interfaceOrientation">1</int>
@@ -212,14 +214,13 @@
 							</object>
 						</object>
 					</object>
-					<reference ref="1046362845"/>
-					<object class="IBUINavigationController" id="979182355">
-						<string key="IBUITitle">YouEat SignIn</string>
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="714338529">
-							<string key="IBUITitle">YouEat - SignIn</string>
+					<object class="IBUINavigationController" id="1046362845">
+						<string key="IBUITitle">Around me</string>
+						<object class="IBUITabBarItem" key="IBUITabBarItem" id="195325809">
+							<string key="IBUITitle">Aroundme</string>
 							<object class="NSCustomResource" key="IBUIImage">
 								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">mela-tab.png</string>
+								<string key="NSResourceName">map-marker.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							<reference key="IBUITabBar"/>
@@ -231,7 +232,7 @@
 						</object>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<bool key="IBUIHorizontal">NO</bool>
-						<object class="IBUINavigationBar" key="IBUINavigationBar" id="603975547">
+						<object class="IBUINavigationBar" key="IBUINavigationBar" id="1069953697">
 							<nil key="NSNextResponder"/>
 							<int key="NSvFlags">256</int>
 							<string key="NSFrameSize">{0, 0}</string>
@@ -242,8 +243,8 @@
 						</object>
 						<object class="NSMutableArray" key="IBUIViewControllers">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUITableViewController" id="355226232">
-								<object class="IBUITableView" key="IBUIView" id="454758910">
+							<object class="IBUITableViewController" id="119902152">
+								<object class="IBUITableView" key="IBUIView" id="173492901">
 									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">274</int>
 									<string key="NSFrameSize">{320, 367}</string>
@@ -252,7 +253,6 @@
 									<bool key="IBUIClipsSubviews">YES</bool>
 									<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-									<bool key="IBUIAlwaysBounceVertical">YES</bool>
 									<int key="IBUISeparatorStyle">1</int>
 									<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
 									<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
@@ -260,11 +260,11 @@
 									<float key="IBUISectionHeaderHeight">22</float>
 									<float key="IBUISectionFooterHeight">22</float>
 								</object>
-								<object class="IBUINavigationItem" key="IBUINavigationItem" id="213839127">
+								<object class="IBUINavigationItem" key="IBUINavigationItem" id="540073852">
 									<string key="IBUITitle">Item</string>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								</object>
-								<reference key="IBUIParentViewController" ref="979182355"/>
+								<reference key="IBUIParentViewController" ref="1046362845"/>
 								<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 								<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 									<int key="interfaceOrientation">1</int>
@@ -274,6 +274,7 @@
 							</object>
 						</object>
 					</object>
+					<reference ref="979182355"/>
 					<object class="IBUIViewController" id="969946077">
 						<string key="IBUITitle">About</string>
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="426151684">

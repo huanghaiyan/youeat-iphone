@@ -19,6 +19,7 @@
 	IBOutlet UITableView *tableViewActivities;
 	RestUtil *restUtil;
 	ASIHTTPRequest *request;
+	UIImageView *imageView;
 }
 
 - (void)showRisto:(NSDictionary *)risto animated:(BOOL)animated;
@@ -26,6 +27,7 @@
 @property (nonatomic, retain) IBOutlet UITableView *tableViewActivities;
 @property (nonatomic, retain) IBOutlet NSMutableArray *listOfActivities;
 @property (nonatomic, retain) RestUtil *restUtil;
-@property (retain, nonatomic) ASIHTTPRequest *request;
+@property (nonatomic, retain) ASIHTTPRequest *request;
+@property (nonatomic, retain) UIImageView *imageView;
 
 @end

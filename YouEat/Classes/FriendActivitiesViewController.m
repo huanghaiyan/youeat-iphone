@@ -12,10 +12,12 @@
 #import "ASIHTTPRequest.h"
 #import "LoggedUser.h"
 #import "JSON/JSON.h"
+#import "ActivityCell.h"
+#import "IconUtil.h"
 
 @implementation FriendActivitiesViewController
 
-@synthesize restUtil, listOfActivities, request, tableViewActivities;
+@synthesize restUtil, listOfActivities, request, tableViewActivities, imageView;
 
 - (void) startsGetActivities {
 	[listOfActivities removeAllObjects];
@@ -52,25 +54,36 @@
     return [listOfActivities count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
-    
-	// Configure the cell.
+- (void)configureCell:(ActivityCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    // Configure the cell
 	NSDictionary *activityItem = [listOfActivities objectAtIndex:indexPath.row];
 	NSDictionary *ristoItem = [activityItem objectForKey:@"ristorante"];
-	cell.textLabel.text = [ristoItem objectForKey:@"name"];
-	NSString *city = [[ristoItem objectForKey:@"city"] objectForKey:@"name"];
-	NSString *address = [ristoItem objectForKey:@"address"];
-	
-	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@", city, address]; ;
-    return cell;
+	NSDictionary *eater = [activityItem objectForKey:@"eater"];
+	cell.nameLabel.text = [ristoItem objectForKey:@"name"];
+	cell.overviewLabel.text = [NSString stringWithFormat:@"%@ %@", [eater objectForKey:@"firstname"], [eater objectForKey:@"lastname"]];
+	cell.prepTimeLabel.text = [ristoItem objectForKey:@"address"];
+	NSString *iconName = [IconUtil getActivityIcon:[activityItem objectForKey:@"type"]];
+	cell.imageView.image = [[UIImage imageNamed:iconName] retain];
 }
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Dequeue or if necessary create a RecipeTableViewCell, then set its recipe to the recipe for the current row.
+    static NSString *ActivityCellIdentifier = @"ActivityCellIdentifier";
+    
+    ActivityCell *activityCell = (ActivityCell *)[tableView dequeueReusableCellWithIdentifier:ActivityCellIdentifier];
+    if (activityCell == nil) {
+        activityCell = [[[ActivityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ActivityCellIdentifier] autorelease];
+		activityCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    
+	[self configureCell:activityCell atIndexPath:indexPath];
+    
+    return activityCell;
+}
+
+
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSDictionary *selectedRisto = [[listOfActivities objectAtIndex:indexPath.row] objectForKey:@"ristorante"];
@@ -136,6 +149,7 @@
 	[restUtil release];
 	[listOfActivities release];
 	[request release];
+	[imageView release];
     [super dealloc];
 }
 

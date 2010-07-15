@@ -14,7 +14,7 @@
 
 @synthesize selectedRisto, address, tags, ristoranteName, mapView,  description, buttonHidePicker;
 @synthesize buttonBarSegmentedControl, currentPicker, wwwPickerView, wwwPickerDataSource, phonePickerView, phonePickerDataSource;
-
+@synthesize buttonAddRemoveAsFavourite, buttonITried;
 
 
 // return the picker frame based on its size, positioned at the bottom of the page
@@ -72,15 +72,15 @@
 	//		UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	//		button.frame = frame;
 	
-	// Hide pricker Button
+	// Hide picker Button
 	buttonHidePicker.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 	buttonHidePicker.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
 	buttonHidePicker = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
 	buttonHidePicker.frame = CGRectMake(55, 136.0, 195.0, 30.0);
 	[buttonHidePicker setTitle:@"Hide" forState:UIControlStateNormal];
 	buttonHidePicker.hidden = YES;
-	[buttonHidePicker addTarget:self action:@selector(hidePicker:) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:buttonHidePicker];
+	[buttonHidePicker addTarget:self action:@selector(hidePicker) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:buttonHidePicker];	
 	
 	//***PHONE
 	phonePickerView = [[UIPickerView alloc] initWithFrame:CGRectZero];
@@ -193,39 +193,64 @@
 	buttonHidePicker.hidden = NO;
 }
 
+- (void)hidePicker{
+	currentPicker.hidden = YES;
+	buttonHidePicker.hidden = YES;
+	buttonITried.hidden = YES;
+//	buttonAddRemoveAsFavourite.hidden = YES;
+}
+
+- (void)showActions
+{
+	[self hidePicker];
+	// Button I tried
+	buttonITried.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+	buttonITried.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+	buttonITried = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+	buttonITried.frame = CGRectMake(55, 176.0, 195.0, 30.0);
+	[buttonITried setTitle:@"I tried" forState:UIControlStateNormal];
+	buttonITried.hidden = NO;
+	//[buttonITried addTarget:self action:@selector(hidePicker:) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:buttonITried];
+	
+	//[buttonITried addTarget:self action:@selector(hidePicker:) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:buttonITried];
+	
+	
+	//currentPicker = picker;	// remember the current picker so we can remove it later when another one is chosen
+	//buttonHidePicker.hidden = NO;
+}
+
 
 - (IBAction)togglePickers:(id)sender
 {
+	buttonITried.hidden = YES;
+	currentPicker.hidden = YES;
 	UISegmentedControl *segControl = sender;
 	switch (segControl.selectedSegmentIndex)
 	{
 		case 0:	// WWW UIPickerView
 		{
-			if(currentPicker2 == 0){
-				currentPicker.hidden = YES;
-				break;
-			}
 			[self showPicker:wwwPickerView];
 			currentPicker2 = 0;
 			break;
 		}
 		case 1: // Phone UIPickerView
 		{	
-			if(currentPicker2 == 1){
-				currentPicker.hidden = YES;
-				break;
-			}
 			[self showPicker:phonePickerView];
 			currentPicker2 = 1;
 			break;			
 		}
+		case 2: // Actions
+		{	
+			[self showActions];
+			currentPicker2 = 2;
+			break;			
+		}
+			
 	}
 }
 
-- (void)hidePicker:(id)sender{
-	currentPicker.hidden = YES;
-	buttonHidePicker.hidden = YES;
-}
 /*
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -327,6 +352,8 @@
 	[phonePickerDataSource release];
 	[phonePickerView release];
 	[buttonBarSegmentedControl release];
+	[buttonITried release];
+	[buttonAddRemoveAsFavourite release];
     [super dealloc];
 }
 

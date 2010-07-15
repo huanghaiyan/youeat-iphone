@@ -14,13 +14,14 @@
 		UIImageView *imageView;
 		UILabel *nameLabel;
 		UILabel *overviewLabel;
-		UILabel *prepTimeLabel;
+		UILabel *cityLabel;
+		UILabel *timeLabel;
 	}
 	
 	@property (nonatomic, retain) UIImageView *imageView;
 	@property (nonatomic, retain) UILabel *nameLabel;
 	@property (nonatomic, retain) UILabel *overviewLabel;
-	@property (nonatomic, retain) UILabel *prepTimeLabel;
-
+	@property (nonatomic, retain) UILabel *cityLabel;
+	@property (nonatomic, retain) UILabel *timeLabel;
 
 @end

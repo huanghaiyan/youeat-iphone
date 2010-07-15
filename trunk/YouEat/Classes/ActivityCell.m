@@ -12,7 +12,8 @@
 - (CGRect)_imageViewFrame;
 - (CGRect)_nameLabelFrame;
 - (CGRect)_descriptionLabelFrame;
-- (CGRect)_prepTimeLabelFrame;
+- (CGRect)_cityLabelFrame;
+- (CGRect)_timeLabelFrame;
 @end
 
 
@@ -21,7 +22,7 @@
 
 @implementation ActivityCell
 
-@synthesize imageView, nameLabel, overviewLabel, prepTimeLabel;
+@synthesize imageView, nameLabel, overviewLabel, cityLabel, timeLabel;
 
 
 #pragma mark -
@@ -40,20 +41,29 @@
         [overviewLabel setHighlightedTextColor:[UIColor whiteColor]];
         [self.contentView addSubview:overviewLabel];
 		
-        prepTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        prepTimeLabel.textAlignment = UITextAlignmentRight;
-        [prepTimeLabel setFont:[UIFont systemFontOfSize:12.0]];
-        [prepTimeLabel setTextColor:[UIColor blackColor]];
-        [prepTimeLabel setHighlightedTextColor:[UIColor whiteColor]];
-		prepTimeLabel.minimumFontSize = 7.0;
-		prepTimeLabel.lineBreakMode = UILineBreakModeTailTruncation;
-        [self.contentView addSubview:prepTimeLabel];
+        cityLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        cityLabel.textAlignment = UITextAlignmentRight;
+        [cityLabel setFont:[UIFont systemFontOfSize:12.0]];
+        [cityLabel setTextColor:[UIColor blackColor]];
+        [cityLabel setHighlightedTextColor:[UIColor whiteColor]];
+		cityLabel.minimumFontSize = 7.0;
+		cityLabel.lineBreakMode = UILineBreakModeTailTruncation;
+        [self.contentView addSubview:cityLabel];
 		
         nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         [nameLabel setFont:[UIFont boldSystemFontOfSize:14.0]];
         [nameLabel setTextColor:[UIColor blackColor]];
         [nameLabel setHighlightedTextColor:[UIColor whiteColor]];
         [self.contentView addSubview:nameLabel];
+		
+		timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        timeLabel.textAlignment = UITextAlignmentRight;
+        [timeLabel setFont:[UIFont systemFontOfSize:12.0]];
+        [timeLabel setTextColor:[UIColor blackColor]];
+        [timeLabel setHighlightedTextColor:[UIColor whiteColor]];
+		timeLabel.minimumFontSize = 7.0;
+		timeLabel.lineBreakMode = UILineBreakModeTailTruncation;
+        [self.contentView addSubview:timeLabel];
     }
 	
     return self;
@@ -72,7 +82,8 @@
     [imageView setFrame:[self _imageViewFrame]];
     [nameLabel setFrame:[self _nameLabelFrame]];
     [overviewLabel setFrame:[self _descriptionLabelFrame]];
-    [prepTimeLabel setFrame:[self _prepTimeLabelFrame]];
+    [timeLabel setFrame:[self _timeLabelFrame]];
+    [cityLabel setFrame:[self _cityLabelFrame]];
 }
 
 
@@ -80,27 +91,34 @@
 #define EDITING_INSET       10.0
 #define TEXT_LEFT_MARGIN    8.0
 #define TEXT_RIGHT_MARGIN   5.0
-#define PREP_TIME_WIDTH     80.0
+#define CITY_WIDTH     60.0
 
 /*
- Return the frame of the various subviews -- these are dependent on the editing state of the cell.
+ Return the frame of the various subviews 
  */
 - (CGRect)_imageViewFrame {
 	return CGRectMake(5.0, 5.0, IMAGE_SIZE, IMAGE_SIZE);
 }
 
-- (CGRect)_nameLabelFrame {
-    return CGRectMake(IMAGE_SIZE + TEXT_LEFT_MARGIN, 4.0, self.contentView.bounds.size.width - IMAGE_SIZE - TEXT_RIGHT_MARGIN * 2 - PREP_TIME_WIDTH, 16.0);
-}
-
 - (CGRect)_descriptionLabelFrame {
-    return CGRectMake(IMAGE_SIZE + TEXT_LEFT_MARGIN, 22.0, self.contentView.bounds.size.width - IMAGE_SIZE - TEXT_LEFT_MARGIN, 16.0);
+    return CGRectMake(IMAGE_SIZE + TEXT_LEFT_MARGIN, 4.0, self.contentView.bounds.size.width - IMAGE_SIZE - TEXT_RIGHT_MARGIN * 2 - CITY_WIDTH, 16.0);
 }
 
-- (CGRect)_prepTimeLabelFrame {
-    CGRect contentViewBounds = self.contentView.bounds;
-    return CGRectMake(contentViewBounds.size.width - PREP_TIME_WIDTH - TEXT_RIGHT_MARGIN, 4.0, PREP_TIME_WIDTH, 16.0);
+- (CGRect)_nameLabelFrame {
+    return CGRectMake(IMAGE_SIZE + TEXT_LEFT_MARGIN, 22.0, self.contentView.bounds.size.width - IMAGE_SIZE - TEXT_LEFT_MARGIN * 2 - CITY_WIDTH, 16.0);
 }
+
+- (CGRect)_timeLabelFrame {
+    CGRect contentViewBounds = self.contentView.bounds;
+    return CGRectMake(contentViewBounds.size.width - CITY_WIDTH - TEXT_RIGHT_MARGIN, 5.0, CITY_WIDTH, 8.0);
+}
+
+- (CGRect)_cityLabelFrame {
+    CGRect contentViewBounds = self.contentView.bounds;
+    return CGRectMake(contentViewBounds.size.width - CITY_WIDTH - TEXT_RIGHT_MARGIN, 25, CITY_WIDTH, 9.0);
+}
+
+
 
 
 #pragma mark -
@@ -110,7 +128,8 @@
     [imageView release];
     [nameLabel release];
     [overviewLabel release];
-    [prepTimeLabel release];
+    [cityLabel release];
+	[timeLabel release];
     [super dealloc];
 }
 

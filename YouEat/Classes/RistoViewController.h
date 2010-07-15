@@ -27,6 +27,8 @@
 	WWWPickerDataSource *wwwPickerDataSource;
 	PhonePickerDataSource *phonePickerDataSource;
 	UIButton *buttonHidePicker;
+	UIButton *buttonITried;
+	UIButton *buttonAddRemoveAsFavourite;
 }
 
 @property (nonatomic, retain) NSDictionary *selectedRisto;
@@ -42,7 +44,8 @@
 @property (nonatomic, retain) WWWPickerDataSource *wwwPickerDataSource;
 @property (nonatomic, retain) PhonePickerDataSource *phonePickerDataSource;
 @property (nonatomic, retain) UIButton *buttonHidePicker;
-//@property (nonatomic, retain) NSInteger currentPicker2;
+@property (nonatomic, retain) UIButton *buttonITried;
+@property (nonatomic, retain) UIButton *buttonAddRemoveAsFavourite;
 
 - (IBAction)togglePickers:(id)sender;		// for changing between UIPickerView, UIDatePickerView and custom picker
 

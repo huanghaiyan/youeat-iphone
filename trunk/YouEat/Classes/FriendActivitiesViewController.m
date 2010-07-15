@@ -60,12 +60,12 @@
 	NSDictionary *ristoItem = [activityItem objectForKey:@"ristorante"];
 	NSDictionary *eater = [activityItem objectForKey:@"eater"];
 	cell.nameLabel.text = [ristoItem objectForKey:@"name"];
-	cell.overviewLabel.text = [NSString stringWithFormat:@"%@ %@", [eater objectForKey:@"firstname"], [eater objectForKey:@"lastname"]];
+	
+	cell.overviewLabel.text = [NSString stringWithFormat:@"%@ %@ %@", [eater objectForKey:@"firstname"], [eater objectForKey:@"lastname"], [activityItem objectForKey:@"activityDesc"]];
 	cell.cityLabel.text = [[ristoItem objectForKey:@"city"] objectForKey:@"name"];
 	NSString *iconName = [IconUtil getActivityIcon:[activityItem objectForKey:@"type"]];
 	cell.imageView.image = [[UIImage imageNamed:iconName] retain];
-	NSString *time = [NSString stringWithFormat:@"%@", [activityItem objectForKey:@"date"]];
-	cell.timeLabel.text = time;
+	cell.timeLabel.text = [activityItem objectForKey:@"elapsedTime"];
 }
 
 

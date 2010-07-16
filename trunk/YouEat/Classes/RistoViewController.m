@@ -8,13 +8,17 @@
 
 #import "RistoViewController.h"
 #import "Annotation.h"
+#import "RestUtil.h"
+#import "UrlUtil.h"
+#import "ASIHTTPRequest.h"
+#import "JSON.h"
 
 
 @implementation RistoViewController
 
 @synthesize selectedRisto, address, tags, ristoranteName, mapView,  description, buttonHidePicker;
 @synthesize buttonBarSegmentedControl, currentPicker, wwwPickerView, wwwPickerDataSource, phonePickerView, phonePickerDataSource;
-@synthesize buttonAddRemoveAsFavourite, buttonITried;
+@synthesize buttonAddRemoveAsFavourite, buttonITried, request;
 
 
 // return the picker frame based on its size, positioned at the bottom of the page
@@ -179,7 +183,6 @@
     [self.mapView addAnnotation:annotation];
 	
 }
-
 - (void)showPicker:(UIView *)picker
 {
 	// hide the current picker and show the new one
@@ -197,11 +200,12 @@
 	currentPicker.hidden = YES;
 	buttonHidePicker.hidden = YES;
 	buttonITried.hidden = YES;
-//	buttonAddRemoveAsFavourite.hidden = YES;
+	buttonAddRemoveAsFavourite.hidden = YES;
 }
 
 - (void)showActions
 {
+
 	[self hidePicker];
 	// Button I tried
 	buttonITried.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -210,21 +214,27 @@
 	buttonITried.frame = CGRectMake(55, 176.0, 195.0, 30.0);
 	[buttonITried setTitle:@"I tried" forState:UIControlStateNormal];
 	buttonITried.hidden = NO;
-	//[buttonITried addTarget:self action:@selector(hidePicker:) forControlEvents:UIControlEventTouchUpInside];
+	[buttonITried addTarget:self action:@selector(sendITriedRequest) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:buttonITried];
 	
-	//[buttonITried addTarget:self action:@selector(hidePicker:) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:buttonITried];
+	// Button Add as favourite
+	buttonAddRemoveAsFavourite.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+	buttonAddRemoveAsFavourite.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+	buttonAddRemoveAsFavourite = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+	buttonAddRemoveAsFavourite.frame = CGRectMake(55, 216.0, 195.0, 30.0);
 	
-	
-	//currentPicker = picker;	// remember the current picker so we can remove it later when another one is chosen
-	//buttonHidePicker.hidden = NO;
+	[buttonAddRemoveAsFavourite setTitle:@"Add as favorite" forState:UIControlStateNormal];
+	[buttonAddRemoveAsFavourite addTarget:self action:@selector(sendAddRestaurantsAsFavouriteRequest) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:buttonAddRemoveAsFavourite];
+	buttonHidePicker.hidden = NO;
+	[self sendIsFavoriteRestaurantRequest];
 }
 
 
 - (IBAction)togglePickers:(id)sender
 {
 	buttonITried.hidden = YES;
+	buttonAddRemoveAsFavourite.hidden = YES;
 	currentPicker.hidden = YES;
 	UISegmentedControl *segControl = sender;
 	switch (segControl.selectedSegmentIndex)
@@ -251,77 +261,104 @@
 	}
 }
 
-/*
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (IBAction)sendITriedRequest
+{
+	NSString *url = [URLUtil getConnectionUrl];
+	NSString *urlRequest = [NSString stringWithFormat:@"/security/iTriedRestaurants/%@", [selectedRisto objectForKey:@"id"]]; 
+	[self setRequest:[ASIHTTPRequest requestWithURL:[NSURL URLWithString:[url stringByAppendingString:urlRequest]]]];
+	[request setDelegate:self];
+	[request setDidFinishSelector:@selector(sendITriedRequestComplete:)];
+	[request setDidFailSelector:@selector(sendITriedRequestFailed:)];
+	[request startAsynchronous];
 }
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
-*/
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
+- (IBAction)sendITriedRequestFailed:(ASIHTTPRequest *)theRequest
+{
+	//
+}
+
+- (IBAction)sendITriedRequestComplete:(ASIHTTPRequest *)theRequest
+{
+	BOOL success = ([request responseStatusCode] == 200);
+	if(success){
+		//retry the user info
+		[self hidePicker];
+	}
+	else{
+		//todo
+	}	
+}
+
+- (IBAction)sendAddRestaurantsAsFavouriteRequest
+{
+	NSString *url = [URLUtil getConnectionUrl];
+	NSString *urlRequest = [NSString stringWithFormat:@"/security/addOrRemoveRestaurantsAsFavorite/%@", [selectedRisto objectForKey:@"id"]]; 
+	[self setRequest:[ASIHTTPRequest requestWithURL:[NSURL URLWithString:[url stringByAppendingString:urlRequest]]]];
+	[request setDelegate:self];
+	[request setDidFinishSelector:@selector(sendAddRestaurantsAsFavouriteRequestComplete:)];
+	[request setDidFailSelector:@selector(sendAddRestaurantsAsFavouriteRequestFailed:)];
+	[request startAsynchronous];
+}
+
+- (IBAction)sendAddRestaurantsAsFavouriteRequestFailed:(ASIHTTPRequest *)theRequest
+{
+	//
+}
+
+- (IBAction)sendAddRestaurantsAsFavouriteRequestComplete:(ASIHTTPRequest *)theRequest
+{
+	BOOL success = ([request responseStatusCode] == 200);
+	if(success){
+		//retry the user info
+		[self hidePicker];
+	}
+	else{
+		//todo
+	}	
+}
+
+- (IBAction)sendIsFavoriteRestaurantRequest
+{
+	
+	NSString *url = [URLUtil getConnectionUrl];
+	NSString *urlRequest = [NSString stringWithFormat:@"/security/isFavoriteRestaurant/%@", [selectedRisto objectForKey:@"id"]]; 
+	[self setRequest:[ASIHTTPRequest requestWithURL:[NSURL URLWithString:[url stringByAppendingString:urlRequest]]]];
+	[request setDelegate:self];
+	[request setDidFinishSelector:@selector(sendIsFavoriteRestaurantRequestComplete:)];
+	[request setDidFailSelector:@selector(sendIsFavoriteRestaurantRequestFailed:)];
+	[request startAsynchronous];
+}
+
+- (IBAction)sendIsFavoriteRestaurantRequestFailed:(ASIHTTPRequest *)theRequest
+{
+	//
+}
+
+- (IBAction)sendIsFavoriteRestaurantRequestComplete:(ASIHTTPRequest *)theRequest
+{
+	BOOL success = ([request responseStatusCode] == 200);
+//	[indicatorView stopAnimating];
+	if(success){
+		SBJSON *parser = [[SBJSON alloc] init];
+		NSString *json_string = [[NSString alloc] initWithData:[theRequest responseData] encoding:NSUTF8StringEncoding];
+		NSDictionary *statuses = [parser objectWithString:json_string error:nil];
+		NSDictionary *response = [statuses objectForKey:@"youEatBooleanResponse"];
+		if([response objectForKey:@"response"]){
+			[buttonAddRemoveAsFavourite setTitle:@"Remove as favorite" forState:UIControlStateNormal];
+		}
+		else {
+			[buttonAddRemoveAsFavourite setTitle:@"Add as favorite" forState:UIControlStateNormal];
+		}
+	}
+	else{
+		//todo
+	}	
+}
 
 #pragma mark -
 #pragma mark Table view data source
 
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
@@ -341,6 +378,10 @@
 	self.wwwPickerDataSource = nil;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+}
+
 - (void)dealloc {
 	[selectedRisto release];
 	[address release];
@@ -354,6 +395,7 @@
 	[buttonBarSegmentedControl release];
 	[buttonITried release];
 	[buttonAddRemoveAsFavourite release];
+	[request release];
     [super dealloc];
 }
 

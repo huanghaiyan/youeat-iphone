@@ -11,6 +11,8 @@
 #import "WWWPickerDataSource.h";
 #import "PhonePickerDataSource.h";
 
+@class ASIHTTPRequest;
+
 @interface RistoViewController : UIViewController {
 	
 	UILabel *ristoranteName;
@@ -29,6 +31,7 @@
 	UIButton *buttonHidePicker;
 	UIButton *buttonITried;
 	UIButton *buttonAddRemoveAsFavourite;
+	ASIHTTPRequest *request;
 }
 
 @property (nonatomic, retain) NSDictionary *selectedRisto;
@@ -46,6 +49,7 @@
 @property (nonatomic, retain) UIButton *buttonHidePicker;
 @property (nonatomic, retain) UIButton *buttonITried;
 @property (nonatomic, retain) UIButton *buttonAddRemoveAsFavourite;
+@property (retain, nonatomic) ASIHTTPRequest *request;
 
 - (IBAction)togglePickers:(id)sender;		// for changing between UIPickerView, UIDatePickerView and custom picker
 

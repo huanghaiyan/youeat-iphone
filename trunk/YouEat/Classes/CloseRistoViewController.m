@@ -8,6 +8,7 @@
 
 #import "CloseRistoViewController.h"
 #import "RistoViewController.h"
+#import "RistoScrollViewController.h"
 
 @implementation CloseRistoViewController
 
@@ -118,10 +119,15 @@
 }
 
 - (void)showRisto:(NSDictionary *)risto animated:(BOOL)animated {
-	RistoViewController *detailViewController = [[RistoViewController alloc] initWithNibName:@"RistoView" bundle:[NSBundle mainBundle]];
+	RistoScrollViewController *detailViewController = [[RistoScrollViewController alloc] initWithNibName:@"RistoScrollView" bundle:[NSBundle mainBundle]];
 	detailViewController.selectedRisto = risto;
     [self.navigationController pushViewController:detailViewController animated:animated];
     [detailViewController release];
+	
+	//RistoViewController *detailViewController = [[RistoViewController alloc] initWithNibName:@"RistoView" bundle:[NSBundle mainBundle]];
+	//detailViewController.selectedRisto = risto;
+    //[self.navigationController pushViewController:detailViewController animated:animated];
+    //[detailViewController release];
 }
 
 

@@ -8,6 +8,7 @@
 
 #import "RistoScrollViewController.h"
 #import "RistoViewController.h"
+#import "RistoMapViewController.h"
 
 static NSUInteger kNumberOfPages = 2;
 
@@ -62,27 +63,41 @@ static NSUInteger kNumberOfPages = 2;
 - (void)loadScrollViewWithPage:(int)page {
     if (page < 0) return;
     if (page >= kNumberOfPages) return;
-	
-//	if(page == 0){
-		// replace the placeholder if necessary
-		RistoViewController *controller = [viewControllers objectAtIndex:page];
-		if ((NSNull *)controller == [NSNull null]) {
-			controller = [[RistoViewController alloc] initWithNibName:@"RistoView" bundle:[NSBundle mainBundle]];
-			controller.selectedRisto = selectedRisto;
-			[viewControllers replaceObjectAtIndex:page withObject:controller];
-			[controller release];
-		}		
-		// add the controller's view to the scroll view
-		if (nil == controller.view.superview) {
-			CGRect frame = scrollView.frame;
-			frame.origin.x = frame.size.width * page;
-			frame.origin.y = 0;
-			controller.view.frame = frame;
-			[scrollView addSubview:controller.view];
-		}
-//	}
+	UIViewController *controller;
 
+	if(page == 0){
+		// replace the placeholder if necessary
+		RistoViewController *ristoViewcontroller = [viewControllers objectAtIndex:page];
+		if ((NSNull *)ristoViewcontroller == [NSNull null]) {
+			ristoViewcontroller = [[RistoViewController alloc] initWithNibName:@"RistoView" bundle:[NSBundle mainBundle]];
+			ristoViewcontroller.selectedRisto = selectedRisto;
+			[viewControllers replaceObjectAtIndex:page withObject:ristoViewcontroller];
+			[ristoViewcontroller release];
+		}
+		controller = ristoViewcontroller;
+	}
 	
+	if(page == 1){
+		// replace the placeholder if necessary
+		RistoMapViewController *ristoMapViewcontroller = [viewControllers objectAtIndex:page];
+		if ((NSNull *)ristoMapViewcontroller == [NSNull null]) {
+			ristoMapViewcontroller = [[RistoViewController alloc] initWithNibName:@"RistoMapViewController" bundle:[NSBundle mainBundle]];
+			ristoMapViewcontroller.selectedRisto = selectedRisto;
+			[viewControllers replaceObjectAtIndex:page withObject:ristoMapViewcontroller];
+			[ristoMapViewcontroller release];
+		}
+		controller = ristoMapViewcontroller;
+	}
+
+
+	// add the controller's view to the scroll view
+	if (nil == controller.view.superview) {
+		CGRect frame = scrollView.frame;
+		frame.origin.x = frame.size.width * page;
+		frame.origin.y = 0;
+		controller.view.frame = frame;
+		[scrollView addSubview:controller.view];
+	}
 
 }
 

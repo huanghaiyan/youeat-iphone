@@ -9,8 +9,9 @@
 #import "RistoScrollViewController.h"
 #import "RistoViewController.h"
 #import "RistoMapViewController.h"
+#import "RistoExtraInfoViewController.h"
 
-static NSUInteger kNumberOfPages = 2;
+static NSUInteger kNumberOfPages = 3;
 
 @interface RistoScrollViewController (PrivateMethods)
 
@@ -89,6 +90,17 @@ static NSUInteger kNumberOfPages = 2;
 		controller = ristoMapViewcontroller;
 	}
 
+	if(page == 2){
+		// replace the placeholder if necessary
+		RistoExtraInfoViewController *ristoExtraInfoViewController = [viewControllers objectAtIndex:page];
+		if ((NSNull *)ristoExtraInfoViewController == [NSNull null]) {
+			ristoExtraInfoViewController = [[RistoExtraInfoViewController alloc] initWithNibName:@"RistoExtraInfoViewController" bundle:[NSBundle mainBundle]];
+			ristoExtraInfoViewController.selectedRisto = selectedRisto;
+			[viewControllers replaceObjectAtIndex:page withObject:ristoExtraInfoViewController];
+			[ristoExtraInfoViewController release];
+		}
+		controller = ristoExtraInfoViewController;
+	}
 
 	// add the controller's view to the scroll view
 	if (nil == controller.view.superview) {

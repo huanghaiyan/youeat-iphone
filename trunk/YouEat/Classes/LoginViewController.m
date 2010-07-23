@@ -15,7 +15,7 @@
 
 @implementation LoginViewController
 
-@synthesize request, userName, password, login, responseField, restUtil;
+@synthesize request, userName, password, login, responseField;
 
 - (IBAction)fetchTopSecretInformation
 {
@@ -57,7 +57,6 @@
 
 - (void)viewDidLoad {
 	responseField.hidden = YES;
-	restUtil = [[[RestUtil alloc] init] retain ];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,7 +72,6 @@
 	[password release];
 	[login release];
 	[responseField release];
-	[restUtil release];
 	[super viewDidUnload];
 }
 

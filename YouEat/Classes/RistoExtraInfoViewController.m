@@ -43,8 +43,9 @@
 }
 
 
-#pragma mark -
-#pragma mark Table view data source
+- (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+	return @"last activities";
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -76,7 +77,6 @@
     ActivityCell *activityCell = (ActivityCell *)[tableView dequeueReusableCellWithIdentifier:ActivityCellIdentifier];
     if (activityCell == nil) {
         activityCell = [[[ActivityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ActivityCellIdentifier] autorelease];
-		activityCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
 	[self configureCell:activityCell atIndexPath:indexPath];

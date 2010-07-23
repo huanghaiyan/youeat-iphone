@@ -36,17 +36,17 @@
         [self.contentView addSubview:imageView];
 		
         overviewLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        [overviewLabel setFont:[UIFont systemFontOfSize:12.0]];
+        [overviewLabel setFont:[UIFont systemFontOfSize:9.0]];
         [overviewLabel setTextColor:[UIColor darkGrayColor]];
         [overviewLabel setHighlightedTextColor:[UIColor whiteColor]];
         [self.contentView addSubview:overviewLabel];
 		
         cityLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         cityLabel.textAlignment = UITextAlignmentRight;
-        [cityLabel setFont:[UIFont systemFontOfSize:12.0]];
+        [cityLabel setFont:[UIFont systemFontOfSize:8.0]];
         [cityLabel setTextColor:[UIColor blackColor]];
         [cityLabel setHighlightedTextColor:[UIColor whiteColor]];
-		cityLabel.minimumFontSize = 7.0;
+		cityLabel.minimumFontSize = 8.0;
 		cityLabel.lineBreakMode = UILineBreakModeTailTruncation;
         [self.contentView addSubview:cityLabel];
 		
@@ -58,10 +58,10 @@
 		
 		timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         timeLabel.textAlignment = UITextAlignmentRight;
-        [timeLabel setFont:[UIFont systemFontOfSize:12.0]];
+        [timeLabel setFont:[UIFont systemFontOfSize:8.0]];
         [timeLabel setTextColor:[UIColor blackColor]];
         [timeLabel setHighlightedTextColor:[UIColor whiteColor]];
-		timeLabel.minimumFontSize = 7.0;
+		timeLabel.minimumFontSize = 8.0;
 		timeLabel.lineBreakMode = UILineBreakModeTailTruncation;
         [self.contentView addSubview:timeLabel];
     }

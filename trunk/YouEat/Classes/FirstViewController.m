@@ -7,7 +7,8 @@
 //
 
 #import "FirstViewController.h"
-#import "RistoViewController.h"
+#import "RistoScrollViewController.h"
+#import "LoginUtil.h"
 
 
 @implementation FirstViewController
@@ -15,28 +16,15 @@
 @synthesize searchBar, listOfRisto, tableViewRisto, restUtil;
 
 
-/*
-// The designated initializer. Override to perform setup that is required before the view is loaded.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
-}
-*/
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 	listOfRisto = [[[NSMutableArray alloc] init] retain ];
 	restUtil = [[[RestUtil alloc] init] retain ];
     self.title = @"Search";
 	self.tableView.scrollEnabled = YES;
+	LoginUtil *loginUtil = [[[LoginUtil alloc] init] retain ];
+	//COMMENT the following line before to release
+	//[loginUtil fetchTopSecretInformation];
 }
 
 - (void) searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
@@ -101,7 +89,7 @@
 }
 
 - (void)showRisto:(NSDictionary *)risto animated:(BOOL)animated {
-	RistoViewController *detailViewController = [[RistoViewController alloc] initWithNibName:@"RistoView" bundle:[NSBundle mainBundle]];
+	RistoScrollViewController *detailViewController = [[RistoScrollViewController alloc] initWithNibName:@"RistoScrollView" bundle:[NSBundle mainBundle]];
 	detailViewController.selectedRisto = risto;    
     [self.navigationController pushViewController:detailViewController animated:animated];
     [detailViewController release];

@@ -7,7 +7,7 @@
 //
 
 #import "FavouriteRistoViewController.h"
-#import "RistoViewController.h"
+#import "RistoScrollViewController.h"
 #import "URLUtil.h"
 #import "ASIHTTPRequest.h"
 #import "LoggedUser.h"
@@ -74,7 +74,7 @@
 }
 
 - (void)showRisto:(NSDictionary *)risto animated:(BOOL)animated {
-	RistoViewController *detailViewController = [[RistoViewController alloc] initWithNibName:@"RistoView" bundle:[NSBundle mainBundle]];
+	RistoScrollViewController *detailViewController = [[RistoScrollViewController alloc] initWithNibName:@"RistoScrollView" bundle:[NSBundle mainBundle]];
 	detailViewController.selectedRisto = risto;    
     [self.navigationController pushViewController:detailViewController animated:animated];
     [detailViewController release];

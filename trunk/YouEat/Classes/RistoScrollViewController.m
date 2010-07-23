@@ -10,8 +10,9 @@
 #import "RistoViewController.h"
 #import "RistoMapViewController.h"
 #import "RistoExtraInfoViewController.h"
+#import "RistoFavoritesOfViewController.h"
 
-static NSUInteger kNumberOfPages = 3;
+static NSUInteger kNumberOfPages = 4;
 
 @interface RistoScrollViewController (PrivateMethods)
 
@@ -101,6 +102,19 @@ static NSUInteger kNumberOfPages = 3;
 		}
 		controller = ristoExtraInfoViewController;
 	}
+	
+	if(page == 3){
+		// replace the placeholder if necessary
+		RistoFavoritesOfViewController *ristoFavoritesOfViewController = [viewControllers objectAtIndex:page];
+		if ((NSNull *)ristoFavoritesOfViewController == [NSNull null]) {
+			ristoFavoritesOfViewController = [[RistoFavoritesOfViewController alloc] initWithNibName:@"RistoFavoritesOfViewController" bundle:[NSBundle mainBundle]];
+			ristoFavoritesOfViewController.selectedRisto = selectedRisto;
+			[viewControllers replaceObjectAtIndex:page withObject:ristoFavoritesOfViewController];
+			[ristoFavoritesOfViewController release];
+		}
+		controller = ristoFavoritesOfViewController;
+	}
+	
 
 	// add the controller's view to the scroll view
 	if (nil == controller.view.superview) {

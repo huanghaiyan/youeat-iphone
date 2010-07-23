@@ -11,8 +11,9 @@
 #import "RistoMapViewController.h"
 #import "RistoExtraInfoViewController.h"
 #import "RistoFavoritesOfViewController.h"
+#import "RistoTriedByViewController.h"
 
-static NSUInteger kNumberOfPages = 4;
+static NSUInteger kNumberOfPages = 5;
 
 @interface RistoScrollViewController (PrivateMethods)
 
@@ -113,6 +114,18 @@ static NSUInteger kNumberOfPages = 4;
 			[ristoFavoritesOfViewController release];
 		}
 		controller = ristoFavoritesOfViewController;
+	}
+
+	if(page == 4){
+		// replace the placeholder if necessary
+		RistoTriedByViewController *ristoTriedByViewController = [viewControllers objectAtIndex:page];
+		if ((NSNull *)ristoTriedByViewController == [NSNull null]) {
+			ristoTriedByViewController = [[RistoTriedByViewController alloc] init];
+			ristoTriedByViewController.selectedRisto = selectedRisto;
+			[viewControllers replaceObjectAtIndex:page withObject:ristoTriedByViewController];
+			[ristoTriedByViewController release];
+		}
+		controller = ristoTriedByViewController;
 	}
 	
 

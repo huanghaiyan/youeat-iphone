@@ -11,6 +11,7 @@
 #import "LoginViewController.h"
 #import "FavouriteRistoViewController.h"
 #import "FriendActivitiesViewController.h"
+#import "FriendListViewController.h"
 #import "LoggedUser.h"
 
 @implementation LoggedUserViewController;
@@ -28,7 +29,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 3;
 }
 
 
@@ -47,6 +48,9 @@
 	if(indexPath.row == 1){
 		cell.detailTextLabel.text = @"My friend activities";
 	}
+	if(indexPath.row == 2){
+		cell.detailTextLabel.text = @"My friends";
+	}
     return cell;
 }
 
@@ -58,6 +62,11 @@
 	}
 	if(indexPath.row == 1){
 		FriendActivitiesViewController *viewController = [[FriendActivitiesViewController alloc] initWithNibName:@"FriendActivitiesViewController" bundle:[NSBundle mainBundle]];
+		[self.navigationController pushViewController:viewController animated:TRUE];
+		[viewController release];
+	}
+	if(indexPath.row == 2){
+		FriendListViewController *viewController = [[FriendListViewController alloc] init];
 		[self.navigationController pushViewController:viewController animated:TRUE];
 		[viewController release];
 	}

@@ -41,7 +41,7 @@
 	//***WWW
 	wwwPickerView = [[UIPickerView alloc] initWithFrame:CGRectZero];
 	//CGSize pickerSize = [wwwPickerView sizeThatFits:CGSizeZero];
-	wwwPickerView.frame = CGRectMake(0.0, 168.0, 320.0, 120.0);
+	wwwPickerView.frame = CGRectMake(0.0, 148.0, 320.0, 120.0);
 
 	wwwPickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	wwwPickerView.showsSelectionIndicator = YES;	// note this is default to NO
@@ -70,26 +70,11 @@
 //	// add this picker to our view controller, initially hidden
 	wwwPickerView.hidden = YES;
 	[self.view addSubview:wwwPickerView];
-
-	buttonHidePicker = [[UIButton alloc] initWithFrame:CGRectZero];
-	// or you can do this:
-	//		UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	//		button.frame = frame;
-	
-	// Hide picker Button
-	buttonHidePicker.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-	buttonHidePicker.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-	buttonHidePicker = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-	buttonHidePicker.frame = CGRectMake(55, 136.0, 195.0, 30.0);
-	[buttonHidePicker setTitle:@"Hide" forState:UIControlStateNormal];
-	buttonHidePicker.hidden = YES;
-	[buttonHidePicker addTarget:self action:@selector(hidePicker) forControlEvents:UIControlEventTouchUpInside];
-	[self.view addSubview:buttonHidePicker];	
-	
+		
 	//***PHONE
 	phonePickerView = [[UIPickerView alloc] initWithFrame:CGRectZero];
 	//pickerSize = [phonePickerView sizeThatFits:CGSizeZero];
-	phonePickerView.frame = CGRectMake(0.0, 168.0, 320.0, 120.0);
+	phonePickerView.frame = CGRectMake(0.0, 148.0, 320.0, 120.0);
 	
 	phonePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	phonePickerView.showsSelectionIndicator = YES;	// note this is default to NO
@@ -117,11 +102,22 @@
 	
 	phonePickerView.delegate = phonePickerDataSource;
 	phonePickerView.dataSource = phonePickerDataSource;
+	[self.view addSubview:phonePickerView];
 	
 	// add this picker to our view controller, initially hidden
 	phonePickerView.hidden = YES;
 	
-	[self.view addSubview:phonePickerView];
+	// Hide picker Button
+	buttonHidePicker = [[UIButton alloc] initWithFrame:CGRectZero];
+	buttonHidePicker.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+	buttonHidePicker.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+	buttonHidePicker = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+	buttonHidePicker.frame = CGRectMake(55, 136.0, 195.0, 30.0);
+	[buttonHidePicker setTitle:@"Hide" forState:UIControlStateNormal];
+	buttonHidePicker.hidden = YES;
+	[buttonHidePicker addTarget:self action:@selector(hidePicker) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:buttonHidePicker];	
+	
 }
 
 

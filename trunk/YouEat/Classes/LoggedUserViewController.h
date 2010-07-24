@@ -12,10 +12,13 @@
 
 @interface LoggedUserViewController : UITableViewController <UINavigationBarDelegate>{
 	UITableView *tableViewMenu;
+	bool *islogged;
 }
 
 - (void)showLogin;
+- (void)cancelLogin;
 
 @property (nonatomic, retain) IBOutlet UITableView *tableViewMenu;
+@property (nonatomic) bool *islogged;
 
 @end

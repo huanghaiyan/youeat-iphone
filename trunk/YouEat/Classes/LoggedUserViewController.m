@@ -13,10 +13,11 @@
 #import "FriendActivitiesViewController.h"
 #import "FriendListViewController.h"
 #import "LoggedUser.h"
+#import "FirstViewController.h"
 
 @implementation LoggedUserViewController;
 
-@synthesize tableViewMenu;
+@synthesize tableViewMenu, islogged;
 
 
 #pragma mark -
@@ -55,21 +56,24 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if(indexPath.row == 0){
-		FavouriteRistoViewController *viewController = [[FavouriteRistoViewController alloc] initWithNibName:@"FavouriteRistoViewController" bundle:[NSBundle mainBundle]];
-		[self.navigationController pushViewController:viewController animated:TRUE];
-		[viewController release];
+	if (islogged) {
+		if(indexPath.row == 0){
+			FavouriteRistoViewController *viewController = [[FavouriteRistoViewController alloc] initWithNibName:@"FavouriteRistoViewController" bundle:[NSBundle mainBundle]];
+			[self.navigationController pushViewController:viewController animated:TRUE];
+			[viewController release];
+		}
+		if(indexPath.row == 1){
+			FriendActivitiesViewController *viewController = [[FriendActivitiesViewController alloc] initWithNibName:@"FriendActivitiesViewController" bundle:[NSBundle mainBundle]];
+			[self.navigationController pushViewController:viewController animated:TRUE];
+			[viewController release];
+		}
+		if(indexPath.row == 2){
+			FriendListViewController *viewController = [[FriendListViewController alloc] init];
+			[self.navigationController pushViewController:viewController animated:TRUE];
+			[viewController release];
+		}
 	}
-	if(indexPath.row == 1){
-		FriendActivitiesViewController *viewController = [[FriendActivitiesViewController alloc] initWithNibName:@"FriendActivitiesViewController" bundle:[NSBundle mainBundle]];
-		[self.navigationController pushViewController:viewController animated:TRUE];
-		[viewController release];
-	}
-	if(indexPath.row == 2){
-		FriendListViewController *viewController = [[FriendListViewController alloc] init];
-		[self.navigationController pushViewController:viewController animated:TRUE];
-		[viewController release];
-	}
+
 }
 
 
@@ -103,10 +107,18 @@
 - (void)showLogin{
 	if([LoggedUser loggedUserID] == NULL){
 		LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:[NSBundle mainBundle]];
+		loginViewController.loggedUserViewController = self;
 		[self setModalTransitionStyle:UIModalPresentationFormSheet];
 		[self presentModalViewController:loginViewController animated:YES];
 		[loginViewController release];
 	}	   
+}
+
+- (void)cancelLogin{
+	//[self d]
+	//FirstViewController *firstViewController = [[FirstViewController alloc] init];
+    //[self.navigationController popViewControllerAnimated:firstViewController animated:YES];
+	//[firstViewController release];
 }
 
 @end

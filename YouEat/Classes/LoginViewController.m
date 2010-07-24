@@ -12,10 +12,16 @@
 #import "URLUtil.h"
 #import "LoggedUser.h"
 #import "JSON/JSON.h"
+#import "LoggedUserViewController.h"
 
 @implementation LoginViewController
 
-@synthesize request, userName, password, login, responseField;
+@synthesize request, userName, password, login, responseField, cancel, loggedUserViewController;
+
+- (IBAction)cancelLogin{
+	[self dismissModalViewControllerAnimated:TRUE];
+	self.loggedUserViewController.islogged = FALSE;
+}
 
 - (IBAction)fetchTopSecretInformation
 {
@@ -72,6 +78,8 @@
 	[password release];
 	[login release];
 	[responseField release];
+	[cancel release];
+	[LoggedUserViewController release];
 	[super viewDidUnload];
 }
 

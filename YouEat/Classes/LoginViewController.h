@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LoggedUserViewController.h"
 
 @class ASIHTTPRequest;
 
@@ -15,15 +16,20 @@
 	UITextField *userName;
 	UITextField *password;
 	UIButton *login;
+	UIButton *cancel;
 	UILabel *responseField;
+	LoggedUserViewController *loggedUserViewController;
 }
 
 - (IBAction)fetchTopSecretInformation;
+- (IBAction)cancelLogin;
 
 @property (nonatomic, retain) IBOutlet UILabel *responseField;
 @property (nonatomic, retain) IBOutlet UITextField *userName;
 @property (nonatomic, retain) IBOutlet UITextField *password;
 @property (nonatomic, retain) IBOutlet UIButton *login;
+@property (nonatomic, retain) IBOutlet UIButton *cancel;
 @property (retain, nonatomic) ASIHTTPRequest *request;
+@property (nonatomic, retain) LoggedUserViewController *loggedUserViewController;
 
 @end

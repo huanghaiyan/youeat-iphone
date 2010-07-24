@@ -56,7 +56,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (islogged) {
+	//if (islogged) {
 		if(indexPath.row == 0){
 			FavouriteRistoViewController *viewController = [[FavouriteRistoViewController alloc] initWithNibName:@"FavouriteRistoViewController" bundle:[NSBundle mainBundle]];
 			[self.navigationController pushViewController:viewController animated:TRUE];
@@ -72,7 +72,7 @@
 			[self.navigationController pushViewController:viewController animated:TRUE];
 			[viewController release];
 		}
-	}
+	//}
 
 }
 

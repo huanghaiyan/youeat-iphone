@@ -17,6 +17,7 @@
 	IBOutlet UITableView *tableViewRisto;
 	RestUtil *restUtil;
 	CLLocationManager *locationManager;
+	UIActivityIndicatorView *spinner;
 }
 
 - (void) searchCloseRistorantiView;
@@ -27,5 +28,6 @@
 @property (nonatomic, retain) IBOutlet NSMutableArray *listOfRistoPosition;
 @property (nonatomic, retain) RestUtil *restUtil;
 @property (nonatomic, retain) CLLocationManager *locationManager;
+@property (nonatomic, retain) UIActivityIndicatorView *spinner;
 
 @end

@@ -16,7 +16,7 @@
 #pragma mark -
 #pragma mark Initialization
 
-@synthesize tableViewRisto, restUtil, listOfRisto, listOfRistoPosition, locationManager;
+@synthesize tableViewRisto, restUtil, listOfRisto, listOfRistoPosition, locationManager, spinner;
 
 /*
 - (id)initWithStyle:(UITableViewStyle)style {
@@ -38,20 +38,27 @@
 	listOfRisto = [[[NSMutableArray alloc] init] retain ];
 	listOfRistoPosition = [[[NSMutableArray alloc] init] retain ];
 	restUtil = [[[RestUtil alloc] init] retain ];
+
+}
+
+
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+	spinner = [[UIActivityIndicatorView alloc] 
+										initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+	spinner.frame = CGRectMake(120,120, 60, 60);
+
+	[self.view addSubview:spinner];
+	[spinner startAnimating];
+}
+
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 	[self searchCloseRistorantiView];
 }
 
-
-/*
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
 /*
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -210,7 +217,7 @@
 		[listOfRisto addObject:[ristoPosition objectForKey:@"ristorante"]];
 		[listOfRistoPosition addObject:ristoPosition];
 	}
-	
+	[spinner stopAnimating];
     [self.tableView reloadData];
 	NSLog(@"END --- didUpdateToLocation");
 }
@@ -254,6 +261,7 @@
 	[listOfRisto release];
 	[listOfRistoPosition release];
 	[locationManager release];
+	[spinner release];
     [super dealloc];
 }
 

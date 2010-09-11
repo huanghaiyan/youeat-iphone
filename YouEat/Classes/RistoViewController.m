@@ -41,7 +41,7 @@
 	//***WWW
 	wwwPickerView = [[UIPickerView alloc] initWithFrame:CGRectZero];
 	//CGSize pickerSize = [wwwPickerView sizeThatFits:CGSizeZero];
-	wwwPickerView.frame = CGRectMake(0.0, 148.0, 320.0, 120.0);
+	wwwPickerView.frame = CGRectMake(0.0, 128.0, 320.0, 120.0);
 
 	wwwPickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	wwwPickerView.showsSelectionIndicator = YES;	// note this is default to NO
@@ -74,7 +74,7 @@
 	//***PHONE
 	phonePickerView = [[UIPickerView alloc] initWithFrame:CGRectZero];
 	//pickerSize = [phonePickerView sizeThatFits:CGSizeZero];
-	phonePickerView.frame = CGRectMake(0.0, 148.0, 320.0, 120.0);
+	phonePickerView.frame = CGRectMake(0.0, 128.0, 320.0, 120.0);
 	
 	phonePickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	phonePickerView.showsSelectionIndicator = YES;	// note this is default to NO

@@ -48,7 +48,7 @@
 	spinner = [[UIActivityIndicatorView alloc] 
 										initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 	spinner.frame = CGRectMake(120,120, 60, 60);
-
+	[self searchCloseRistorantiView];
 	[self.view addSubview:spinner];
 	[spinner startAnimating];
 }
@@ -56,7 +56,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-	[self searchCloseRistorantiView];
 }
 
 /*
@@ -186,7 +185,8 @@
     self.locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
     // Once configured, the location manager must be "started".
-    [locationManager startUpdatingLocation];
+    NSLog(@"startUpdatingLocation");
+	[locationManager startMonitoringSignificantLocationChanges];
 	NSLog(@"END searchCloseRistorantiView");
 }
 

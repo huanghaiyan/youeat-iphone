@@ -9,6 +9,7 @@
 #import "YouEatViewController.h"
 
 @implementation YouEatViewController
+@synthesize restUtil, listOfRisto;
 
 - (void)didReceiveMemoryWarning
 {
@@ -20,64 +21,66 @@
 
 #pragma mark - View lifecycle
 
-//- (void) searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
-//	[self searchRisto:theSearchBar.text];
-//	self.navigationItem.rightBarButtonItem = nil;
-//	[searchBar resignFirstResponder];
-//	[self.tableViewRisto reloadData];
-//}
 
-//- (void) searchRisto:(NSString *)searchText{
-//	
-//	NSString *urlString = @"";
-//	
-//	if([searchText length] > 2) {
-//		[listOfRisto retain];
-//		[listOfRisto removeAllObjects];
-//		NSString *text = [searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-//		urlString = [NSString stringWithFormat:@"/findRistoranti/%@", text]; 
-//		//performs the search
-//		NSDictionary *statuses = [restUtil sendRestRequest:urlString];
-//		
-//		NSDictionary *ristoranteList = [statuses objectForKey:@"ristoranteList"];
-//		
-//		NSEnumerator *ristoranteEnum = [ristoranteList objectEnumerator];
-//		
-//		NSDictionary *risto;
-//		while ((risto = [ristoranteEnum nextObject])) {
-//			[listOfRisto addObject:risto];
-//		}
-//		[listOfRisto release];
-//	}
-//}
+- (void) searchRisto:(NSString *)searchText{
+	
+	NSString *urlString = @"";
+	
+	if([searchText length] > 2) {
+		[listOfRisto release];
+
+		NSString *text = [searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+		urlString = [NSString stringWithFormat:@"/findRistoranti/%@", text]; 
+		//performs the search
+		NSDictionary *statuses = [restUtil sendRestRequest:urlString];
+		
+		NSDictionary *ristoranteList = [statuses objectForKey:@"ristoranteList"];
+		
+		NSEnumerator *ristoranteEnum = [ristoranteList objectEnumerator];
+		
+		NSDictionary *risto;
+		while ((risto = [ristoranteEnum nextObject])) {
+			[listOfRisto addObject:risto];
+		}
+	}
+}
+
+- (void) searchBarSearchButtonClicked:(UIButton *)uiButton {
+	[self searchRisto:@"pizzeria"];
+}
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIColor *background = [[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.png"]] autorelease];
+    
+  	restUtil = [[[RestUtil alloc] init] retain ];
+    
+    UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.png"]];
     [self.view setBackgroundColor:background];
 
     // SEARCH button
-    UIButton *searchBtn = [[UIButton buttonWithType:UIButtonTypeRoundedRect] autorelease];
+    UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [searchBtn setFrame:CGRectMake(80.0f, 220.0f, 160.0f, 30.0f)];
     [searchBtn setTitle:@"Cerca" forState:UIControlStateNormal];
+    [searchBtn addTarget:self action:@selector(searchBarSearchButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:searchBtn];
     
     // SEARCH title label
-    UILabel *searchTitle = [[[UILabel alloc] initWithFrame:CGRectMake(10.0f, 10.0f, 100.0f, 15.0f)] autorelease];
+    UILabel *searchTitle = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 10.0f, 100.0f, 15.0f)];
     [searchTitle setText:@"Search risto"];
     [searchTitle setBackgroundColor:[UIColor colorWithWhite:1 alpha:0]];
     [searchTitle setTextColor:[UIColor grayColor]];
     
     // SEARCH INPUT
-    UITextField *searchInput = [[[UITextField alloc] init] autorelease];
+    UITextField *searchInput = [[UITextField alloc] init];
     [searchInput setFrame:CGRectMake(10.0f, 40.0f, 260.0f, 30.0f)];
     [searchInput setPlaceholder:@"Search by name, city, tag"];
     [searchInput setDelegate: self];
     [searchInput setBorderStyle:UITextBorderStyleRoundedRect];
     
     // SEARCH Background label
-    UIView* v = [[[UIView alloc] initWithFrame:CGRectMake(20.0f, 100.0f, 280.0f, 100.0f)] autorelease];
+    UIView* v = [[UIView alloc] initWithFrame:CGRectMake(20.0f, 100.0f, 280.0f, 100.0f)];
     CAGradientLayer* lay = [CAGradientLayer layer];
     lay.colors = [NSArray arrayWithObjects:
                   (id)[UIColor colorWithWhite:1 alpha:1].CGColor,
@@ -105,6 +108,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+   	[restUtil release];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }

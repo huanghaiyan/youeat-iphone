@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "RestUtil.h"
 
 @interface YouEatViewController : UIViewController <UITextFieldDelegate>
+@property (nonatomic, readonly) RestUtil *restUtil;
+@property (nonatomic, retain) NSMutableArray *listOfRisto;
 
 @end

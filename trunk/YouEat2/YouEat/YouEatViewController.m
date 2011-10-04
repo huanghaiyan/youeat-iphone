@@ -54,16 +54,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.png"]];
+    UIColor *background = [[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.png"]] autorelease];
     [self.view setBackgroundColor:background];
-    [background release];
 
     // SEARCH button
-    UIButton *searchBtn = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+    UIButton *searchBtn = [[UIButton buttonWithType:UIButtonTypeRoundedRect] autorelease];
     [searchBtn setFrame:CGRectMake(80.0f, 220.0f, 160.0f, 30.0f)];
     [searchBtn setTitle:@"Cerca" forState:UIControlStateNormal];
     [self.view addSubview:searchBtn];
-    [searchBtn release];
     
     // SEARCH title label
     UILabel *searchTitle = [[[UILabel alloc] initWithFrame:CGRectMake(10.0f, 10.0f, 100.0f, 15.0f)] autorelease];
@@ -72,7 +70,7 @@
     [searchTitle setTextColor:[UIColor grayColor]];
     
     // SEARCH INPUT
-    UITextField *searchInput = [[UITextField alloc] init];
+    UITextField *searchInput = [[[UITextField alloc] init] autorelease];
     [searchInput setFrame:CGRectMake(10.0f, 40.0f, 260.0f, 30.0f)];
     [searchInput setPlaceholder:@"Search by name, city, tag"];
     [searchInput setDelegate: self];

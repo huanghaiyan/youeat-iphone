@@ -18,8 +18,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-     
-    self.window.rootViewController = self.viewController;
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:self.viewController];
+    self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
     return YES;
 }

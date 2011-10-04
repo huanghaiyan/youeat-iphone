@@ -9,7 +9,7 @@
 #import "YouEatViewController.h"
 
 @implementation YouEatViewController
-@synthesize restUtil, listOfRisto;
+@synthesize restUtil, listOfRisto, alertView, searchInput;
 
 - (void)didReceiveMemoryWarning
 {
@@ -31,6 +31,9 @@
 
 		NSString *text = [searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 		urlString = [NSString stringWithFormat:@"/findRistoranti/%@", text]; 
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        
 		//performs the search
 		NSDictionary *statuses = [restUtil sendRestRequest:urlString];
 		
@@ -42,10 +45,17 @@
 		while ((risto = [ristoranteEnum nextObject])) {
 			[listOfRisto addObject:risto];
 		}
+        [alertView retain];
+        [alertView dismissWithClickedButtonIndex:0 animated:YES];
+        [alertView release]; 
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	}
 }
 
 - (void) searchBarSearchButtonClicked:(UIButton *)uiButton {
+    UIImage *backgroundImage = [UIImage imageNamed:@"bg-alert.png"];
+    alertView = [[JKCustomAlert alloc] initWithImage:backgroundImage text:NSLocalizedString(@"Ricerca ristoranti in corso", nil) delegate: self];
+    [alertView show];
 	[self searchRisto:@"pizzeria"];
 }
 
@@ -58,6 +68,7 @@
     
     UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.png"]];
     [self.view setBackgroundColor:background];
+    [background release];
 
     // SEARCH button
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -65,19 +76,22 @@
     [searchBtn setTitle:@"Cerca" forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(searchBarSearchButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:searchBtn];
+
     
     // SEARCH title label
     UILabel *searchTitle = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 10.0f, 100.0f, 15.0f)];
     [searchTitle setText:@"Search risto"];
     [searchTitle setBackgroundColor:[UIColor colorWithWhite:1 alpha:0]];
     [searchTitle setTextColor:[UIColor grayColor]];
+
     
     // SEARCH INPUT
-    UITextField *searchInput = [[UITextField alloc] init];
+    [self setSearchInput: [[UITextField alloc] init]];
     [searchInput setFrame:CGRectMake(10.0f, 40.0f, 260.0f, 30.0f)];
     [searchInput setPlaceholder:@"Search by name, city, tag"];
     [searchInput setDelegate: self];
     [searchInput setBorderStyle:UITextBorderStyleRoundedRect];
+    [searchInput release];
     
     // SEARCH Background label
     UIView* v = [[UIView alloc] initWithFrame:CGRectMake(20.0f, 100.0f, 280.0f, 100.0f)];
@@ -93,7 +107,6 @@
     
     [v addSubview:searchInput];
     [v addSubview:searchTitle];
-    
     [self.view addSubview:v];
 
     
@@ -117,6 +130,13 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)stopRequestEvent{
+    [alertView retain];
+    [alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [alertView release];
 }
 
 @end

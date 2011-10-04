@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
-@interface YouEatViewController : UIViewController
+@interface YouEatViewController : UIViewController <UITextFieldDelegate>
 
 @end

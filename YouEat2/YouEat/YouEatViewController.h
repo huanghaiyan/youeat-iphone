@@ -11,11 +11,11 @@
 #import "RestUtil.h"
 #import "JKCustomAlert.h"
 
-@interface YouEatViewController : UIViewController <UITextFieldDelegate, JKCustomAlertDelegate>{
-
+@interface YouEatViewController : UIViewController <UITextFieldDelegate, JKCustomAlertDelegate, YRestUtilDelegate>{
+    NSMutableArray *listOfRisto;
 }
 @property (nonatomic, readonly) RestUtil *restUtil;
-@property (nonatomic, retain) NSMutableArray *listOfRisto;
+@property (nonatomic, retain) NSArray *listOfRisto;
 @property (nonatomic, retain) JKCustomAlert *alertView;
 @property (nonatomic, retain) UITextField *searchInput;
 @end

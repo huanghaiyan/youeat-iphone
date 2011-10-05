@@ -7,6 +7,7 @@
 //
 
 #import "YouEatViewController.h"
+#import "ListRestaurants.h"
 
 @implementation YouEatViewController
 @synthesize restUtil, listOfRisto, alertView, searchInput;
@@ -27,7 +28,6 @@
 	NSString *urlString = @"";
 	
 	if([searchText length] > 2) {
-		[listOfRisto release];
 
 		NSString *text = [searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 		urlString = [NSString stringWithFormat:@"/findRistoranti/%@", text]; 
@@ -35,20 +35,7 @@
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         
 		//performs the search
-		NSDictionary *statuses = [restUtil sendRestRequest:urlString];
-		
-		NSDictionary *ristoranteList = [statuses objectForKey:@"ristoranteList"];
-		
-		NSEnumerator *ristoranteEnum = [ristoranteList objectEnumerator];
-		
-		NSDictionary *risto;
-		while ((risto = [ristoranteEnum nextObject])) {
-			[listOfRisto addObject:risto];
-		}
-        [alertView retain];
-        [alertView dismissWithClickedButtonIndex:0 animated:YES];
-        [alertView release]; 
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        [restUtil sendRestRequest:urlString];
 	}
 }
 
@@ -63,8 +50,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.navigationItem.title = @"YouEat";
   	restUtil = [[[RestUtil alloc] init] retain ];
+    [restUtil setDelegate:self];
     
     UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.png"]];
     [self.view setBackgroundColor:background];
@@ -110,6 +98,17 @@
     [self.view addSubview:v];
 
     
+}
+
+- (void)responseParsed: (NSArray*)array{
+    [self setListOfRisto:array];
+    NSLog(@"listOfRisto count = %u", [listOfRisto count]);
+    [alertView dismissWithClickedButtonIndex:0 animated:YES];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    ListRestaurants *ristos = [[[ListRestaurants alloc] initWithStyle: UITableViewStyleGrouped] autorelease];
+    [ristos setRistos:listOfRisto];
+    [[self navigationController] pushViewController: ristos animated: YES];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{

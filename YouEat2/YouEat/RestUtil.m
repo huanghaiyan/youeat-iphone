@@ -76,9 +76,10 @@
 - (void)parser:(SBJsonStreamParser *)parser foundObject:(NSDictionary *)dict {
     // contains the list of NSDictionary(Risto Details)
     //TODO send the temposs to calling paged
-    NSArray *temposs = [dict objectForKey:@"ristoranteList"];
+    //TODO ristorantePositionAndDistanceList
+    NSArray *temposs = [dict objectForKey:@"ristorantePositionAndDistanceList"];
     [delegate responseParsed:temposs];
-    NSLog(@"Connection didReceiveResponse: %@ ", [dict objectForKey:@"ristoranteList"]);
+    NSLog(@"Connection didReceiveResponse: %@ ", [dict objectForKey:@"ristorantePositionAndDistanceList"]);
 }
 
 

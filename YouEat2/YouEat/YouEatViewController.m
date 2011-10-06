@@ -10,7 +10,7 @@
 #import "ListRestaurants.h"
 
 @implementation YouEatViewController
-@synthesize restUtil, listOfRisto, alertView, searchInput;
+@synthesize restUtil, listOfRisto, alertView, searchInput, locationManager, location;
 
 - (void)didReceiveMemoryWarning
 {
@@ -26,17 +26,28 @@
 - (void) searchRisto:(NSString *)searchText{
 	
 	NSString *urlString = @"";
-	
-	if([searchText length] > 2) {
+	if([searchText length] > 2 && location == nil) {
 
 		NSString *text = [searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-		urlString = [NSString stringWithFormat:@"/findRistoranti/%@", text]; 
+        //findPaginatedRistoranti/{pattern}/{firstResult}/{maxResults}
+		urlString = [NSString stringWithFormat:@"/findPaginatedRistoranti/%@/0/2", text]; 
         
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         
 		//performs the search
         [restUtil sendRestRequest:urlString];
 	}
+    else if([searchText length] > 2 && location != nil) {
+        NSString *latitude = [NSString stringWithFormat:@"%f",location.coordinate.latitude];
+        NSString *longitude = [NSString stringWithFormat:@"%f",location.coordinate.longitude];
+        //findFreeTextSearchCloseRistoranti/{pattern}/{latitude}/{longitude}/{distanceInMeters}/{firstResult}/{maxResults}
+        urlString = [NSString stringWithFormat:@"/findFreeTextSearchCloseRistoranti/%@/%@/%@/%@/%@/%@", searchText, latitude, longitude, @"90000000000", @"0", @"20"]; 
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        
+		//performs the search
+        [restUtil sendRestRequest:urlString];
+    }
 }
 
 - (void) searchBarSearchButtonClicked:(UIButton *)uiButton {
@@ -98,6 +109,15 @@
     [self.view addSubview:v];
 
     
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    // Once configured, the location manager must be "started".
+    NSLog(@"startUpdatingLocation");
+    [self setLocation: locationManager.location];
+  	[locationManager startUpdatingLocation];
+	[locationManager startMonitoringSignificantLocationChanges];
+	NSLog(@"END searchCloseRistorantiView");
+    
 }
 
 - (void)responseParsed: (NSArray*)array{
@@ -106,7 +126,7 @@
     [alertView dismissWithClickedButtonIndex:0 animated:YES];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
-    ListRestaurants *ristos = [[[ListRestaurants alloc] initWithStyle: UITableViewStyleGrouped] autorelease];
+    ListRestaurants *ristos = [[[ListRestaurants alloc] initWithStyle: UITableViewStylePlain] autorelease];
     [ristos setRistos:listOfRisto];
     [[self navigationController] pushViewController: ristos animated: YES];
 }
@@ -116,6 +136,14 @@
     return YES;
 }
 
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
+    NSLog(@"Location updated ");  
+    [self setLocation:newLocation];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
+    NSLog(@"Error updating the location %@", [error localizedFailureReason] );  
+}
 
 - (void)viewDidUnload
 {

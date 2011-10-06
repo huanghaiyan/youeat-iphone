@@ -12,6 +12,10 @@
 
 @synthesize ristos;
 
+#define FONT_SIZE 14.0f
+#define CELL_CONTENT_WIDTH 320.0f
+#define CELL_CONTENT_MARGIN 10.0f
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -91,30 +95,49 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-        
     static NSString *CellIdentifier = @"Cell";
-    
+	NSDictionary *ristoItem = [[ristos objectAtIndex:indexPath.row] objectForKey:@"ristorante"];    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell =
+        [[[UITableViewCell alloc]
+          initWithFrame:CGRectZero
+          reuseIdentifier:CellIdentifier]
+         autorelease];
     }
-    
-	// Configure the cell.
-	NSDictionary *ristoItem = [[ristos objectAtIndex:indexPath.row] objectForKey:@"ristorante"];
-	cell.textLabel.text = [ristoItem objectForKey:@"name"];
-	NSString *city = [[ristoItem objectForKey:@"city"] objectForKey:@"name"];
-	NSString *address = [ristoItem objectForKey:@"address"];
-	NSString *distance = @"";
-	if([ristos count] > 0 ){
-		NSDictionary *ristoPositionItem = [ristos objectAtIndex:indexPath.row];
-		distance = [distance stringByAppendingString:@""];
-		NSDecimalNumber *distanceInMeters = [ristoPositionItem objectForKey:@"distanceInMeters"];
-		distance = [distance stringByAppendingString:[distanceInMeters stringValue]];
-		distance = [distance stringByAppendingString:@" m."];
-	}
-	
-	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@ - %@", distance, city, address]; ;
+    UILabel *topLabel =
+    [[[UILabel alloc]
+      initWithFrame:
+      CGRectMake(
+                 cell.indentationWidth,
+                 5.0f,
+                 cell.frame.size.width,
+                 20.0f)]
+     autorelease];
+    topLabel.text = [ristoItem objectForKey:@"name"];
+    [cell.contentView addSubview:topLabel];
+
+//    if (cell == nil) {
+//        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+//		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//    }
+//    //NSString's sizeWithFont:constrainedToSize:lineBreakMode:
+//	// Configure the cell.
+//	NSDictionary *ristoItem = [[ristos objectAtIndex:indexPath.row] objectForKey:@"ristorante"];
+//    cell.textLabel.adjustsFontSizeToFitWidth = YES;
+//	cell.textLabel.text = [ristoItem objectForKey:@"name"];
+//	NSString *city = [[ristoItem objectForKey:@"city"] objectForKey:@"name"];
+//	NSString *address = [ristoItem objectForKey:@"address"];
+//	NSString *distance = @"";
+//	if([ristos count] > 0 ){
+//		NSDictionary *ristoPositionItem = [ristos objectAtIndex:indexPath.row];
+//		distance = [distance stringByAppendingString:@""];
+//		NSDecimalNumber *distanceInMeters = [ristoPositionItem objectForKey:@"distanceInMeters"];
+//		distance = [distance stringByAppendingString:[distanceInMeters stringValue]];
+//		distance = [distance stringByAppendingString:@" m."];
+//	}
+//    cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;	
+//	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@ - %@", distance, city, address]; ;
     return cell;
 }
 
@@ -124,10 +147,10 @@
 }
 
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return [indexPath row] * 25;
-//}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 130.0f;
+}
 
 //- (void)showRisto:(NSDictionary *)risto animated:(BOOL)animated {
 //	RistoScrollViewController *detailViewController = [[RistoScrollViewController alloc] initWithNibName:@"RistoScrollView" bundle:[NSBundle mainBundle]];

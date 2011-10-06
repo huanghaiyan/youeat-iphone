@@ -16,7 +16,6 @@
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
     // Release any cached data, images, etc that aren't in use.
 }
 
@@ -26,35 +25,31 @@
 - (void) searchRisto:(NSString *)searchText{
 	
 	NSString *urlString = @"";
-	if([searchText length] > 2 && location == nil) {
+	NSString *pattern = [searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 
-		NSString *text = [searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	if([searchText length] > 2 && location == nil) {
         //findPaginatedRistoranti/{pattern}/{firstResult}/{maxResults}
-		urlString = [NSString stringWithFormat:@"/findPaginatedRistoranti/%@/0/2", text]; 
-        
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        
-		//performs the search
-        [restUtil sendRestRequest:urlString];
+        urlString = [NSString stringWithFormat:@"/findFreeTextSearchCloseRistoranti/%@/%@/%@/%@/%@/%@", pattern, @"1", @"1", @"900000000000", @"0", @"20"];         
 	}
     else if([searchText length] > 2 && location != nil) {
         NSString *latitude = [NSString stringWithFormat:@"%f",location.coordinate.latitude];
         NSString *longitude = [NSString stringWithFormat:@"%f",location.coordinate.longitude];
         //findFreeTextSearchCloseRistoranti/{pattern}/{latitude}/{longitude}/{distanceInMeters}/{firstResult}/{maxResults}
-        urlString = [NSString stringWithFormat:@"/findFreeTextSearchCloseRistoranti/%@/%@/%@/%@/%@/%@", searchText, latitude, longitude, @"90000000000", @"0", @"20"]; 
+        urlString = [NSString stringWithFormat:@"/findFreeTextSearchCloseRistoranti/%@/%@/%@/%@/%@/%@", pattern, latitude, longitude, @"90000000000", @"0", @"20"]; 
         
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        
-		//performs the search
-        [restUtil sendRestRequest:urlString];
     }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    //performs the search
+    [restUtil sendRestRequest:urlString];
+
 }
 
 - (void) searchBarSearchButtonClicked:(UIButton *)uiButton {
     UIImage *backgroundImage = [UIImage imageNamed:@"bg-alert.png"];
     alertView = [[JKCustomAlert alloc] initWithImage:backgroundImage text:NSLocalizedString(@"Ricerca ristoranti in corso", nil) delegate: self];
     [alertView show];
-	[self searchRisto:@"pizzeria"];
+  	[self searchRisto:@"pizzeria"];
+//	[self searchRisto:searchInput.text];
 }
 
 

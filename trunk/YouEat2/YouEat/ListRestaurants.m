@@ -35,7 +35,6 @@
 {
     [super viewDidLoad];
     self.navigationItem.title = @"your title";
-
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -92,7 +91,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+        
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -102,11 +101,20 @@
     }
     
 	// Configure the cell.
-	NSDictionary *ristoItem = [ristos objectAtIndex:indexPath.row];
+	NSDictionary *ristoItem = [[ristos objectAtIndex:indexPath.row] objectForKey:@"ristorante"];
 	cell.textLabel.text = [ristoItem objectForKey:@"name"];
 	NSString *city = [[ristoItem objectForKey:@"city"] objectForKey:@"name"];
 	NSString *address = [ristoItem objectForKey:@"address"];
-	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@", city, address]; ;
+	NSString *distance = @"";
+	if([ristos count] > 0 ){
+		NSDictionary *ristoPositionItem = [ristos objectAtIndex:indexPath.row];
+		distance = [distance stringByAppendingString:@""];
+		NSDecimalNumber *distanceInMeters = [ristoPositionItem objectForKey:@"distanceInMeters"];
+		distance = [distance stringByAppendingString:[distanceInMeters stringValue]];
+		distance = [distance stringByAppendingString:@" m."];
+	}
+	
+	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@ - %@", distance, city, address]; ;
     return cell;
 }
 
@@ -114,6 +122,12 @@
 //	NSDictionary *selectedRisto = [ristos objectAtIndex:indexPath.row];
 //    [self showRisto:selectedRisto animated:YES];
 }
+
+
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return [indexPath row] * 25;
+//}
 
 //- (void)showRisto:(NSDictionary *)risto animated:(BOOL)animated {
 //	RistoScrollViewController *detailViewController = [[RistoScrollViewController alloc] initWithNibName:@"RistoScrollView" bundle:[NSBundle mainBundle]];

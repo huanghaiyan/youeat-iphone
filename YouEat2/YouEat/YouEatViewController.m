@@ -66,7 +66,7 @@
 
     // SEARCH button
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [searchBtn setFrame:CGRectMake(80.0f, 220.0f, 160.0f, 30.0f)];
+    [searchBtn setFrame:CGRectMake(80.0f, 220.0f, 160.0f, 35.0f)];
     [searchBtn setTitle:@"Cerca" forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(searchBarSearchButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:searchBtn];

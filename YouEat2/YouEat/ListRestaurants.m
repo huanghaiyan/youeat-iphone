@@ -102,20 +102,20 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
         // PHONE LABEL
-        NSString *phoneNumber = [ristoItem objectForKey:@"phoneNumber"];
-        if(phoneNumber != nil && phoneNumber != NULL && (NSNull *)phoneNumber != [NSNull null]){
-            phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-            phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
-        }
-        UIButton *callButton = [UIButton buttonWithType: UIButtonTypeCustom];
-        [callButton setFrame: CGRectMake(cell.indentationWidth + 210.0f, 35.0f, 100.0f, 15.0f)];
-        [callButton.titleLabel setFont:[UIFont fontWithName:@"Verdana-Bold" size:[UIFont smallSystemFontSize]]];
-        [callButton setTitle:phoneNumber forState:UIControlStateNormal];
-        [callButton setTitleColor:[UIColor colorWithRed:0.9 green:0.4 blue:0.0 alpha:1] forState:UIControlStateNormal];
-        [callButton sizeToFit];
-        [callButton setTag:indexPath.row];
-        [callButton addTarget:self action:@selector(callButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.contentView addSubview:callButton];
+//        NSString *phoneNumber = [ristoItem objectForKey:@"phoneNumber"];
+//        if(phoneNumber != nil && phoneNumber != NULL && (NSNull *)phoneNumber != [NSNull null]){
+//            phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+//            phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
+//        }
+//        UIButton *callButton = [UIButton buttonWithType: UIButtonTypeCustom];
+//        [callButton setFrame: CGRectMake(cell.indentationWidth + 210.0f, 35.0f, 100.0f, 15.0f)];
+//        [callButton.titleLabel setFont:[UIFont fontWithName:@"Verdana-Bold" size:[UIFont smallSystemFontSize]]];
+//        [callButton setTitle:phoneNumber forState:UIControlStateNormal];
+//        [callButton setTitleColor:[UIColor colorWithRed:0.9 green:0.4 blue:0.0 alpha:1] forState:UIControlStateNormal];
+//        [callButton sizeToFit];
+//        [callButton setTag:indexPath.row];
+//        [callButton addTarget:self action:@selector(callButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+//        [cell.contentView addSubview:callButton];
     }
     // TOP LABEL - TITLE
     UILabel *topLabel = [[[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 2.0f, cell.frame.size.width, 18.0f)] autorelease];
@@ -141,7 +141,9 @@
     
     // IMG LABEL
     UILabel *imgLabel = [[[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 35.0f, 80.0f, 80.0f)] autorelease];
-    [imgLabel setBackgroundColor:[UIColor lightGrayColor]];
+//    UIImage *backgroundImage = [UIImage imageNamed:@"logo-mela-trasp-160.png"];
+    UIColor *backgroundImg = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"logo-mela-160.png"]];
+    [imgLabel setBackgroundColor:backgroundImg];
     [cell.contentView addSubview:imgLabel];
 
     // RATING STARS LABEL
@@ -176,7 +178,7 @@
 
     // DESCRIPTION LABEL
     NSString * language = [[NSLocale preferredLanguages] objectAtIndex:0];
-    UITextView *descriptionView = [[[UITextView alloc] initWithFrame: CGRectMake(cell.indentationWidth + 85.0f, 55.0f, 220.0f, 70.0f)] autorelease];
+    UITextView *descriptionView = [[[UITextView alloc] initWithFrame: CGRectMake(cell.indentationWidth + 85.0f, 48.0f, 220.0f, 77.0f)] autorelease];
 	NSDictionary *descriptions = [ristoItem objectForKey:@"descriptions"] ;		
 	NSString *descriptionText = @"";	
     for (NSDictionary *descriptionItem in descriptions) {
@@ -191,6 +193,19 @@
     [descriptionView setFont:[UIFont fontWithName:@"Verdana" size:[UIFont smallSystemFontSize] - 4 ]];
     descriptionView.text = descriptionText;
     [cell.contentView addSubview:descriptionView];
+    
+    // PHONE NUMBER
+    NSString *phoneNumber = [ristoItem objectForKey:@"phoneNumber"];
+    if(phoneNumber != nil && phoneNumber != NULL && (NSNull *)phoneNumber != [NSNull null]){
+        phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
+    }
+    UILabel *callButton = [[[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 190.0f, 35.0f, 100.0f, 15.0f)] autorelease];
+    [callButton setFont:[UIFont fontWithName:@"Verdana-Bold" size:[UIFont smallSystemFontSize]]];
+    [callButton setText:phoneNumber];
+    [callButton setTextColor:[UIColor colorWithRed:0.9 green:0.4 blue:0.0 alpha:1]];
+    [callButton sizeToFit];
+    [cell.contentView addSubview:callButton];
     
 //    if (cell == nil) {
 //        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];

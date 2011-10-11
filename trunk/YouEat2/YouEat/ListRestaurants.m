@@ -7,6 +7,7 @@
 //
 
 #import "ListRestaurants.h"
+#import "DetailRestaurant.h"
 
 @implementation ListRestaurants
 
@@ -49,6 +50,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    [ristos release];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -96,17 +98,18 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"Cell";
-	NSDictionary *ristoItem = [[ristos objectAtIndex:indexPath.row] objectForKey:@"ristorante"];
+    NSString *CellIdentifier = [NSString stringWithFormat:@"Cell-%u", indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
     // objects TO be CACHED
-    NSNumber *rating = [ristoItem objectForKey:@"rating"];
     UIImage *star = [UIImage imageNamed:@"star-gold-mini.png"];
     UIImage *starOff = [UIImage imageNamed:@"star-gold-mini-off.png"];
     UIColor *backgroundImg = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"logo-mela-160.png"]];
     
     if (cell == nil) {
+      	NSDictionary *ristoItem = [[ristos objectAtIndex:indexPath.row] objectForKey:@"ristorante"];
+        NSNumber *rating = [ristoItem objectForKey:@"rating"];
+                
         cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
         
         // TOP LABEL - TITLE
@@ -124,8 +127,8 @@
         addrLabel.adjustsFontSizeToFitWidth = YES;
         NSString *city = [[ristoItem objectForKey:@"city"] objectForKey:@"name"];
         NSString *address = [ristoItem objectForKey:@"address"];
-        NSDecimalNumber *distanceInMeters = [[ristos objectAtIndex:indexPath.row] objectForKey:@"distanceInMeters"];
-        int intDistance = distanceInMeters.intValue > 1000 ? distanceInMeters.intValue / 100 : distanceInMeters.intValue;
+        NSNumber *distanceInMeters = [[ristos objectAtIndex:indexPath.row] objectForKey:@"distanceInMeters"];
+        int intDistance = distanceInMeters.intValue > 1000 ? distanceInMeters.intValue / 1000 : distanceInMeters.intValue;
         NSString *distance = [NSString stringWithFormat: @"%u%@", intDistance, (distanceInMeters.intValue > 1000) ? @"km" : @"m"];
         addrLabel.text = [NSString stringWithFormat:@"%@, %@ - %@", city, address, distance]; 
         [cell.contentView addSubview:addrLabel];
@@ -182,17 +185,18 @@
         [cell.contentView addSubview:descriptionView];
         
         // PHONE NUMBER
+
         NSString *phoneNumber = [ristoItem objectForKey:@"phoneNumber"];
         if(phoneNumber != nil && phoneNumber != NULL && (NSNull *)phoneNumber != [NSNull null]){
             phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
             phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
+            UILabel *callButton = [[[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 190.0f, 35.0f, 100.0f, 15.0f)] autorelease];
+            [callButton setFont:[UIFont fontWithName:@"Verdana-Bold" size:[UIFont smallSystemFontSize]]];
+            [callButton setText:phoneNumber];
+            [callButton setTextColor:[UIColor colorWithRed:0.9 green:0.4 blue:0.0 alpha:1]];
+            [callButton sizeToFit];
+            [cell.contentView addSubview:callButton];
         }
-        UILabel *callButton = [[[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 190.0f, 35.0f, 100.0f, 15.0f)] autorelease];
-        [callButton setFont:[UIFont fontWithName:@"Verdana-Bold" size:[UIFont smallSystemFontSize]]];
-        [callButton setText:phoneNumber];
-        [callButton setTextColor:[UIColor colorWithRed:0.9 green:0.4 blue:0.0 alpha:1]];
-        [callButton sizeToFit];
-        [cell.contentView addSubview:callButton];
         
         // PHONE LABEL
 //        NSString *phoneNumber = [ristoItem objectForKey:@"phoneNumber"];
@@ -256,6 +260,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 //	NSDictionary *selectedRisto = [ristos objectAtIndex:indexPath.row];
 //    [self showRisto:selectedRisto animated:YES];
+    NSLog(@"row n%u", indexPath.row);
+    DetailRestaurant *dr = [[[DetailRestaurant alloc] initWithStyle: UITableViewStylePlain] autorelease];
+    [dr setRistoItem: [[ristos objectAtIndex:indexPath.row] objectForKey:@"ristorante"]];
+    [[self navigationController] pushViewController: dr animated: YES];
 }
 
 

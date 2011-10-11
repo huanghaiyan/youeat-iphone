@@ -10,6 +10,6 @@
 
 @interface ListRestaurants : UITableViewController <UINavigationBarDelegate>
 
-@property (nonatomic, retain) NSMutableArray *ristos;
+@property (nonatomic, retain) NSArray *ristos;
 
 @end

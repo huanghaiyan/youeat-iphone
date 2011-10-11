@@ -29,13 +29,13 @@
 
 	if([searchText length] > 2 && location == nil) {
         //findPaginatedRistoranti/{pattern}/{firstResult}/{maxResults}
-        urlString = [NSString stringWithFormat:@"/findFreeTextSearchCloseRistoranti/%@/%@/%@/%@/%@/%@", pattern, @"1", @"1", @"900000000000", @"0", @"20"];         
+        urlString = [NSString stringWithFormat:@"/findFreeTextSearchCloseRistoranti/%@/%@/%@/%@/%@/%@", pattern, @"1", @"1", @"90000", @"0", @"20"];         
 	}
     else if([searchText length] > 2 && location != nil) {
         NSString *latitude = [NSString stringWithFormat:@"%f",location.coordinate.latitude];
         NSString *longitude = [NSString stringWithFormat:@"%f",location.coordinate.longitude];
         //findFreeTextSearchCloseRistoranti/{pattern}/{latitude}/{longitude}/{distanceInMeters}/{firstResult}/{maxResults}
-        urlString = [NSString stringWithFormat:@"/findFreeTextSearchCloseRistoranti/%@/%@/%@/%@/%@/%@", pattern, latitude, longitude, @"90000000000", @"0", @"20"]; 
+        urlString = [NSString stringWithFormat:@"/findFreeTextSearchCloseRistoranti/%@/%@/%@/%@/%@/%@", pattern, latitude, longitude, @"90000", @"0", @"20"]; 
         
     }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;

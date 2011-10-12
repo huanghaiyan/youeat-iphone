@@ -115,7 +115,7 @@
             addrLabel.adjustsFontSizeToFitWidth = YES;
             NSString *city = [[ristoItem objectForKey:@"city"] objectForKey:@"name"];
             NSString *address = [ristoItem objectForKey:@"address"];
-            int intDistance = distanceInMeters.intValue > 1000 ? distanceInMeters.intValue / 100 : distanceInMeters.intValue;
+            int intDistance = distanceInMeters.intValue > 1000 ? distanceInMeters.intValue / 1000 : distanceInMeters.intValue;
             NSString *distance = [NSString stringWithFormat: @"%u%@", intDistance, (distanceInMeters.intValue > 1000) ? @"km" : @"m"];
             addrLabel.text = [NSString stringWithFormat:@"%@, %@ - %@", city, address, distance]; 
             [cell.contentView addSubview:addrLabel];

@@ -111,8 +111,9 @@
     
     // ABOUT button
     UIButton *aboutBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [aboutBtn setFrame:CGRectMake(250.0f, 360.0f, 50.0f, 50.0f)];
+    [aboutBtn setFrame:CGRectMake(280.0f, 350.0f, 19.0f, 50.0f)];
     [aboutBtn setTitle:@"About" forState:UIControlStateNormal];
+    [aboutBtn setBackgroundImage:[UIImage imageNamed:@"info.png"] forState:UIControlStateNormal];
     [aboutBtn addTarget:self action:@selector(goToAbout:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:aboutBtn];
 

@@ -129,17 +129,17 @@
             [starLabel2 setBackgroundColor:starLabelImg2];
             [cell.contentView addSubview:starLabel2];
             
-            UILabel *starLabel3 = [[[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 14.0f, 35.0f, 10.0f, 10.0f)] autorelease];
+            UILabel *starLabel3 = [[[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 24.0f, 35.0f, 10.0f, 10.0f)] autorelease];
             UIColor *starLabelImg3 = [[[UIColor alloc] initWithPatternImage: rating.intValue < 3 ? starOff : star ] autorelease];
             [starLabel3 setBackgroundColor:starLabelImg3];
             [cell.contentView addSubview:starLabel3];
             
-            UILabel *starLabel4 = [[[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 26.0f, 35.0f, 10.0f, 10.0f)] autorelease];
+            UILabel *starLabel4 = [[[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 36.0f, 35.0f, 10.0f, 10.0f)] autorelease];
             UIColor *starLabelImg4 = [[[UIColor alloc] initWithPatternImage: rating.intValue < 4 ? starOff : star ] autorelease];
             [starLabel4 setBackgroundColor:starLabelImg4];
             [cell.contentView addSubview:starLabel4];
             
-            UILabel *starLabel5 = [[[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 38.0f, 35.0f, 10.0f, 10.0f)] autorelease];
+            UILabel *starLabel5 = [[[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 48.0f, 35.0f, 10.0f, 10.0f)] autorelease];
             UIColor *starLabelImg5 = [[[UIColor alloc] initWithPatternImage: rating.intValue < 5 ? starOff : star ] autorelease];
             [starLabel5 setBackgroundColor:starLabelImg5];
             [cell.contentView addSubview:starLabel5];

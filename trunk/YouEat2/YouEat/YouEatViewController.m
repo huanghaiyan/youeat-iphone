@@ -8,6 +8,7 @@
 
 #import "YouEatViewController.h"
 #import "ListRestaurants.h"
+#import "AboutViewController.h"
 
 @implementation YouEatViewController
 @synthesize restUtil, listOfRisto, alertView, searchInput, locationManager, location;
@@ -50,6 +51,11 @@
     [alertView show];
   	[self searchRisto:@"pizzeria"];
 //	[self searchRisto:searchInput.text];
+}
+
+- (void) goToAbout:(UIButton *)uiButton {
+    AboutViewController *aboutPage = [[[AboutViewController alloc] init] autorelease];
+    [[self navigationController] pushViewController: aboutPage animated: YES];
 }
 
 
@@ -102,8 +108,15 @@
     [v addSubview:searchInput];
     [v addSubview:searchTitle];
     [self.view addSubview:v];
-
     
+    // ABOUT button
+    UIButton *aboutBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [aboutBtn setFrame:CGRectMake(250.0f, 360.0f, 50.0f, 50.0f)];
+    [aboutBtn setTitle:@"About" forState:UIControlStateNormal];
+    [aboutBtn addTarget:self action:@selector(goToAbout:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:aboutBtn];
+
+    // Starts the location system
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
     // Once configured, the location manager must be "started".

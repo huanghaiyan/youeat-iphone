@@ -11,7 +11,7 @@
 #import "AboutViewController.h"
 
 @implementation YouEatViewController
-@synthesize restUtil, listOfRisto, alertView, searchInput, locationManager, location;
+@synthesize restUtil, listOfRisto, alertView, searchInput, locationManager, location, aboutBtn;
 
 - (void)didReceiveMemoryWarning
 {
@@ -30,13 +30,13 @@
 
 	if([searchText length] > 2 && location == nil) {
         //findPaginatedRistoranti/{pattern}/{firstResult}/{maxResults}
-        urlString = [NSString stringWithFormat:@"/findFreeTextSearchCloseRistoranti/%@/%@/%@/%@/%@/%@", pattern, @"1", @"1", @"90000", @"0", @"20"];         
+        urlString = [NSString stringWithFormat:@"/findFreeTextSearchCloseRistoranti/%@/%@/%@/%@/%@/%@", pattern, @"1", @"1", @"90000", @"0", @"1"];    
 	}
     else if([searchText length] > 2 && location != nil) {
         NSString *latitude = [NSString stringWithFormat:@"%f",location.coordinate.latitude];
         NSString *longitude = [NSString stringWithFormat:@"%f",location.coordinate.longitude];
         //findFreeTextSearchCloseRistoranti/{pattern}/{latitude}/{longitude}/{distanceInMeters}/{firstResult}/{maxResults}
-        urlString = [NSString stringWithFormat:@"/findFreeTextSearchCloseRistoranti/%@/%@/%@/%@/%@/%@", pattern, latitude, longitude, @"90000", @"0", @"20"]; 
+        urlString = [NSString stringWithFormat:@"/findFreeTextSearchCloseRistoranti/%@/%@/%@/%@/%@/%@", pattern, latitude, longitude, @"90000", @"0", @"1"]; 
         
     }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -66,9 +66,8 @@
   	restUtil = [[[RestUtil alloc] init] retain ];
     [restUtil setDelegate:self];
     
-    UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.png"]];
+    UIColor *background = [[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg.png"]] autorelease];
     [self.view setBackgroundColor:background];
-    [background release];
 
     // SEARCH button
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -79,7 +78,7 @@
 
     
     // SEARCH title label
-    UILabel *searchTitle = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 10.0f, 100.0f, 15.0f)];
+    UILabel *searchTitle = [[[UILabel alloc] initWithFrame:CGRectMake(10.0f, 10.0f, 100.0f, 15.0f)] autorelease];
     [searchTitle setText:@"Search risto"];
     [searchTitle setBackgroundColor:[UIColor colorWithWhite:1 alpha:0]];
     [searchTitle setTextColor:[UIColor grayColor]];
@@ -91,10 +90,9 @@
     [searchInput setPlaceholder:@"Search by name, city, tag"];
     [searchInput setDelegate: self];
     [searchInput setBorderStyle:UITextBorderStyleRoundedRect];
-    [searchInput release];
     
     // SEARCH Background label
-    UIView* v = [[UIView alloc] initWithFrame:CGRectMake(20.0f, 100.0f, 280.0f, 100.0f)];
+    UIView* v = [[[UIView alloc] initWithFrame:CGRectMake(20.0f, 100.0f, 280.0f, 100.0f)] autorelease];
     CAGradientLayer* lay = [CAGradientLayer layer];
     lay.colors = [NSArray arrayWithObjects:
                   (id)[UIColor colorWithWhite:1 alpha:1].CGColor,
@@ -110,13 +108,13 @@
     [self.view addSubview:v];
     
     // ABOUT button
-    UIButton *aboutBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    aboutBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [aboutBtn setFrame:CGRectMake(280.0f, 350.0f, 19.0f, 50.0f)];
     [aboutBtn setTitle:@"About" forState:UIControlStateNormal];
     [aboutBtn setBackgroundImage:[UIImage imageNamed:@"info.png"] forState:UIControlStateNormal];
     [aboutBtn addTarget:self action:@selector(goToAbout:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:aboutBtn];
-
+    
     // Starts the location system
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
@@ -157,7 +155,14 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    [searchInput release];
    	[restUtil release];
+    [aboutBtn release];
+    
+    [listOfRisto release];
+    [alertView release];
+    [location release];
+    [locationManager release];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }

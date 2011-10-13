@@ -98,19 +98,19 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *CellIdentifier = [NSString stringWithFormat:@"Cell-%u", indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    NSString *cellIdentifier = [NSString stringWithFormat:@"Cell-%u", indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
 
     // objects TO be CACHED
     UIImage *star = [UIImage imageNamed:@"star-gold-mini.png"];
     UIImage *starOff = [UIImage imageNamed:@"star-gold-mini-off.png"];
-    UIColor *backgroundImg = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"logo-mela-160.png"]];
+    UIColor *backgroundImg = [[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"logo-mela-160.png"]] autorelease];
     
     if (cell == nil) {
       	NSDictionary *ristoItem = [[ristos objectAtIndex:indexPath.row] objectForKey:@"ristorante"];
         NSNumber *rating = [ristoItem objectForKey:@"rating"];
                 
-        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellIdentifier] autorelease];
         
         // TOP LABEL - TITLE
         UILabel *topLabel = [[[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 2.0f, cell.frame.size.width - (cell.indentationWidth * 2), 18.0f)] autorelease];
@@ -188,6 +188,7 @@
 
         NSString *phoneNumber = [ristoItem objectForKey:@"phoneNumber"];
         if(phoneNumber != nil && phoneNumber != NULL && (NSNull *)phoneNumber != [NSNull null]){
+            //TODO USe anither variable to create the number
             phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
             phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
             UILabel *callButton = [[[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 190.0f, 35.0f, 100.0f, 15.0f)] autorelease];
@@ -197,7 +198,6 @@
             [callButton sizeToFit];
             [cell.contentView addSubview:callButton];
         }
-        
         // PHONE LABEL
 //        NSString *phoneNumber = [ristoItem objectForKey:@"phoneNumber"];
 //        if(phoneNumber != nil && phoneNumber != NULL && (NSNull *)phoneNumber != [NSNull null]){
@@ -263,6 +263,7 @@
     NSLog(@"row n%u", indexPath.row);
     DetailRestaurant *dr = [[[DetailRestaurant alloc] initWithStyle: UITableViewStylePlain] autorelease];
     [dr setRistoItem: [[ristos objectAtIndex:indexPath.row] objectForKey:@"ristorante"]];
+    [dr setDistanceInMeters:[[ristos objectAtIndex:indexPath.row] objectForKey:@"distanceInMeters"]];
     [[self navigationController] pushViewController: dr animated: YES];
 }
 

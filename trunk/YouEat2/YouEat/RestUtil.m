@@ -122,6 +122,9 @@
 
 - (void)dealloc
 {
+    NSLog(@"dealloc REstUtil");
+    _adapter.delegate = nil;
+    _streamParser.delegate = nil;
     [_parser release];
     [_writer release];
     [_streamParser release];

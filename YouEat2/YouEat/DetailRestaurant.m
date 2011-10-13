@@ -47,6 +47,9 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+    [ristoItem release];
+    [distanceInMeters release];
+    [ristoPosition release];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -167,7 +170,6 @@
                 [callButton sizeToFit];
                 [cell.contentView addSubview:callButton];
             }
-            
         }
         
         if (indexPath.row == 3) {
@@ -207,7 +209,7 @@
     
     }
     // Configure the cell...
-    
+    [backgroundImg release];
     return cell;
 }
 

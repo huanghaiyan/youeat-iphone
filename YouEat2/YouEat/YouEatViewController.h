@@ -22,4 +22,5 @@
 @property (nonatomic, retain) UITextField *searchInput;
 @property (nonatomic, retain) CLLocationManager *locationManager;
 @property (nonatomic, retain) CLLocation *location;
+@property (nonatomic, retain) UIButton *aboutBtn;
 @end

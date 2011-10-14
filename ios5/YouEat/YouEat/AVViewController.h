@@ -6,8 +6,22 @@
 //  Copyright (c) 2011 Wedjaa. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
+#import "JKCustomAlert.h"
+#import "CoreLocation/CoreLocation.h"
+#import "RestUtil.h"
 
-@interface AVViewController : UIViewController
+@interface AVViewController : UIViewController <UITextFieldDelegate, JKCustomAlertDelegate, CLLocationManagerDelegate, YRestUtilDelegate>{
+    NSMutableArray *listOfRisto;
+    CLLocationManager *locationManager;
+}
+
+@property (nonatomic, retain) NSArray *listOfRisto;
+@property (nonatomic, retain) JKCustomAlert *alertView;
+@property (nonatomic, retain) UITextField *searchInput;
+@property (nonatomic, retain) CLLocationManager *locationManager;
+@property (nonatomic, retain) CLLocation *location;
+@property (nonatomic, retain) IBOutlet UIButton *aboutBtn;
+@property (nonatomic, retain) RestUtil *restUtil;
 
 @end

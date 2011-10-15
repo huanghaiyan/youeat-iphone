@@ -11,7 +11,7 @@
 
 @implementation RestUtil
 
-@synthesize connectionURL, delegate;
+@synthesize connectionURL, delegate, receivedData;
 
 - (id)init
 {
@@ -28,7 +28,14 @@
     NSURLRequest *theRequest=[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]
 											  cachePolicy:NSURLRequestUseProtocolCachePolicy
 										  timeoutInterval:60.0];	
-	[[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+	NSURLConnection *theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+    if (theConnection) {
+        // Create the NSMutableData to hold the received data.
+        // receivedData is an instance variable declared elsewhere.
+        receivedData = [NSMutableData data];
+    } else {
+        // Inform the user that the connection failed.
+    }
 }
 
 - (NSString *)connectionURL {
@@ -56,18 +63,7 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
 	NSLog(@"Connection didReceiveData of length: %u", data.length);
-
-    NSError *myError = nil;
-    NSDictionary *dict	= [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&myError];
-    NSArray *temposs = [dict objectForKey:@"ristorantePositionAndDistanceList"];
-    [delegate responseParsed:temposs];
-    NSLog(@"Connection didReceiveResponse: %@ ", [dict objectForKey:@"ristorantePositionAndDistanceList"]);
-	// Parse the new chunk of data. The parser will append it to
-	// its internal buffer, then parse from where it left off in
-	// the last chunk.
-    NSLog(@"Parser error: %@", myError.description);
-        
-
+    [receivedData appendData:data];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
@@ -77,7 +73,13 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    	NSLog(@"Connection connectionDidFinishLoading");
+   	NSLog(@"Connection connectionDidFinishLoading");
+    NSError *myError = nil;
+    NSDictionary *dict	= [NSJSONSerialization JSONObjectWithData:receivedData options:NSJSONReadingMutableContainers error:&myError];
+    NSArray *temposs = [dict objectForKey:@"ristorantePositionAndDistanceList"];
+    NSLog(@"Connection didReceiveResponse: %@ ", [dict objectForKey:@"ristorantePositionAndDistanceList"]);
+    [delegate responseParsed:temposs];
+    //NSLog(@"Parser error: %@", myError.description);
 }
 
 @end

@@ -30,6 +30,7 @@
 
 @property (nonatomic, retain) IBOutlet NSString *connectionURL;
 @property (nonatomic, retain) id<YRestUtilDelegate> delegate;
+@property (nonatomic,retain) NSMutableData *receivedData;
 
 - (void) sendRestRequest:(NSString*)url;
 

@@ -39,7 +39,6 @@
         
     }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    // TODO performs the search
     [restUtil sendRestRequest:urlString];
     
 }
@@ -53,9 +52,7 @@
 }
 
 - (void) goToAbout:(UIButton *)uiButton {
-//  AboutViewController *aboutPage = [[AboutViewController alloc] init];
     [self performSegueWithIdentifier:@"home2about" sender:self];
-//    [[self navigationController] pushViewController: aboutPage animated: YES];
 }
 
 
@@ -128,7 +125,10 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    [segue.destinationViewController setRistos:listOfRisto];
+    if([segue.identifier compare: @"home2ristolist"] == NSOrderedSame){
+        [segue.destinationViewController setRistos:listOfRisto];    
+    }
+    
 }
 
 - (void)responseParsed: (NSArray*)array{
@@ -136,11 +136,7 @@
     NSLog(@"listOfRisto count = %u", [listOfRisto count]);
     [alertView dismissWithClickedButtonIndex:0 animated:YES];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
     [self performSegueWithIdentifier:@"home2ristolist" sender:self];
-//    ListRestaurants *ristos = [[ListRestaurants alloc] initWithStyle: UITableViewStylePlain];
-//    [ristos setRistos:listOfRisto];
-//    [[self navigationController] pushViewController: ristos animated: YES];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{

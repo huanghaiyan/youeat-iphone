@@ -23,7 +23,7 @@
         self.backgroundImage = image;
 		self.alertText = text;
         
-        self.activityView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(252, 14, 10, 10)];
+        self.activityView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(252, 16, 10, 10)];
 		[self addSubview:activityView];
 		activityView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
 		[activityView startAnimating];

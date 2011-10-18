@@ -43,8 +43,10 @@
 
     navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 30.0f)];
     [navigationBar setDelegate: self];
-    [navigationBar setItems:[[NSArray alloc] initWithObjects:navigationItem, nil]];
-    navigationBar.barStyle = UIBarStyleBlackOpaque;
+    [navigationBar setItems:[[NSArray alloc] initWithObjects:navigationItem, nil]];;
+    [navigationBar setBarStyle:UIBarStyleBlack];
+    [navigationBar setTranslucent:YES];
+    [navigationBar setOpaque:YES];
     [self.view addSubview:navigationBar];
     
     [self setNavigationBar:navigationBar];

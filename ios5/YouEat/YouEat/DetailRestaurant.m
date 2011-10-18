@@ -10,16 +10,8 @@
 
 
 @implementation DetailRestaurant
-@synthesize ristoItem, distanceInMeters, ristoPosition;
+@synthesize ristoItem, distanceInMeters, ristoPosition, navigationItem, navigationBar, tw, ristos;
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -34,7 +26,25 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    tw = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 30.0f, self.view.frame.size.width, self.view.frame.size.height - 30.0f)];
+    [tw setDelegate:self];
+    [tw setDataSource:self];
+    [self.view addSubview:tw];
+    
+    self.navigationItem.title = @"Results";
+    navigationItem = [[UINavigationItem alloc] initWithTitle:@"Results"];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"back to results" style:UIBarButtonItemStylePlain target:self action:@selector(goBackResults:)];
+    [navigationItem setLeftBarButtonItem: backButton];
+    
+    navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 30.0f)];
+    [navigationBar setDelegate: self];
+    [navigationBar setItems:[[NSArray alloc] initWithObjects:navigationItem, nil]];;
+    [navigationBar setBarStyle:UIBarStyleBlack];
+    //[navigationBar setTranslucent:YES];
+    [navigationBar setOpaque:YES];
+    [self.view addSubview:navigationBar];
+    
+    [self setNavigationBar:navigationBar];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -47,6 +57,16 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void) goBackResults:(UIButton *)uiButton {
+    [self performSegueWithIdentifier:@"ristodetails2ristolist" sender:self];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier compare: @"ristodetails2ristolist"] == NSOrderedSame){
+        [segue.destinationViewController setRistos:ristos];
+    }    
 }
 
 - (void)viewWillAppear:(BOOL)animated

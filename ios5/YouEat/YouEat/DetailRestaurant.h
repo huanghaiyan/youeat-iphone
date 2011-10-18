@@ -8,9 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DetailRestaurant : UITableViewController
+@interface DetailRestaurant : UIViewController <UINavigationBarDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) NSDictionary *ristoItem;
 @property (nonatomic, retain) NSDictionary *ristoPosition;
 @property (nonatomic, retain) NSDecimalNumber *distanceInMeters;
+@property (nonatomic, retain) IBOutlet UINavigationItem *navigationItem;
+@property (nonatomic, retain) IBOutlet UINavigationBar *navigationBar;
+@property (nonatomic, retain) IBOutlet UITableView *tw;
+@property (nonatomic, retain) NSArray *ristos;
+
 @end

@@ -127,8 +127,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier compare: @"home2ristolist"] == NSOrderedSame){
         [segue.destinationViewController setRistos:listOfRisto];    
-    }
-    
+    }    
 }
 
 - (void)responseParsed: (NSArray*)array{

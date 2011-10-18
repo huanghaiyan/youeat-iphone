@@ -61,6 +61,9 @@
                             <outlet property="delegate" destination="LZc-5T-1do" id="0I1-W8-0Vy"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="rGW-S0-div" kind="modal" identifier="ristodetails2ristolist" modalTransitionStyle="flipHorizontal" id="3yu-gJ-QkW"/>
+                    </connections>
                 </tableViewController>
             </objects>
             <point key="canvasLocation" x="1319" y="590"/>
@@ -76,6 +79,7 @@
                     </view>
                     <connections>
                         <segue destination="2" kind="modal" identifier="ristolist2home" modalTransitionStyle="crossDissolve" id="r1M-Gz-al0"/>
+                        <segue destination="LZc-5T-1do" kind="modal" identifier="ristolist2ristodetails" modalTransitionStyle="flipHorizontal" id="Kum-wH-VQs"/>
                     </connections>
                 </viewController>
             </objects>

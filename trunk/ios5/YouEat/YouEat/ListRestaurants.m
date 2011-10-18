@@ -275,15 +275,11 @@
     NSLog(@"row n%u", indexPath.row);
     [self setSelectedRow:indexPath.row];
     [self performSegueWithIdentifier:@"ristolist2ristodetails" sender:self];
-
-    DetailRestaurant *dr = [[DetailRestaurant alloc] initWithStyle: UITableViewStylePlain];
-    [dr setRistoItem: [[ristos objectAtIndex:indexPath.row] objectForKey:@"ristorante"]];
-    [dr setDistanceInMeters:[[ristos objectAtIndex:indexPath.row] objectForKey:@"distanceInMeters"]];
-    [[self navigationController] pushViewController: dr animated: YES];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.identifier compare: @"ristolist2ristodetails"] == NSOrderedSame){
+        [segue.destinationViewController setRistos:ristos];
         [segue.destinationViewController setRistoItem: [[ristos objectAtIndex:selectedRow] objectForKey:@"ristorante"]];
         [segue.destinationViewController setDistanceInMeters:[[ristos objectAtIndex:selectedRow] objectForKey:@"distanceInMeters"]];
     }    
@@ -293,7 +289,6 @@
 {
     return 130.0f;
 }
-
 
 
 //- (void)showRisto:(NSDictionary *)risto animated:(BOOL)animated {

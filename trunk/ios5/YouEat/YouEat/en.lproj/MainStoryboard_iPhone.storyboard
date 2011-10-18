@@ -14,9 +14,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="nsc-It-EEx"/>
                     <connections>
                         <segue destination="5yg-Ap-r4s" kind="modal" identifier="home2about" modalTransitionStyle="partialCurl" id="JsD-HL-Cza"/>
-                        <segue destination="UFB-3n-zLd" kind="modal" identifier="home2ristolist" modalTransitionStyle="partialCurl" id="0U4-zi-tTL"/>
+                        <segue destination="rGW-S0-div" kind="modal" identifier="home2ristolist" modalTransitionStyle="crossDissolve" id="j4d-gA-9Ab"/>
                     </connections>
                 </viewController>
             </objects>
@@ -36,16 +37,16 @@
             </objects>
             <point key="canvasLocation" x="684" y="-267"/>
         </scene>
-        <scene sceneID="eNC-OL-LI1">
+        <scene sceneID="8nc-L5-THW">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Qb0-VJ-dZJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tableViewController id="UFB-3n-zLd" customClass="ListRestaurants" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="lE7-24-XF4">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aTk-lt-VX9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tableViewController id="LZc-5T-1do" customClass="DetailRestaurant" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="B7O-SK-hoW">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Zmn-Od-pSj">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="zHk-jb-Kb1">
                                 <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -56,14 +57,29 @@
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="UFB-3n-zLd" id="hO0-FW-NYH"/>
-                            <outlet property="delegate" destination="UFB-3n-zLd" id="tdP-3o-RCy"/>
+                            <outlet property="dataSource" destination="LZc-5T-1do" id="4vb-oK-PVh"/>
+                            <outlet property="delegate" destination="LZc-5T-1do" id="0I1-W8-0Vy"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="LyF-JY-tD1"/>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="765" y="440"/>
+            <point key="canvasLocation" x="1319" y="590"/>
+        </scene>
+        <scene sceneID="Gfj-g2-mOl">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VZt-aU-x4n" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="rGW-S0-div" customClass="ListRestaurants" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hqb-Wc-3yI">
+                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <segue destination="2" kind="modal" identifier="ristolist2home" modalTransitionStyle="crossDissolve" id="r1M-Gz-al0"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="721" y="590"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

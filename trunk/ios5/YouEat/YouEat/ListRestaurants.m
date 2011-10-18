@@ -11,20 +11,12 @@
 
 @implementation ListRestaurants
 
-@synthesize ristos;
+@synthesize ristos, navigationItem, navigationBar, selectedRow, tw;
 
 #define FONT_SIZE 14.0f
 #define CELL_CONTENT_WIDTH 320.0f
 #define CELL_CONTENT_MARGIN 10.0f
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -39,12 +31,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    tw = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 30.0f, self.view.frame.size.width, self.view.frame.size.height - 30.0f)];
+    [tw setDelegate:self];
+    [tw setDataSource:self];
+    [self.view addSubview:tw];
+    
     self.navigationItem.title = @"Results";
+    navigationItem = [[UINavigationItem alloc] initWithTitle:@"Results"];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"back to search" style:UIBarButtonItemStylePlain target:self action:@selector(goToHome:)];
+    [navigationItem setLeftBarButtonItem: backButton];
+
+    navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 30.0f)];
+    [navigationBar setDelegate: self];
+    [navigationBar setItems:[[NSArray alloc] initWithObjects:navigationItem, nil]];
+    navigationBar.barStyle = UIBarStyleBlackOpaque;
+    [self.view addSubview:navigationBar];
+    
+    [self setNavigationBar:navigationBar];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    //self.navigationItem.rightBarButtonItem = self.backButtonItem;
 }
 
 - (void)viewDidUnload
@@ -52,6 +60,10 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void) goToHome:(UIButton *)uiButton {
+    [self performSegueWithIdentifier:@"ristolist2home" sender:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -259,17 +271,28 @@
 //	NSDictionary *selectedRisto = [ristos objectAtIndex:indexPath.row];
 //    [self showRisto:selectedRisto animated:YES];
     NSLog(@"row n%u", indexPath.row);
+    [self setSelectedRow:indexPath.row];
+    [self performSegueWithIdentifier:@"ristolist2ristodetails" sender:self];
+
     DetailRestaurant *dr = [[DetailRestaurant alloc] initWithStyle: UITableViewStylePlain];
     [dr setRistoItem: [[ristos objectAtIndex:indexPath.row] objectForKey:@"ristorante"]];
     [dr setDistanceInMeters:[[ristos objectAtIndex:indexPath.row] objectForKey:@"distanceInMeters"]];
     [[self navigationController] pushViewController: dr animated: YES];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier compare: @"ristolist2ristodetails"] == NSOrderedSame){
+        [segue.destinationViewController setRistoItem: [[ristos objectAtIndex:selectedRow] objectForKey:@"ristorante"]];
+        [segue.destinationViewController setDistanceInMeters:[[ristos objectAtIndex:selectedRow] objectForKey:@"distanceInMeters"]];
+    }    
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 130.0f;
 }
+
+
 
 //- (void)showRisto:(NSDictionary *)risto animated:(BOOL)animated {
 //	RistoScrollViewController *detailViewController = [[RistoScrollViewController alloc] initWithNibName:@"RistoScrollView" bundle:[NSBundle mainBundle]];

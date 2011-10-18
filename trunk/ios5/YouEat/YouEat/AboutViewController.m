@@ -23,7 +23,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	CGRect webFrame = [[UIScreen mainScreen] applicationFrame];
-	webFrame.size.height -= 100.0;
+   	webFrame.origin.y += 100.0;
+	webFrame.size.height -= 150.0;
 	self.myWebView = [[UIWebView alloc] initWithFrame:webFrame];
     [myWebView setDelegate: self];
 	[self loadDocument:@"about.html" inView:self.myWebView];

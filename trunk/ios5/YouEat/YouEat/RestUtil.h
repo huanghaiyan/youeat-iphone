@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CoreLocation/CoreLocation.h"
 
 @protocol YRestUtilDelegate
 
@@ -32,6 +33,8 @@
 @property (nonatomic, retain) id<YRestUtilDelegate> delegate;
 @property (nonatomic,retain) NSMutableData *receivedData;
 
+
 - (void) sendRestRequest:(NSString*)url;
+- (void) searchRisto:(NSString *)searchText: (CLLocation*) location;
 
 @end

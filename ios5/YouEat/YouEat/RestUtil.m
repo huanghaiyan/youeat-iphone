@@ -8,7 +8,6 @@
 
 #import "RestUtil.h"
 
-
 @implementation RestUtil
 
 @synthesize connectionURL, delegate, receivedData;
@@ -48,6 +47,26 @@
 		connectionURL = [[NSString alloc] initWithFormat:@"%@://%@:%@%@", [array objectForKey:@"protocol"], [array objectForKey:@"host"], [array objectForKey:@"port"], [array objectForKey:@"basePath"]];
 	}
 	return connectionURL;
+}
+
+- (void) searchRisto:(NSString *)searchText: (CLLocation*) location{
+	
+	NSString *urlString = @"";
+	NSString *pattern = [searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    
+	if([searchText length] > 2 && location == nil) {
+        //findPaginatedRistoranti/{pattern}/{firstResult}/{maxResults}
+        urlString = [NSString stringWithFormat:@"/findFreeTextSearchCloseRistoranti/%@/%@/%@/%@/%@/%@", pattern, @"1", @"1", @"90000", @"0", @"10"];    
+	}
+    else if([searchText length] > 2 && location != nil) {
+        NSString *latitude = [NSString stringWithFormat:@"%f",location.coordinate.latitude];
+        NSString *longitude = [NSString stringWithFormat:@"%f",location.coordinate.longitude];
+        //findFreeTextSearchCloseRistoranti/{pattern}/{latitude}/{longitude}/{distanceInMeters}/{firstResult}/{maxResults}
+        urlString = [NSString stringWithFormat:@"/findFreeTextSearchCloseRistoranti/%@/%@/%@/%@/%@/%@", pattern, latitude, longitude, @"90000", @"0", @"10"]; 
+        
+    }
+    [self sendRestRequest:urlString];
+    
 }
 
 

@@ -22,33 +22,15 @@
 
 #pragma mark - View lifecycle
 
-- (void) searchRisto:(NSString *)searchText{
-	
-	NSString *urlString = @"";
-	NSString *pattern = [searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-    
-	if([searchText length] > 2 && location == nil) {
-        //findPaginatedRistoranti/{pattern}/{firstResult}/{maxResults}
-        urlString = [NSString stringWithFormat:@"/findFreeTextSearchCloseRistoranti/%@/%@/%@/%@/%@/%@", pattern, @"1", @"1", @"90000", @"0", @"10"];    
-	}
-    else if([searchText length] > 2 && location != nil) {
-        NSString *latitude = [NSString stringWithFormat:@"%f",location.coordinate.latitude];
-        NSString *longitude = [NSString stringWithFormat:@"%f",location.coordinate.longitude];
-        //findFreeTextSearchCloseRistoranti/{pattern}/{latitude}/{longitude}/{distanceInMeters}/{firstResult}/{maxResults}
-        urlString = [NSString stringWithFormat:@"/findFreeTextSearchCloseRistoranti/%@/%@/%@/%@/%@/%@", pattern, latitude, longitude, @"90000", @"0", @"10"]; 
-        
-    }
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [restUtil sendRestRequest:urlString];
-    
-}
 
 - (void) searchBarSearchButtonClicked:(UIButton *)uiButton {
     UIImage *backgroundImage = [UIImage imageNamed:@"bg-alert.png"];
     alertView = [[JKCustomAlert alloc] initWithImage:backgroundImage text:NSLocalizedString(@"Ricerca ristoranti in corso", nil) delegate: self];
     [alertView show];
-  	[self searchRisto:@"pizzeria"];
-    //	[self searchRisto:searchInput.text];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+  	[restUtil searchRisto:@"pizzeria": location];
+    //TODO real search
+//  	[restUtil searchRisto:@"pizzeria": location];
 }
 
 - (void) goToAbout:(UIButton *)uiButton {

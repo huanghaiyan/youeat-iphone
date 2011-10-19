@@ -165,7 +165,7 @@
             [cell.contentView addSubview:starLabel5];
         }
         
-        if (indexPath.row == 1) {                
+        else if (indexPath.row == 1) {                
             // IMG LABEL
             UILabel *imgLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 2.0f, 80.0f, 80.0f)];
             //    UIImage *backgroundImage = [UIImage imageNamed:@"logo-mela-trasp-160.png"];
@@ -174,7 +174,7 @@
             
         }
 
-        if (indexPath.row == 2) {
+        else if (indexPath.row == 2) {
             // PHONE NUMBER
             NSString *phoneNumber = [ristoItem objectForKey:@"phoneNumber"];
             if(phoneNumber != nil && phoneNumber != NULL && (NSNull *)phoneNumber != [NSNull null]){
@@ -188,9 +188,32 @@
                 [cell.contentView addSubview:callButton];
             }
         }
+        else if (indexPath.row == 3) {
+            // EMAIL
+            NSString *email = [ristoItem objectForKey:@"email"];
+            if(email != nil && email != NULL && (NSNull *)email != [NSNull null]){
+                UILabel *emailLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 2.0f, cell.frame.size.width, 18.0f)];
+                [emailLabel setFont:[UIFont fontWithName:@"Verdana" size:[UIFont smallSystemFontSize] - 4 ]];
+                emailLabel.adjustsFontSizeToFitWidth = YES;	
+                emailLabel.text = email;
+                [cell.contentView addSubview:emailLabel];
+            }
+        }
         
-        if (indexPath.row == 3) {
-        // DESCRIPTION LABEL
+        else if (indexPath.row == 4) {
+            // WWW
+            NSString *www = [ristoItem objectForKey:@"email"];
+            if(www != nil && www != NULL && (NSNull *)www != [NSNull null]){
+                UILabel *wwwLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 2.0f, cell.frame.size.width, 18.0f)];
+                [wwwLabel setFont:[UIFont fontWithName:@"Verdana" size:[UIFont smallSystemFontSize] - 4 ]];
+                wwwLabel.adjustsFontSizeToFitWidth = YES;	
+                wwwLabel.text = www;
+                [cell.contentView addSubview:wwwLabel];
+            }
+            
+        }
+        else if (indexPath.row == 5) {
+            // DESCRIPTION LABEL
             NSString * language = [[NSLocale preferredLanguages] objectAtIndex:0];
             UITextView *descriptionView = [[UITextView alloc] initWithFrame: CGRectMake(cell.indentationWidth, 2.0f, cell.frame.size.width - (cell.indentationWidth * 2) , 77.0f)];
             NSDictionary *descriptions = [ristoItem objectForKey:@"descriptions"] ;		
@@ -234,13 +257,19 @@
     if(indexPath.row == 0){
         return 60.0f;        
     }
-    if(indexPath.row == 1){
+    else if(indexPath.row == 1){
         return 90.0f;        
     }
-    if(indexPath.row == 2){
+    else if(indexPath.row == 2){
         return 20.0f;        
     }
-    if(indexPath.row == 3){
+    else if(indexPath.row == 3){
+        return 20.0f;        
+    }
+    else if(indexPath.row == 4){
+        return 20.0f;        
+    }
+    else if(indexPath.row == 5){
         return 100.0f;        
     }
     return 10.0f;

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D203D7CF144F258500526A90 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D203D7CE144F258500526A90 /* Icon.png */; };
 		D203D7F9144F2E0200526A90 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D203D7F7144F2E0200526A90 /* Localizable.strings */; };
 		D203D7FB144F2E0F00526A90 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D203D7F7144F2E0200526A90 /* Localizable.strings */; };
 		D2371E171448841A0069EF4C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2371E161448841A0069EF4C /* UIKit.framework */; };
@@ -64,7 +63,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		D203D7CE144F258500526A90 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		D203D7EF144F2A9500526A90 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = "/Users/alessandro/Documents/youeat-iphone/YouEat/YouEat/it.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
 		D203D7F0144F2A9500526A90 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = it; path = "/Users/alessandro/Documents/youeat-iphone/YouEat/YouEat/it.lproj/MainStoryboard_iPad.storyboard"; sourceTree = "<absolute>"; };
 		D203D7F1144F2A9500526A90 /* it */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = it; path = "/Users/alessandro/Documents/youeat-iphone/YouEat/YouEat/it.lproj/MainStoryboard_iPhone.storyboard"; sourceTree = "<absolute>"; };
@@ -256,7 +254,6 @@
 		D2371E521448855A0069EF4C /* images */ = {
 			isa = PBXGroup;
 			children = (
-				D203D7CE144F258500526A90 /* Icon.png */,
 				D2371E541448859A0069EF4C /* bg-alert.png */,
 				D2371E551448859A0069EF4C /* bg-alert@x2.png */,
 				D2371E561448859A0069EF4C /* bg.png */,
@@ -370,7 +367,6 @@
 				D26FA0E9144DE777004BA90C /* Default@2x.png in Resources */,
 				D2EBB29D144DFA6500CF93C0 /* Default.png in Resources */,
 				D26FFF87144DFB3A00873891 /* Icon.png in Resources */,
-				D203D7CF144F258500526A90 /* Icon.png in Resources */,
 				D203D7F9144F2E0200526A90 /* Localizable.strings in Resources */,
 				D203D7FB144F2E0F00526A90 /* Localizable.strings in Resources */,
 			);

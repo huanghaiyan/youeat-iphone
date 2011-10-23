@@ -542,10 +542,12 @@
 		D2371E4A1448841B0069EF4C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Alessandro Vincelli (5H975GUKZC)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "YouEat/YouEat-Prefix.pch";
 				INFOPLIST_FILE = "YouEat/YouEat-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "340C478B-0E90-41A4-9C2B-E085CE4E420F";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

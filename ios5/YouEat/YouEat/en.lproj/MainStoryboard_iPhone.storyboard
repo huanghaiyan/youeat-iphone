@@ -86,6 +86,33 @@
             <point key="canvasLocation" x="721" y="590"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="AVViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AVViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="aboutBtn" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="AboutViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AboutViewController.h"/>
+        </class>
+        <class className="DetailRestaurant" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailRestaurant.h"/>
+            <relationships>
+                <relationship kind="outlet" name="navigationBar" candidateClass="UINavigationBar"/>
+                <relationship kind="outlet" name="navigationItem" candidateClass="UINavigationItem"/>
+                <relationship kind="outlet" name="tw" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="ListRestaurants" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ListRestaurants.h"/>
+            <relationships>
+                <relationship kind="outlet" name="navigationBar" candidateClass="UINavigationBar"/>
+                <relationship kind="outlet" name="navigationItem" candidateClass="UINavigationItem"/>
+                <relationship kind="outlet" name="tw" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

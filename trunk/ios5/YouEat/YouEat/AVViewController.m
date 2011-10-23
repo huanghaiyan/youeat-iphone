@@ -29,7 +29,7 @@
     [alertView show];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 //  	[restUtil searchRisto:@"pizzeria": location];
-  	[restUtil searchRisto:@"pizzeria": location];
+  	[restUtil searchRisto:searchInput.text: location];
 }
 
 - (void) goToAbout:(UIButton *)uiButton {

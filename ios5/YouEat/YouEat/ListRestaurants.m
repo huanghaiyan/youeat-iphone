@@ -122,7 +122,7 @@
       	NSDictionary *ristoItem = [[ristos objectAtIndex:indexPath.row] objectForKey:@"ristorante"];
         NSNumber *rating = [ristoItem objectForKey:@"rating"];
                 
-        cell = [[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         
         // TOP LABEL - TITLE
         UILabel *topLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 2.0f, cell.frame.size.width - (cell.indentationWidth * 2), 18.0f)];
@@ -227,45 +227,7 @@
 //        [cell.contentView addSubview:callButton];
     }
 
-    
-//    if (cell == nil) {
-//        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-//		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-//    }
-//    //NSString's sizeWithFont:constrainedToSize:lineBreakMode:
-//	// Configure the cell.
-//	NSDictionary *ristoItem = [[ristos objectAtIndex:indexPath.row] objectForKey:@"ristorante"];
-//    cell.textLabel.adjustsFontSizeToFitWidth = YES;
-//	cell.textLabel.text = [ristoItem objectForKey:@"name"];
-//	NSString *city = [[ristoItem objectForKey:@"city"] objectForKey:@"name"];
-//	NSString *address = [ristoItem objectForKey:@"address"];
-//	NSString *distance = @"";
-//	if([ristos count] > 0 ){
-//		NSDictionary *ristoPositionItem = [ristos objectAtIndex:indexPath.row];
-//		distance = [distance stringByAppendingString:@""];
-//		NSDecimalNumber *distanceInMeters = [ristoPositionItem objectForKey:@"distanceInMeters"];
-//		distance = [distance stringByAppendingString:[distanceInMeters stringValue]];
-//		distance = [distance stringByAppendingString:@" m."];
-//	}
-//    cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;	
-//	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@ - %@", distance, city, address]; ;
     return cell;
-}
-
--(void) callButtonPressed: (id)sender
-{
-	int rowtoCall = [sender tag];
-  	NSString *phoneNumberToCall = [[[ristos objectAtIndex:rowtoCall] objectForKey:@"ristorante"] objectForKey:@"phoneNumber"] ;
-    phoneNumberToCall = [phoneNumberToCall stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    phoneNumberToCall = [phoneNumberToCall stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
-    //TODO attach the call to button above
-    UIDevice *device = [UIDevice currentDevice];
-    if ([[device model] isEqualToString:@"iPhone"] ) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", phoneNumberToCall]]];
-    } else {
-        UIAlertView *Notpermitted=[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your device doesn't support this feature." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [Notpermitted show];
-    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -288,14 +250,6 @@
 {
     return 130.0f;
 }
-
-
-//- (void)showRisto:(NSDictionary *)risto animated:(BOOL)animated {
-//	RistoScrollViewController *detailViewController = [[RistoScrollViewController alloc] initWithNibName:@"RistoScrollView" bundle:[NSBundle mainBundle]];
-//	detailViewController.selectedRisto = risto;    
-//    [self.navigationController pushViewController:detailViewController animated:animated];
-//    [detailViewController release];
-//}
 
 /*
 // Override to support conditional editing of the table view.

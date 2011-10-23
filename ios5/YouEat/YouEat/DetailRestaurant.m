@@ -118,7 +118,7 @@
     UIColor *backgroundImg = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"logo-mela-160.png"]];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         if (indexPath.row == 0) {        
             // TOP LABEL - TITLE
             UILabel *topLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 2.0f, cell.frame.size.width, 18.0f)];
@@ -325,6 +325,29 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      [detailViewController release];
      */
+    if(indexPath.row == 2){
+        //TODO phone call
+        //[self callPhonenumber];
+    }
+    
 }
+
+-(void) callPhonenumber
+{
+    NSString *phoneNumberToCall = [ristoItem objectForKey:@"phoneNumber"];
+    
+    phoneNumberToCall = [phoneNumberToCall stringByAddingPercentEscapesUsingEncoding:NSUTF16StringEncoding];
+//    phoneNumberToCall = [phoneNumberToCall stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
+    //TODO attach the call to button above
+    UIDevice *device = [UIDevice currentDevice];
+    if ([[device model] isEqualToString:@"iPhone"] ) {
+        phoneNumberToCall = [NSString stringWithFormat:@"tel:%@", phoneNumberToCall];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumberToCall]];
+    } else {
+        UIAlertView *Notpermitted=[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your device doesn't support this feature." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [Notpermitted show];
+    }
+}
+
 
 @end

@@ -18,4 +18,8 @@
 @property (nonatomic, retain) IBOutlet UITableView *tw;
 @property (nonatomic, retain) NSArray *ristos;
 
+- (void) callPhonenumber;
+
 @end
+
+

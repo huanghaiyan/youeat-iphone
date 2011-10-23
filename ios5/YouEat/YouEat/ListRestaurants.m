@@ -36,9 +36,8 @@
     [tw setDataSource:self];
     [self.view addSubview:tw];
     
-    self.navigationItem.title = @"Results";
-    navigationItem = [[UINavigationItem alloc] initWithTitle:@"Results"];
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"back to search" style:UIBarButtonItemStylePlain target:self action:@selector(goToHome:)];
+    navigationItem = [[UINavigationItem alloc] initWithTitle:NSLocalizedString(@"Results", nil)];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Back to search", nil) style:UIBarButtonItemStylePlain target:self action:@selector(goToHome:)];
     [navigationItem setLeftBarButtonItem: backButton];
 
     navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 30.0f)];

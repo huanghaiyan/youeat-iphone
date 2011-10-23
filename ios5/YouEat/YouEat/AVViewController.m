@@ -25,7 +25,7 @@
 
 - (void) searchBarSearchButtonClicked:(UIButton *)uiButton {
     UIImage *backgroundImage = [UIImage imageNamed:@"bg-alert.png"];
-    alertView = [[JKCustomAlert alloc] initWithImage:backgroundImage text:NSLocalizedString(@"Ricerca ristoranti in corso", nil) delegate: self];
+    alertView = [[JKCustomAlert alloc] initWithImage:backgroundImage text:NSLocalizedString(@"Searching restaurants", nil) delegate: self];
     [alertView show];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
   	[restUtil searchRisto:@"pizzeria": location];
@@ -51,22 +51,23 @@
     // SEARCH button
     UIButton *searchBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [searchBtn setFrame:CGRectMake(80.0f, 220.0f, 160.0f, 35.0f)];
-    [searchBtn setTitle:@"Cerca" forState:UIControlStateNormal];
+    [searchBtn setTitle:NSLocalizedString(@"Search", nil) forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(searchBarSearchButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:searchBtn];
     
     
     // SEARCH title label
-    UILabel *searchTitle = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 10.0f, 100.0f, 15.0f)];
-    [searchTitle setText:@"Search risto"];
+    UILabel *searchTitle = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 10.0f, 250.0f, 18.0f)];
+    [searchTitle setText:NSLocalizedString(@"Search restaurants around your position", nil)];
     [searchTitle setBackgroundColor:[UIColor colorWithWhite:1 alpha:0]];
     [searchTitle setTextColor:[UIColor grayColor]];
+    [searchTitle setAdjustsFontSizeToFitWidth:YES];
     
     
     // SEARCH INPUT
     [self setSearchInput: [[UITextField alloc] init]];
     [searchInput setFrame:CGRectMake(10.0f, 40.0f, 260.0f, 30.0f)];
-    [searchInput setPlaceholder:@"Search by name, city, tag"];
+    [searchInput setPlaceholder:NSLocalizedString(@"name, city, tag", nil)];
     [searchInput setDelegate: self];
     [searchInput setBorderStyle:UITextBorderStyleRoundedRect];
     
@@ -132,6 +133,16 @@
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
     NSLog(@"Error updating the location %@", [error localizedFailureReason] );  
+}
+
+- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    UITouch *theTouch = [touches anyObject];
+    
+    CGPoint endPoint = [theTouch locationInView:self.view];
+    
+//    xCoord.text = [NSString stringWithFormat:@"start = %f, %f", startPoint.x, startPoint.y];
+//    yCoord.text = [NSString stringWithFormat:@"end = %f, %f", endPoint.x, endPoint.y];
 }
 
 - (void)viewDidUnload

@@ -7,8 +7,8 @@
 	<key>basePath</key>
 	<string>/rest</string>
 	<key>port</key>
-	<string>8889</string>
+	<string>80</string>
 	<key>host</key>
-	<string>localhost</string>
+	<string>www.youeat.org</string>
 </dict>
 </plist>

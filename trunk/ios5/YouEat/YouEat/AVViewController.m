@@ -28,9 +28,8 @@
     alertView = [[JKCustomAlert alloc] initWithImage:backgroundImage text:NSLocalizedString(@"Searching restaurants", nil) delegate: self];
     [alertView show];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-  	[restUtil searchRisto:@"pizzeria": location];
-    //TODO real search
 //  	[restUtil searchRisto:@"pizzeria": location];
+  	[restUtil searchRisto:@"pizzeria": location];
 }
 
 - (void) goToAbout:(UIButton *)uiButton {

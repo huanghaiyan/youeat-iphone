@@ -129,6 +129,7 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
     NSLog(@"Location updated ");  
     [self setLocation:newLocation];
+    [[self locationManager] stopUpdatingLocation];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
@@ -137,9 +138,9 @@
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     
-    UITouch *theTouch = [touches anyObject];
+//    UITouch *theTouch = [touches anyObject];
     
-    CGPoint endPoint = [theTouch locationInView:self.view];
+//    CGPoint endPoint = [theTouch locationInView:self.view];
     
 //    xCoord.text = [NSString stringWithFormat:@"start = %f, %f", startPoint.x, startPoint.y];
 //    yCoord.text = [NSString stringWithFormat:@"end = %f, %f", endPoint.x, endPoint.y];

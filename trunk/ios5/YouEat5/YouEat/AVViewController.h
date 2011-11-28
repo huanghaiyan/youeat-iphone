@@ -23,5 +23,6 @@
 @property (nonatomic, retain) CLLocation *location;
 @property (nonatomic, retain) IBOutlet UIButton *aboutBtn;
 @property (nonatomic, retain) RestUtil *restUtil;
+@property (nonatomic, retain) NSString *pattern;
 
 @end

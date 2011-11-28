@@ -34,7 +34,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    tw = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 30.0f, self.view.frame.size.width, self.view.frame.size.height - 30.0f)];
+    tw = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 40.0f, self.view.frame.size.width, self.view.frame.size.height - 30.0f)];
     [tw setDelegate:self];
     [tw setDataSource:self];
     [self.view addSubview:tw];
@@ -43,7 +43,7 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Back to search", nil) style:UIBarButtonItemStylePlain target:self action:@selector(goToHome:)];
     [navigationItem setLeftBarButtonItem: backButton];
 
-    navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 30.0f)];
+    navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 44.0f)];
     [navigationBar setDelegate: self];
     [navigationBar setItems:[[NSArray alloc] initWithObjects:navigationItem, nil]];;
     [navigationBar setBarStyle:UIBarStyleBlack];
@@ -142,15 +142,15 @@
             // TOP LABEL - TITLE
             UILabel *topLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 2.0f, cell.frame.size.width - (cell.indentationWidth * 2), 18.0f)];
             topLabel.textColor = [UIColor colorWithRed:0.25 green:0.0 blue:0.0 alpha:1.0];
-            [topLabel setFont:[UIFont fontWithName:@"Verdana-Bold" size:[UIFont smallSystemFontSize]]];
+            [topLabel setFont:[UIFont fontWithName:@"Verdana-Bold" size:[UIFont systemFontSize]]];
             [topLabel setTextColor: [UIColor colorWithRed:0.9 green:0.4 blue:0.0 alpha:1]];
             topLabel.adjustsFontSizeToFitWidth = YES;	
             topLabel.text = [ristoItem objectForKey:@"name"];
             [cell.contentView addSubview:topLabel];
             
             // ADDRESS and DISTANCE LABEL
-            UILabel *addrLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 20.0f, cell.frame.size.width, 10.0f)];
-            [addrLabel setFont:[UIFont fontWithName:@"Verdana" size:[UIFont smallSystemFontSize] - 4 ]];
+            UILabel *addrLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 20.0f, cell.frame.size.width, 15.0f)];
+            [addrLabel setFont:[UIFont fontWithName:@"Verdana" size:[UIFont smallSystemFontSize] ]];
             addrLabel.adjustsFontSizeToFitWidth = YES;
             NSString *city = [[ristoItem objectForKey:@"city"] objectForKey:@"name"];
             NSString *address = [ristoItem objectForKey:@"address"];
@@ -162,33 +162,33 @@
             
             
             // IMG LABEL
-            UILabel *imgLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 35.0f, 80.0f, 80.0f)];
+            UILabel *imgLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 36.0f, 80.0f, 80.0f)];
             //    UIImage *backgroundImage = [UIImage imageNamed:@"logo-mela-trasp-160.png"];
             [imgLabel setBackgroundColor:backgroundImg];
             [cell.contentView addSubview:imgLabel];
             
             // RATING STARS LABEL
-            UILabel *starLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 90.0f, 35.0f, 10.0f, 10.0f)];
+            UILabel *starLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 90.0f, 36.0f, 10.0f, 10.0f)];
             UIColor *starLabelImg = [[UIColor alloc] initWithPatternImage: (rating.intValue) < 1 ? starOff : star ] ;
             [starLabel setBackgroundColor:starLabelImg];
             [cell.contentView addSubview:starLabel];
             
-            UILabel *starLabel2 = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 102.0f, 35.0f, 10.0f, 10.0f)];
+            UILabel *starLabel2 = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 102.0f, 36.0f, 10.0f, 10.0f)];
             UIColor *starLabelImg2 = [[UIColor alloc] initWithPatternImage: rating.intValue < 2 ? starOff : star ];
             [starLabel2 setBackgroundColor:starLabelImg2];
             [cell.contentView addSubview:starLabel2];
             
-            UILabel *starLabel3 = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 114.0f, 35.0f, 10.0f, 10.0f)];
+            UILabel *starLabel3 = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 114.0f, 36.0f, 10.0f, 10.0f)];
             UIColor *starLabelImg3 = [[UIColor alloc] initWithPatternImage: rating.intValue < 3 ? starOff : star ];
             [starLabel3 setBackgroundColor:starLabelImg3];
             [cell.contentView addSubview:starLabel3];
             
-            UILabel *starLabel4 = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 126.0f, 35.0f, 10.0f, 10.0f)];
+            UILabel *starLabel4 = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 126.0f, 36.0f, 10.0f, 10.0f)];
             UIColor *starLabelImg4 = [[UIColor alloc] initWithPatternImage: rating.intValue < 4 ? starOff : star ];
             [starLabel4 setBackgroundColor:starLabelImg4];
             [cell.contentView addSubview:starLabel4];
             
-            UILabel *starLabel5 = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 138.0f, 35.0f, 10.0f, 10.0f)];
+            UILabel *starLabel5 = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 138.0f, 36.0f, 10.0f, 10.0f)];
             UIColor *starLabelImg5 = [[UIColor alloc] initWithPatternImage: rating.intValue < 5 ? starOff : star ];
             [starLabel5 setBackgroundColor:starLabelImg5];
             [cell.contentView addSubview:starLabel5];
@@ -207,7 +207,7 @@
                 
             }
             [descriptionView setEditable: FALSE];
-            [descriptionView setFont:[UIFont fontWithName:@"Verdana" size:[UIFont smallSystemFontSize] - 4 ]];
+            [descriptionView setFont:[UIFont fontWithName:@"Verdana" size:[UIFont smallSystemFontSize]]];
             descriptionView.text = descriptionText;
             [cell.contentView addSubview:descriptionView];
             
@@ -283,7 +283,10 @@
         [segue.destinationViewController setLocation:location];        
         [segue.destinationViewController setRistoItem: [[ristos objectAtIndex:selectedRow] objectForKey:@"ristorante"]];
         [segue.destinationViewController setDistanceInMeters:[[ristos objectAtIndex:selectedRow] objectForKey:@"distanceInMeters"]];
-    }    
+    }
+    if([segue.identifier compare: @"ristolist2home"] == NSOrderedSame){
+        [segue.destinationViewController setPattern:pattern];              
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

@@ -13,7 +13,7 @@
 
 @implementation AVViewController
 
-@synthesize restUtil, listOfRisto, alertView, searchInput, locationManager, location, aboutBtn;
+@synthesize restUtil, listOfRisto, alertView, searchInput, locationManager, location, aboutBtn, pattern;
 
 - (void)didReceiveMemoryWarning
 {
@@ -71,6 +71,10 @@
     [searchInput setPlaceholder:NSLocalizedString(@"name, city, tag", nil)];
     [searchInput setDelegate: self];
     [searchInput setBorderStyle:UITextBorderStyleRoundedRect];
+    if(pattern != nil){
+        [searchInput setText: pattern];
+    }
+        
     
     // SEARCH Background label
     UIView* v = [[UIView alloc] initWithFrame:CGRectMake(20.0f, 100.0f, 280.0f, 100.0f)];

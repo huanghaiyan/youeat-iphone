@@ -557,8 +557,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				New_Setting = "";
 				PRODUCT_NAME = youeat5;
-				PROVISIONING_PROFILE = "846B5F50-7FB8-4C87-ABCA-1C8362B33BBA";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "12CD7D58-D0F9-4B6E-B044-82A6EECE6015";
+				PROVISIONING_PROFILE = "E4A732F7-442E-4223-A243-422096A14A79";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E4A732F7-442E-4223-A243-422096A14A79";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
@@ -568,8 +568,8 @@
 		D2371E4A1448841B0069EF4C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Alessandro Vincelli (5H975GUKZC)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Alessandro Vincelli (5H975GUKZC)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Alessandro Vincelli";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Alessandro Vincelli";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "YouEat/youeat5-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -577,8 +577,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				New_Setting = "";
 				PRODUCT_NAME = youeat5;
-				PROVISIONING_PROFILE = "846B5F50-7FB8-4C87-ABCA-1C8362B33BBA";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "12CD7D58-D0F9-4B6E-B044-82A6EECE6015";
+				PROVISIONING_PROFILE = "9E426908-345D-4CAD-B171-3988B55A9FC5";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9E426908-345D-4CAD-B171-3988B55A9FC5";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

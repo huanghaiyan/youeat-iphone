@@ -26,7 +26,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    tw = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 30.0f, self.view.frame.size.width, self.view.frame.size.height - 30.0f)];
+    tw = [[UITableView alloc] initWithFrame:CGRectMake(0.0f, 40.0f, self.view.frame.size.width, self.view.frame.size.height - 30.0f)];
     [tw setDelegate:self];
     [tw setDataSource:self];
     [self.view addSubview:tw];
@@ -35,7 +35,7 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Back to results",nil) style:UIBarButtonItemStylePlain target:self action:@selector(goBackResults:)];
     [navigationItem setLeftBarButtonItem: backButton];
     
-    navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 30.0f)];
+    navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 40.0f)];
     [navigationBar setDelegate: self];
     [navigationBar setItems:[[NSArray alloc] initWithObjects:navigationItem, nil]];;
     [navigationBar setBarStyle:UIBarStyleBlack];
@@ -123,16 +123,16 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         if (indexPath.row == 0) {        
             // TOP LABEL - TITLE
-            UILabel *topLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 2.0f, cell.frame.size.width, 18.0f)];
+            UILabel *topLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 2.0f, cell.frame.size.width - (cell.indentationWidth * 2), 18.0f)];
             topLabel.textColor = [UIColor colorWithRed:0.25 green:0.0 blue:0.0 alpha:1.0];
-            [topLabel setFont:[UIFont fontWithName:@"Verdana-Bold" size:[UIFont smallSystemFontSize]]];
+            [topLabel setFont:[UIFont fontWithName:@"Verdana-Bold" size:[UIFont systemFontSize]]];
             [topLabel setTextColor: [UIColor colorWithRed:0.9 green:0.4 blue:0.0 alpha:1]];
             topLabel.adjustsFontSizeToFitWidth = YES;	
             topLabel.text = [ristoItem objectForKey:@"name"];
             [cell.contentView addSubview:topLabel];
             // ADDRESS and DISTANCE LABEL
-            UILabel *addrLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 20.0f, cell.frame.size.width, 10.0f)];
-            [addrLabel setFont:[UIFont fontWithName:@"Verdana" size:[UIFont smallSystemFontSize] - 4 ]];
+            UILabel *addrLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 20.0f, cell.frame.size.width, 15.0f)];
+            [addrLabel setFont:[UIFont fontWithName:@"Verdana" size:[UIFont smallSystemFontSize]]];
             addrLabel.adjustsFontSizeToFitWidth = YES;
             NSString *city = [[ristoItem objectForKey:@"city"] objectForKey:@"name"];
             NSString *address = [ristoItem objectForKey:@"address"];
@@ -181,12 +181,6 @@
             if(phoneNumber != nil && phoneNumber != NULL && (NSNull *)phoneNumber != [NSNull null]){
                 phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
                 phoneNumber = [phoneNumber stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
-                UILabel *callButton = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth + 2.0f, 2.0f, 100.0f, 15.0f)];
-                [callButton setFont:[UIFont fontWithName:@"Verdana-Bold" size:[UIFont smallSystemFontSize]]];
-                [callButton setText:phoneNumber];
-                [callButton setTextColor:[UIColor colorWithRed:0.9 green:0.4 blue:0.0 alpha:1]];
-                [callButton sizeToFit];
-//                [cell.contentView addSubview:callButton];
                 UIButton *callPhoneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
 
                 [callPhoneButton setFrame:CGRectMake((float)((cell.frame.size.width - 150) / 2), 2.0f, 150.0f, 44.0f)];
@@ -194,7 +188,7 @@
                 callPhoneButton.titleLabel.font            = [UIFont fontWithName:@"Verdana-Bold" size:[UIFont systemFontSize]];
                 callPhoneButton.titleLabel.lineBreakMode   = UILineBreakModeTailTruncation;
                 callPhoneButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-                [callPhoneButton addTarget:self action:@selector(searchBarSearchButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+                [callPhoneButton addTarget:self action:@selector(callPhone:) forControlEvents:UIControlEventTouchUpInside];
                 [cell.contentView addSubview:callPhoneButton];
             }
         }
@@ -203,7 +197,7 @@
             NSString *email = [ristoItem objectForKey:@"email"];
             if(email != nil && email != NULL && (NSNull *)email != [NSNull null]){
                 UILabel *emailLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 2.0f, cell.frame.size.width, 18.0f)];
-                [emailLabel setFont:[UIFont fontWithName:@"Verdana" size:[UIFont smallSystemFontSize] - 4 ]];
+                [emailLabel setFont:[UIFont fontWithName:@"Verdana" size:[UIFont smallSystemFontSize]]];
                 emailLabel.adjustsFontSizeToFitWidth = YES;	
                 emailLabel.text = email;
                 [cell.contentView addSubview:emailLabel];
@@ -215,7 +209,7 @@
             NSString *www = [ristoItem objectForKey:@"www"];
             if(www != nil && www != NULL && (NSNull *)www != [NSNull null]){
                 UILabel *wwwLabel = [[UILabel alloc] initWithFrame: CGRectMake(cell.indentationWidth, 2.0f, cell.frame.size.width, 18.0f)];
-                [wwwLabel setFont:[UIFont fontWithName:@"Verdana" size:[UIFont smallSystemFontSize] - 4 ]];
+                [wwwLabel setFont:[UIFont fontWithName:@"Verdana" size:[UIFont smallSystemFontSize]]];
                 wwwLabel.adjustsFontSizeToFitWidth = YES;	
                 wwwLabel.text = www;
                 [cell.contentView addSubview:wwwLabel];
@@ -237,7 +231,7 @@
                 
             }
             [descriptionView setEditable: FALSE];
-            [descriptionView setFont:[UIFont fontWithName:@"Verdana" size:[UIFont smallSystemFontSize] - 4 ]];
+            [descriptionView setFont:[UIFont fontWithName:@"Verdana" size:[UIFont smallSystemFontSize]]];
             descriptionView.text = descriptionText;
             [cell.contentView addSubview:descriptionView];
         }
@@ -274,10 +268,10 @@
         return 50.0f;        
     }
     else if(indexPath.row == 3){
-        return 20.0f;        
+        return 40.0f;        
     }
     else if(indexPath.row == 4){
-        return 20.0f;        
+        return 40.0f;        
     }
     else if(indexPath.row == 5){
         return 100.0f;        
@@ -343,21 +337,18 @@
     
 }
 
--(void) callPhonenumber
-{
-    NSString *phoneNumberToCall = [ristoItem objectForKey:@"phoneNumber"];
-    
-    phoneNumberToCall = [phoneNumberToCall stringByAddingPercentEscapesUsingEncoding:NSUTF16StringEncoding];
-//    phoneNumberToCall = [phoneNumberToCall stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-"]];
-    //TODO attach the call to button above
+-(IBAction)callPhone:(id)sender {    
+    NSString *numberToCallOri = [ristoItem objectForKey:@"phoneNumber"];
+    NSString *numberToCall = [numberToCallOri stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    numberToCall = [numberToCall stringByReplacingOccurrencesOfString:@" " withString:@""];
     UIDevice *device = [UIDevice currentDevice];
     if ([[device model] isEqualToString:@"iPhone"] ) {
-        phoneNumberToCall = [NSString stringWithFormat:@"tel:%@", phoneNumberToCall];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumberToCall]];
+        numberToCall = [NSString stringWithFormat:@"tel://%@", numberToCall];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:numberToCall]];
     } else {
         UIAlertView *Notpermitted=[[UIAlertView alloc] initWithTitle:@"Alert" message:@"Your device doesn't support this feature." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [Notpermitted show];
-    }
+    }    
 }
 
 

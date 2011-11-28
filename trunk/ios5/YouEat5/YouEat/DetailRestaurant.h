@@ -21,7 +21,8 @@
 @property (nonatomic, retain) NSString *pattern;
 @property (nonatomic, retain) CLLocation *location;
 
-- (void) callPhonenumber;
+
+-(IBAction)callPhone:(id)sender;
 
 @end
 
